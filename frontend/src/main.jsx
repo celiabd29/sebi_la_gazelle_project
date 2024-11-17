@@ -4,21 +4,26 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css"; // Importez les styles globaux si nécessaires
 import App from "./App";
 import Accueil from "./pages/Accueil";
+import Jeux from "./pages/Jeux";
 
 // Définir le routeur dans `main.jsx`
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // App.jsx gère les enfants
+    element: <App />, 
     errorElement: <h1>Erreur 404 : Page non trouvée</h1>,
     children: [
       {
         path: "/",
         element: <Accueil />,
-      }
-      
+      },
+      {
+        path: "/jeux",
+        element : <Jeux />
+      },
   ]  
-}]);
+}, 
+]);
 
 
 // Initialisation de l'application

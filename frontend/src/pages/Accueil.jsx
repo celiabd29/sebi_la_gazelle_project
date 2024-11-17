@@ -3,7 +3,7 @@ import SectionJeux from "../components/SectionJeux";
 const Accueil = () => {
     return (
         <div>
-            <SectionJeux />
+            <SectionJeux qqq="dssss"/>
         </div>
     )
 }
