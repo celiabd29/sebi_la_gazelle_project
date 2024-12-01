@@ -1,11 +1,9 @@
-import SectionJeux from "../components/SectionJeux";
-import Header from "../components/Layout/Header";
+import HomePages from "../components/HomePages";
 
 const Accueil = () => {
     return (
         <div>
-            <Header />
-            <SectionJeux qqq="dssss"/>
+            <HomePages />
         </div>
     )
 }
