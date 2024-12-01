@@ -1,9 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.active {
+/* .active { */
   /* color:  red; */
-}
+/* } */
+
+  /* @media (min-width: 440px) {
+    .bg-mobile {
+      background-image: url('./img/accueil/page-accueil-440.png');
+    }
+  }
+  @media (min-width: 930px) {
+    .bg-tablette {
+      background-image: url('./img/accueil/page-accueil-930.png');
+    }
+  }
+  @media (min-width: 1440px) {
+    .bg-pc {
+      background-image: url('./img/accueil/page-accueil-1440.png');
+    }
+  }
+  @media (min-width: 1920px) {
+    .bg-fixe {
+      background-image: url('./img/accueil/page-accueil-1920.png');
+    }
+} */
+
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

@@ -1,7 +1,9 @@
+import SectionJeux from "../components/SectionJeux";
+
 const Jeux = () => {
     return (
         <div>
-            <h1>dd</h1>
+            <SectionJeux />
         </div>
     );
 }
