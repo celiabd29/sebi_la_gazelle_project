@@ -9,15 +9,12 @@ export default {
       screens: {
         mobile: "440px",
         grandMobile : "580px",
+        miniTablette : "680px",
         tablette: "930px",
         pc: "1440px",
-        miniTablette : "680px",
         fixe: "1920px",  
       },
     },
   },
   plugins: [],
 }
-
-
-// "./src/**/*.{js,jsx,ts,tsx}",

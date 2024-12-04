@@ -16,14 +16,14 @@ const HomePages = () => {
     },
     {
       id: 2,
-      text: "So fun and educational!",
-      author: "OH LE SITE DE MALADEEEEEEEE",
+      message: "So fun and educational!",
+      auteur: "OH LE SITE DE MALADEEEEEEEE",
       note: 5,
     },
     {
       id: 3,
-      text: "Best children's game site!",
-      author: "JE VEUX MANGER QUIK",
+      message: "Best children's game site!",
+      auteur: "JE VEUX MANGER QUIK",
       note: 5,
     },
   ];
@@ -61,14 +61,14 @@ const HomePages = () => {
               <i className=""> </i>
             </motion.div>
             <div className="flex justify-center mt-6 gap-3">
-              {avis.map((_, i) => (
+              {avis.map((_, index) => (
                 // i 'index de l'élément dans le tableau. 
                 // _ est utilisé pour ignorer l'élément lui-même, car nous n'en avons pas besoin ici.
                 <button
-                  key={i} // key est nécessaire pour React pour identifier chaque élément de la liste.
-                  onClick={() => setAvisActif(i)} // Lorsque l'utilisateur clique sur un bouton, setAvisActif(i) est appelé pour changer l'avis actif.
+                  key={index} // key est nécessaire pour React pour identifier chaque élément de la liste.
+                  onClick={() => setAvisActif(index)} // Lorsque l'utilisateur clique sur un bouton, setAvisActif(i) est appelé pour changer l'avis actif.
                   className={`w-4 h-4 rounded-full ${
-                    i === avisActif ? "bg-yellow-500 scale-125" : "bg-gray-300"
+                    index === avisActif ? "bg-yellow-500 scale-125" : "bg-gray-300"
                   }`}
                 />
               ))}

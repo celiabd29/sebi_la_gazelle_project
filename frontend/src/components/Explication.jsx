@@ -1,4 +1,4 @@
-import Ludique from "../img/icons/ludique.png";
+import ludique from "../img/icons/ludique.png";
 import fun from "../img/icons/fun.png";
 import concentration from "../img/icons/concentration.png";
 import { motion } from "framer-motion";
@@ -7,7 +7,7 @@ const Explication = () => {
   const explications = [
     {
       id: 1,
-      image: Ludique,
+      image: ludique,
       title: "Ludique",
       description:
         "Des jeux ludiques pour apprendre en s'amusant ! Chaque activité est pensée pour rendre les apprentissages joyeux et stimulants.",
@@ -47,7 +47,7 @@ const Explication = () => {
           {explications.map((explication) => (
             <motion.div
               key={explication.id}
-              className={`p-6 rounded-xl shadow-lg hover:shadow-xl transform transition-all hover:scale-105 ${explication.bgColor} ${explication.shadowColor}`}
+              className={`p-6 rounded-xl shadow-lg hover:shadow-xl transform transition-all hover:scale-105 pc:w-[75%] pc:gap-3 ${explication.bgColor} ${explication.shadowColor}`}
               whileHover={{
                 scale: 1.1,
                 rotate: 2,
@@ -62,13 +62,6 @@ const Explication = () => {
                 src={explication.image}
                 alt={explication.title}
                 className="w-16 h-16 mx-auto mb-4 tablette:w-20 tablette:h-20"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 12,
-                }}
               />
 
               {/* Titre */}
