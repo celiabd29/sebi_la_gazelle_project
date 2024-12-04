@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import LogoSite from "../../img/logo-sebi.webp";
-
+import titre from "../../img/titre.png";
 const Header = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-<header
-  className={`
+    <header
+      className={`
     relative w-full
-    h-[19rem] mobile:h-[24rem] grandMobile:h-[30rem] tablette:h-[42rem] pc:h-[50rem] fixe:h-[50rem]
+    h-[19rem] 
+    mobile:h-[21rem] 
+    grandMobile:h-[25rem] 
+    miniTablette:h-[34rem] 
+    tablette:h-[42rem] 
+    pc:h-[50rem] 
+    fixe:h-[55rem]
     bg-[url('./img/accueil/page-accueil-440.png')]
     tablette:bg-[url('./img/accueil/page-accueil-930.png')]
     pc:bg-[url('./img/accueil/page-accueil-1440.jpg')] 
@@ -18,20 +24,36 @@ const Header = ({ children }) => {
     flex flex-col items-center justify-center text-center
     px-6 py-4
   `}
->
-<div className="flex flex-col items-center justify-between z-10 mt-16">
-    <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg mb-28">
-      SEBI LA GAZELLE
-    </h1>
-
-    {/* Bouton Jouer */}
-    <Link
-      to="/jeux"
-      className="px-8 py-6 mt-6 bg-yellow-500 text-pink-700 font-semibold text-2xl rounded-full shadow-lg hover:bg-yellow-600 hover:scale-105 transition-transform duration-300 animate-bounce"
     >
-      Jouer !
-    </Link>
-  </div>
+<div className="flex flex-col items-center justify-between z-0 mt-5">
+  <img 
+    src={titre} 
+    alt="titre du site" 
+    className={`
+      h-auto 
+      w-3/5
+      mobile:w-4/5
+      grandMobile:w-11/12
+      grandMobile:mt-0
+      miniTablette:w-11/12
+      miniTablette:mt-0
+      tablette:w-9/12 
+      tablette:-mt-28
+      pc:w-2/3 
+      fixe:w-11/12
+    `}
+  />
+
+  {/* Bouton Jouer */}
+  <Link
+    to="/jeux"
+    className="px-8 py-6
+     bg-yellow-500 text-pink-700 font-semibold text-2xl rounded-full shadow-lg hover:bg-yellow-600 hover:scale-105 transition-transform duration-300 animate-bounce"
+  >
+    Jouer !
+  </Link>
+</div>
+
       {/* Logo et Navigation */}
       <div className="absolute top-0 left-0 w-full bg-opacity-70 bg-gray-800">
         <nav className="container mx-auto flex items-center justify-between py-4 px-6">
@@ -79,11 +101,9 @@ const Header = ({ children }) => {
             ))}
           </div>
         </nav>
-        
       </div>
 
       {/* Contenu Principal */}
-  
 
       {/* Contenu Optionnel */}
       <main className="container mx-auto mt-8">{children}</main>
