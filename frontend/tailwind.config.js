@@ -8,8 +8,9 @@ export default {
     extend: {
       screens: {
         mobile: "440px",
-        grandMobile : "680px",
+        grandMobile : "580px",
         tablette: "930px",
+        miniTablette : "680px",
         pc: "1440px",
         fixe: "1920px",  
       },
