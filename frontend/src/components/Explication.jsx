@@ -35,19 +35,25 @@ const Explication = () => {
   ];
 
   return (
-    <section className="py-8 px-4 bg-gradient-to-br from-blue-50 to-cyan-100">
+    <section className="py-12 bg-gradient-to-br from-blue-50 to-cyan-100">
       <div className="container mx-auto text-center">
         {/* Titre principal */}
         <h2 className="text-3xl font-bold text-teal-700 mb-8 mobile:text-4xl tablette:text-5xl">
           Explications
         </h2>
 
-        {/* Cartes */}
-        <div className="grid gap-6 mobile:grid-cols-1 tablette:grid-cols-2 pc:grid-cols-3">
+        {/* Grille des blocs */}
+        <div
+          className="grid gap-8 
+          p-7
+          mobile:grid-cols-1 
+          tablette:grid-cols-2 
+          pc:grid-cols-3"
+        >
           {explications.map((explication) => (
             <motion.div
               key={explication.id}
-              className={`p-6 rounded-xl shadow-lg hover:shadow-xl transform transition-all hover:scale-105 pc:w-[75%] pc:gap-3 ${explication.bgColor} ${explication.shadowColor}`}
+              className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg hover:shadow-xl transform transition-all hover:scale-105 ${explication.bgColor} ${explication.shadowColor}`}
               whileHover={{
                 scale: 1.1,
                 rotate: 2,
@@ -61,7 +67,7 @@ const Explication = () => {
               <motion.img
                 src={explication.image}
                 alt={explication.title}
-                className="w-16 h-16 mx-auto mb-4 tablette:w-20 tablette:h-20"
+                className="w-16 h-16 mb-4 tablette:w-16 tablette:h-16"
               />
 
               {/* Titre */}
@@ -73,7 +79,7 @@ const Explication = () => {
               </motion.h3>
 
               {/* Description */}
-              <p className="text-sm text-gray-700 font-medium tablette:text-base">
+              <p className="text-sm text-gray-700 font-medium text-center tablette:text-base">
                 {explication.description}
               </p>
             </motion.div>

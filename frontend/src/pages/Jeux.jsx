@@ -4,7 +4,7 @@ import SectionJeux from "../components/SectionJeux";
 const Jeux = () => {
     return (
         <div>
-            <SectionJeux />
+            <SectionJeux afficherDesc = {false} />
             <Explication />
         </div>
     );
