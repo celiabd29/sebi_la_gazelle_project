@@ -46,64 +46,51 @@ const CarrowselPersonnages = () => {
   ];
 
   return (
-    <section className="py-12 bg-light">
-      <div className="container">
-        {/* Titre */}
-        <h2 className="text-center mb-4 text-primary">Nos Personnages</h2>
+<section className="py-12 bg-gray-100">
+  <div className="container mx-auto px-4">
+    {/* Titre */}
+    <h2 className="text-center text-2xl font-bold text-blue-600 mb-6">Nos Personnages</h2>
 
-        {/* Carousel Bootstrap */}
-        <div
-          id="carouselExampleControls"
-          className="carousel slide"
-          data-bs-ride="carousel"
-        >
-          <div className="carousel-inner">
-            {carrowselPerso.map((perso, index) => (
-              <div
-                key={perso.id}
-                className={`carousel-item ${index === 0 ? "active" : ""}`}
-              >
-                <img
-                  src={perso.img}
-                  className="d-block w-100 rounded"
-                  alt={perso.name}
-                />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5 className="text-light">{perso.name}</h5>
-                  <p className="text-light">{perso.description}</p>
-                </div>
+    {/* Carousel */}
+    <div className="relative">
+      <div className="flex overflow-x-scroll snap-x">
+        {carrowselPerso.map((perso) => (
+          <div
+            key={perso.id}
+            className= "flex-shrink-0 miniTablette:w-1/2 tablette:w-1/3 snap-center p-4"
+          >
+            <div className="rounded-lg overflow-hidden">
+              <img
+                src={perso.img}
+                className="w-full h-64 object-cover"
+                alt={perso.name}
+              />
+              <div className="p-4 bg-gray-800 text-gray-100">
+                <h5 className="text-lg font-semibold">{perso.name}</h5>
+                <p className="text-sm mt-2">{perso.description}</p>
               </div>
-            ))}
+            </div>
           </div>
-
-          {/* Contrôles */}
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Précédent</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Suivant</span>
-          </button>
-        </div>
+        ))}
       </div>
-    </section>
+
+      {/* Contrôles */}
+      <button
+        className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700"
+        aria-label="Précédent"
+      >
+        ←
+      </button>
+      <button
+        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700"
+        aria-label="Suivant"
+      >
+        →
+      </button>
+    </div>
+  </div>
+</section>
+
   );
 };
 
