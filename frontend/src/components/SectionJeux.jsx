@@ -1,20 +1,20 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-const SectionJeux = () => {
+const SectionJeux = ({ afficherDesc = true }) => {
   const games = [
     {
       id: 1,
       title: "Les aventures de James le Hibou",
       description:
         "Sebi la gazelle t'invite à jouer avec elle pour compter ensemble ! Son copain James le hibou adore les nombres. Il va te poser des petits calculs, et tu devras trouver la réponse super vite, avant que le temps ne soit écoulé ! Plus tu gagnes des points, plus les calculs deviennent difficiles ! Tu es prêt(e) à relever le défi ?",
-      image: "src/img/james-fond.png",
+      image: "src/img/fonds/james-fond.png",
     },
     {
       id: 2,
       title: "Les cachotteries de Drys le l'écureuil",
       description:
         "Oh là là, Drys l’écureuil est un petit coquin, il mange en cachette ! Viens aider Sebi la gazelle à retrouver les petites gourmandises que Drys l’écureuil a cachées sous des gobelets ! Est-ce que tu pourras deviner où il les a mises ? Attention, plus tu avances dans le jeu, plus les gobelets bougeront vite ! Est-ce que tu es prêt(e) à relever le défi ?",
-      image: "src/img/drys-fond.png",
+      image: "src/img/fonds/drys-fond.png",
     },
   ];
 
@@ -55,9 +55,11 @@ const SectionJeux = () => {
                 <h3 className="text-2xl font-comic font-bold text-teal-700 mb-2">
                   {game.title}
                 </h3>
-                <p className="text-lg font-comic text-gray-700">
-                  {game.description}
-                </p>
+                {afficherDesc && (
+                  <p className="text-lg font-comic text-gray-700">
+                    {game.description}
+                  </p>
+                )}
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
