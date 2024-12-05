@@ -1,9 +1,11 @@
 import CarrowselPersonnages from "../components/carrowselPersonnages";
 
 const Personnages = () => {
-  <>
-    <CarrowselPersonnages />
-  </>;
-};
+  return (
+    <div>
+      <CarrowselPersonnages />
+    </div>
+  );
+}
 
 export default Personnages;
