@@ -26,6 +26,12 @@ const HomePages = () => {
       auteur: "JE VEUX MANGER QUIK",
       note: 5,
     },
+    {
+      id: 4,
+      message: "Best children's game site!",
+      auteur: "Y A PAS DE PIZZA",
+      note: 5,
+    }
   ];
 
   return (

@@ -5,6 +5,8 @@ import "./index.css"; // Importez les styles globaux si nécessaires
 import App from "./App";
 import Accueil from "./pages/Accueil";
 import Jeux from "./pages/Jeux";
+import Personnages from "./pages/Personnages";
+import Contact from "./pages/Contact";
 
 // Définir le routeur dans `main.jsx`
 const router = createBrowserRouter([
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
       {
         path: "/jeux",
         element : <Jeux />
+      },
+      {
+        path: "/personnages",
+        element : <Personnages />
+      },
+      {
+        path: "/contact",
+        element : <Contact />
       },
   ]  
 }, 
