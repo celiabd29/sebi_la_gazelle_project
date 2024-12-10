@@ -1,6 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Fredoka';
+  /* src: url('./assets/fonts/Fredoka-Regular.ttf') format('truetype'); */
+}
+
+@font-face {
+  font-family: 'Bubblebody';
+  src: url('./assets/fonts/bubbleboddy/Bobbleboddy.ttf') format('truetype');
+}
 /* .active { */
   /* color:  red; */
 /* } */
