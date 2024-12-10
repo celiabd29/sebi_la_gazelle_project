@@ -47,7 +47,7 @@ const CarrowselPersonnages = () => {
 
   return (
 <section className="py-12 bg-gray-100">
-  <div className="container mx-auto px-4">
+  <div className="bg-fondRose container mx-auto px-4">
     {/* Titre */}
     <h2 className="text-center text-2xl font-bold text-blue-600 mb-6">Nos Personnages</h2>
 

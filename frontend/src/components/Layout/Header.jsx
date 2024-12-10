@@ -25,6 +25,8 @@ const Header = ({ children }) => {
         flex flex-col items-center justify-center text-center
         px-6 py-4
       `}
+
+      
     >
       {/* Titre et Bouton Jouer */}
       <div className="flex flex-col items-center justify-between z-0 mt-5 relative">
