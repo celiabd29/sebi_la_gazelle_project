@@ -12,18 +12,21 @@ const CarrowselPersonnages = () => {
       name: "Célia",
       img: celiaFond,
       description: "Célia est une aventurière curieuse et dynamique.",
+      bgColor: "bg-fondGris",
     },
     {
       id: 2,
       name: "Charly",
       img: charlyFond,
       description: "Charly adore résoudre des énigmes et explorer de nouveaux mondes.",
+      bgColor: "bg-fondVertFonce",
     },
     {
       id: 3,
       name: "James",
       img: jamesFond,
       description: "James est le sage de l'équipe, toujours prêt à partager ses connaissances.",
+      bgColor: "bg-fondjauneFonce",
     },
     {
       id: 4,
@@ -57,7 +60,7 @@ const CarrowselPersonnages = () => {
         {carrowselPerso.map((perso) => (
           <div
             key={perso.id}
-            className= "flex-shrink-0 miniTablette:w-1/2 tablette:w-1/3 snap-center p-4"
+            className= {`flex-shrink-0 miniTablette:w-1/2 tablette:w-1/3 snap-center p-4 ${perso.bgColor}`}
           >
             <div className="rounded-lg overflow-hidden">
               <img
