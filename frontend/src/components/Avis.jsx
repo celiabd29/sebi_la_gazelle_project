@@ -10,51 +10,51 @@ const HomePages = () => {
   const avis = [
     {
       id: 1,
-      message: "“Mon fils a vraiment adoré le jeu de James ! C'est super de voir un jeu qui stimule son esprit stratégique tout en le divertissant. Je recommande ce jeu aux parents qui cherchent une expérience amusante et éducative pour leurs enfants”",
+      message:
+        "“Mon fils a vraiment adoré le jeu de James ! C'est super de voir un jeu qui stimule son esprit stratégique tout en le divertissant. Je recommande ce jeu aux parents qui cherchent une expérience amusante et éducative pour leurs enfants”",
       auteur: "Khames",
       note: 5,
+      bgColor: "bg-fondVert", 
     },
     {
       id: 2,
       message: "So fun and educational!",
       auteur: "OH LE SITE DE MALADEEEEEEEE",
       note: 5,
+      bgColor: "bg-fondjaune",
     },
     {
       id: 3,
       message: "Best children's game site!",
       auteur: "JE VEUX MANGER QUIK",
       note: 5,
+      bgColor: "bg-fondBleu",
     },
     {
       id: 4,
       message: "Best children's game site!",
       auteur: "Y A PAS DE PIZZA",
       note: 5,
-    }
+      bgColor: "bg-fondRose",
+    },
   ];
 
   return (
     <div>
-      {/* Games Section */}
-
-      
-
-      {/* Reviews Section */}
       <section
         id="reviews"
-        className="py-16 px-4 bg-gradient-to-br from-amber-100 via-yellow-200 to-lime-100"
+        className="py-16 px-4 bg-gradient-to-br from-amber-100 via-yellow-200 to-lime-100 fond:fondVert"
       >
         <div className="container mx-auto max-w-4xl">
           <h2 className="text-4xl md:text-5xl font-comic font-bold text-center mb-12 text-yellow-700">
             Ils nous ont fait confiance !
           </h2>
-          <div className="relative bg-white rounded-3xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300">
+          <div className={`relative bg-white rounded-3xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 ${avis[avisActif].bgColor}`}>
             <motion.div
               key={avisActif}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="text-center"
+              className='text-center' 
             >
               <p className="text-2xl font-comic text-gray-700 mb-4">
                 {avis[avisActif].message}
@@ -64,7 +64,7 @@ const HomePages = () => {
                 {avis[avisActif].auteur}
               </p>
               {/* auteur de l'avis actuellement sélectionné. */}
-              <i className=""> </i>
+              <i className= ""> </i>
             </motion.div>
             <div className="flex justify-center mt-6 gap-3">
               {avis.map((_, index) => (
@@ -74,7 +74,7 @@ const HomePages = () => {
                   key={index} // key est nécessaire pour React pour identifier chaque élément de la liste.
                   onClick={() => setAvisActif(index)} // Lorsque l'utilisateur clique sur un bouton, setAvisActif(i) est appelé pour changer l'avis actif.
                   className={`w-4 h-4 rounded-full ${
-                    index === avisActif ? "bg-yellow-500 scale-125" : "bg-gray-300"
+                    index === avisActif ? "bg-fondBleuFonce scale-125" : "bg-fondGris"
                   }`}
                 />
               ))}

@@ -7,6 +7,8 @@ import Accueil from "./pages/Accueil";
 import Jeux from "./pages/Jeux";
 import Personnages from "./pages/Personnages";
 import Contact from "./pages/Contact";
+import Inscription from "./pages/Inscription";
+import Connexion from "./pages/Connexion";
 
 // Définir le routeur dans `main.jsx`
 const router = createBrowserRouter([
@@ -31,8 +33,17 @@ const router = createBrowserRouter([
         path: "/contact",
         element : <Contact />
       },
-  ]  
-}, 
+      {
+        path: "/inscription",
+        element: <Inscription />
+      } ,
+      {
+        path: "/connexion",
+        element: <Connexion />
+      } 
+    ],
+  },
+
 ]);
 
 

@@ -21,9 +21,9 @@ const SectionJeux = ({ afficherDesc = true }) => {
   return (
     <section
       id="games"
-      className="py-16 px-4 bg-gradient-to-br from-teal-100 via-green-200 to-lime-200"
+      className="py-16 px-4 bg-gradient-to-br from-teal-100 via-green-200 to-lime-200  bg-fondVert"
     >
-      <div className="container mx-auto">
+      <div className="container mx-auto  ">
         <h2 className="text-4xl md:text-5xl font-comic font-bold text-center mb-12 text-teal-700">
           Jeux
         </h2>
@@ -36,20 +36,18 @@ const SectionJeux = ({ afficherDesc = true }) => {
           {games.map((game) => (
             <div
               key={game.id}
-              className="bg-white rounded-3xl overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="rounded-3xl overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               <div className="relative h-48 overflow-hidden">
-              <Link
-               to = '/'
-              >
-                <img
-                  src={game.image}
-                  alt={game.title}
-                  className={`w-full h-full transition-transform duration-300 object-cover ${
-                    game.id === 2 ? "object-bottom" : ""
-                  }`}
+                <Link to="/">
+                  <img
+                    src={game.image}
+                    alt={game.title}
+                    className={`w-full h-full transition-transform duration-300 object-cover ${
+                      game.id === 2 ? "object-bottom" : ""
+                    }`}
                   />
-                  </Link>
+                </Link>
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-comic font-bold text-teal-700 mb-2">
@@ -63,7 +61,7 @@ const SectionJeux = ({ afficherDesc = true }) => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="mt-4 bg-gradient-to-r from-teal-500 to-teal-700 text-white px-6 py-3 rounded-full font-comic text-xl font-semibold flex items-center gap-2 hover:shadow-lg transition-all"
+                  className="mt-4 mx-auto bg-gradient-to-r from-teal-500 to-teal-700 text-white px-6 py-3 rounded-full font-comic text-xl font-semibold flex items-center gap-2 hover:shadow-lg transition-all"
                 >
                   Jouez maintenant !
                 </motion.button>

@@ -11,7 +11,7 @@ const Explication = () => {
       title: "Ludique",
       description:
         "Des jeux ludiques pour apprendre en s'amusant ! Chaque activité est pensée pour rendre les apprentissages joyeux et stimulants.",
-      bgColor: "bg-teal-200",
+      bgColor: "bg-fondTurquoise",
       shadowColor: "shadow-teal-300",
     },
     {
@@ -20,7 +20,7 @@ const Explication = () => {
       title: "Fun",
       description:
         "Prêt à t’amuser tout en développant tes super pouvoirs de calcul et de mémoire ? Viens découvrir nos jeux avec Sebi la Gazelle et ses amis !",
-      bgColor: "bg-pink-200",
+      bgColor: "bg-fondRoseFonce",
       shadowColor: "shadow-pink-300",
     },
     {
@@ -29,7 +29,7 @@ const Explication = () => {
       title: "Concentration",
       description:
         "Nos jeux t’aideront à améliorer ta concentration tout en relevant des défis excitants ! Sois attentif pour réussir chaque niveau.",
-      bgColor: "bg-yellow-200",
+      bgColor: "bg-fondjauneFonce",
       shadowColor: "shadow-yellow-300",
     },
   ];
