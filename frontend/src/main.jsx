@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css"; // Importez les styles globaux si nécessaires
+import { AuthProvider } from "../contexts/AuthContexte"; // Ton AuthProvider
+import "./index.css"; // Importer les styles globaux si nécessaires
 import App from "./App";
 import Accueil from "./pages/Accueil";
 import Jeux from "./pages/Jeux";
@@ -10,7 +11,7 @@ import Contact from "./pages/Contact";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 
-// Définir le routeur dans `main.jsx`
+// Définir le routeur
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,33 +24,33 @@ const router = createBrowserRouter([
       },
       {
         path: "/jeux",
-        element : <Jeux />
+        element: <Jeux />,
       },
       {
         path: "/personnages",
-        element : <Personnages />
+        element: <Personnages />,
       },
       {
         path: "/contact",
-        element : <Contact />
+        element: <Contact />,
       },
       {
         path: "/inscription",
-        element: <Inscription />
-      } ,
+        element: <Inscription />,
+      },
       {
         path: "/connexion",
-        element: <Connexion />
-      } 
+        element: <Connexion />,
+      },
     ],
   },
-
 ]);
-
 
 // Initialisation de l'application
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
