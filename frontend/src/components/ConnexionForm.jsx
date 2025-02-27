@@ -1,75 +1,51 @@
-import LogoSite from "../img/logo-sebi.webp";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../../contexts/AuthContexte";
+import axios from "axios";
 
 const Connexion = () => {
+  const { enregistrerUtilisateur } = useAuth();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/connexion", data);
+      enregistrerUtilisateur(response.data.utilisateur);
+      alert("Connexion réussie !");
+    } catch (error) {
+      console.error("Erreur de connexion :", error);
+    }
+  };
+
   return (
-    <main className="flex items-center justify-center w-full h-screen bg-[#f3f4f6]">
-      <div className="flex flex-col w-full md:w-1/2 xl:w-2/5 mx-auto p-8 md:p-10 bg-[#fce5c2] rounded-2xl shadow-xl">
-        {/* Section du logo */}
-        <div className="flex items-center gap-3 pb-4">
-          <img
-            src={LogoSite}
-            alt="Logo"
-            className="w-12 h-12 object-cover" // Ajustez la taille du logo
-          />
-          <h1 className="text-3xl font-bold text-[#4B5563] my-auto">
-            Connexion
-          </h1>
-        </div>
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-4">Connexion</h2>
 
-        <form className="flex flex-col">
-          {/* Email */}
-          <div className="pb-2">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-[#111827]"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="bg-gray-50 text-gray-600 border border-gray-300 sm:text-sm rounded-lg block w-full p-3 focus:ring-1 focus:outline-none focus:ring-gray-400"
-              placeholder="name@company.com"
-            />
-          </div>
+        {/* Email */}
+        <label className="block">Email :</label>
+        <input
+          type="email"
+          {...register("email", { required: "L'email est requis" })}
+          className="border p-2 rounded w-full"
+        />
+        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
-          {/* Mot de passe */}
-          <div className="pb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-[#111827]"
-            >
-              Mot de passe
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              className="bg-gray-50 text-gray-600 border border-gray-300 sm:text-sm rounded-lg block w-full p-3 focus:ring-1 focus:outline-none focus:ring-gray-400"
-              placeholder="••••••••"
-            />
-          </div>
+        {/* Mot de passe */}
+        <label className="block mt-3">Mot de passe :</label>
+        <input
+          type="password"
+          {...register("motDePasse", { required: "Mot de passe requis" })}
+          className="border p-2 rounded w-full"
+        />
+        {errors.motDePasse && <p className="text-red-500">{errors.motDePasse.message}</p>}
 
-          {/* Bouton de connexion */}
-          <button
-            type="submit"
-            className="w-full text-[#fce5c2] bg-[#000000] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center mb-6"
-          >
-            Se connecter
-          </button>
+        {/* Bouton de connexion */}
+        <button type="submit" className="mt-4 bg-blue-500 text-white p-2 rounded w-full">
+          Se connecter
+        </button>
+      </form>
+    </div>
+  );
+};
 
-          {/* Lien vers inscription */}
-          <div className="text-sm font-light text-[#6B7280] text-center">
-            Vous n'avez pas de compte ?{" "}
-            <a href="#" className="font-medium text-[#000000] hover:underline">
-              Inscrivez-vous
-            </a>
-          </div>
-        </form>
-      </div>
-    </main>
-  )
-}
-
-export default Connexion
+export default Connexion;
