@@ -33,4 +33,4 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Démarrer le serveur
-app.listen(5000, () => console.log("Serveur démarré sur le port 5000"));
+app.listen(process.env.PORT, () => console.log("Serveur démarré sur le port 8008 : http://localhost:8008/"));

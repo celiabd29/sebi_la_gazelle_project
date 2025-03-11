@@ -1,6 +1,6 @@
-import ludique from "../img/icons/ludique.png";
-import fun from "../img/icons/fun.png";
-import concentration from "../img/icons/concentration.png";
+import ludique from "../assets/img/icons/ludique.png";
+import fun from "../assets/img/icons/fun.png";
+import concentration from "../assets/img/icons/concentration.png";
 import { motion } from "framer-motion";
 
 const Explication = () => {

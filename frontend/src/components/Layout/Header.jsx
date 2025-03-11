@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import LogoSite from "../../img/logo-sebi.webp";
-import titre from "../../img/titre.png";
+import LogoSite from "../../assets/img/logo-sebi.webp";
+import titre from "../../assets/img/titre.png";
 
 const Header = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +19,7 @@ const Header = ({ children }) => {
         className={`
           relative w-full
           ${isNoBannerPage ? "h-auto" : "h-[19rem] mobile:h-[21rem] grandMobile:h-[25rem] miniTablette:h-[34rem] tablette:h-[42rem] pc:h-[50rem] fixe:h-[55rem]"}
-          ${isNoBannerPage ? "" : "bg-[url('./img/accueil/page-accueil-440.png')] tablette:bg-[url('./img/accueil/page-accueil-930.png')] pc:bg-[url('./img/accueil/page-accueil-1440.jpg')] fixe:bg-[url('./img/accueil/page-accueil-1920.jpg')] bg-cover bg-bottom bg-no-repeat"}
+          ${isNoBannerPage ? "" : "bg-[url('./assets/img/accueil/page-accueil-440.png')] tablette:bg-[url('./assets/img/accueil/page-accueil-930.png')] pc:bg-[url('./assets/img/accueil/page-accueil-1440.jpg')] fixe:bg-[url('./assets/img/accueil/page-accueil-1920.jpg')] bg-cover bg-bottom bg-no-repeat"}
           flex flex-col items-center justify-center text-center px-6 py-4
         `} 
       >

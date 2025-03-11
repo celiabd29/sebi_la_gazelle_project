@@ -1,9 +1,9 @@
-import celiaFond from "../img/fonds/celia-fond.png";
-import charlyFond from "../img/fonds/charly-fond.png";
-import jamesFond from "../img/fonds/james-fond.png";
-import melFond from "../img/fonds/mel-fond.png";
-import nourFond from "../img/fonds/nour-fond.png";
-import drysFond from "../img/fonds/drys-fond.png";
+import celiaFond from "../assets/img/fonds/celia-fond.png";
+import charlyFond from "../assets/img/fonds/charly-fond.png";
+import jamesFond from "../assets/img/fonds/james-fond.png";
+import melFond from "../assets/img/fonds/mel-fond.png";
+import nourFond from "../assets/img/fonds/nour-fond.png";
+import drysFond from "../assets/img/fonds/drys-fond.png";
 
 const CarrowselPersonnages = () => {
   const carrowselPerso = [
@@ -12,21 +12,21 @@ const CarrowselPersonnages = () => {
       name: "Célia",
       img: celiaFond,
       description: "Célia est une aventurière curieuse et dynamique.",
-      bgColor: "bg-fondGris",
+      // bgColor: "bg-fondGris",
     },
     {
       id: 2,
       name: "Charly",
       img: charlyFond,
       description: "Charly adore résoudre des énigmes et explorer de nouveaux mondes.",
-      bgColor: "bg-fondVertFonce",
+      // bgColor: "bg-fondVertFonce",
     },
     {
       id: 3,
       name: "James",
       img: jamesFond,
       description: "James est le sage de l'équipe, toujours prêt à partager ses connaissances.",
-      bgColor: "bg-fondjauneFonce",
+      // bgColor: "bg-fondjauneFonce",
     },
     {
       id: 4,
