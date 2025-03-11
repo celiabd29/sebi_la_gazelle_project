@@ -7,14 +7,15 @@ const SectionJeux = ({ afficherDesc = true }) => {
       title: "Les aventures de James le Hibou",
       description:
         "Sebi la gazelle t'invite à jouer avec elle pour compter ensemble ! Son copain James le hibou adore les nombres. Il va te poser des petits calculs, et tu devras trouver la réponse super vite, avant que le temps ne soit écoulé ! Plus tu gagnes des points, plus les calculs deviennent difficiles ! Tu es prêt(e) à relever le défi ?",
-      image: "src/img/fonds/james-fond.png",
+      image: "src/assets/img/fonds/james-fond.png",
+      link: "",
     },
     {
       id: 2,
       title: "Les cachotteries de Drys le l'écureuil",
       description:
         "Oh là là, Drys l’écureuil est un petit coquin, il mange en cachette ! Viens aider Sebi la gazelle à retrouver les petites gourmandises que Drys l’écureuil a cachées sous des gobelets ! Est-ce que tu pourras deviner où il les a mises ? Attention, plus tu avances dans le jeu, plus les gobelets bougeront vite ! Est-ce que tu es prêt(e) à relever le défi ?",
-      image: "src/img/fonds/drys-fond.png",
+      image: "src/assets/img/fonds/drys-fond.png",
     },
   ];
 
@@ -39,7 +40,7 @@ const SectionJeux = ({ afficherDesc = true }) => {
               className="rounded-3xl overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               <div className="relative h-48 overflow-hidden">
-                <Link to="/">
+                <Link to="/jeuxDrys">
                   <img
                     src={game.image}
                     alt={game.title}

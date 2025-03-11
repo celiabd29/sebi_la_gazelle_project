@@ -8,7 +8,7 @@ const Connexion = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/connexion", data);
+      const response = await axios.post("http://localhost:8008/api/utilisateurs/connexion", data);
       enregistrerUtilisateur(response.data.utilisateur);
       alert("Connexion réussie !");
     } catch (error) {

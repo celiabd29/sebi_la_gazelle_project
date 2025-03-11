@@ -6,7 +6,7 @@ const Inscription = () => {
 
   const onSubmit = async (data) => {
     try {
-      await axios.post("http://localhost:5000/api/inscription", data);
+      await axios.post("http://localhost:8008/api/utilisateurs/inscription", data);
       alert("Inscription réussie !");
     } catch (error) {
       console.error("Erreur d'inscription :", error);

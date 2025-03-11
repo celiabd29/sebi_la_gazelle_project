@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import LogoSite from "../../img/logo-sebi.webp";
+import LogoSite from "../../assets/img/logo-sebi.webp";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer
       className="relative bg-cover bg-no-repeat 
-      bg-[url('./img/footer/footer_vert.png')]
+      bg-[url('./assets/img/footer/footer_vert.png')]
       text-white pt-28
         bg-right
         tablette:bg-top-right
