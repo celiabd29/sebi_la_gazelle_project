@@ -1,0 +1,79 @@
+{
+  "home": "Home",
+  "games": "Games",
+  "characters": "Characters",
+  "contact": "Contact",
+  "login": "Login",
+  "register": "Register",
+  "play": "Play !",
+  "aboutTitle": "ABOUT US",
+  "aboutContent": "Welcome to a world where learning meets adventure! With Sebi the Gazelle and friends, children aged 4 to 8 explore an interactive universe designed to spark curiosity and develop skills. Each game, activity, and story is crafted to offer a unique, fun, and enriching educational experience. Here, your children can grow and flourish in a safe environment, designed to fuel their imagination while entertaining them. Give them a new way to discover the joy of learning through play!",
+  "gamesTitle": "GAMES",
+  "playNow": "Play now !",
+  "game1": {
+    "title": "The Adventures of James the Owl",
+    "description": "Sebi the gazelle invites you to play and count together! Her friend James the owl loves numbers. He will give you little math challenges, and you have to find the answer quickly before time runs out! The more points you get, the harder the questions become. Are you ready for the challenge?"
+  },
+  "game2": {
+    "title": "The Tricks of Drys the Squirrel",
+    "description": "Oh dear, Drys the squirrel is a little rascal who snacks in secret! Help Sebi the gazelle find the treats Drys has hidden under the cups! Can you guess where he put them? The more you progress, the faster the cups move. Are you up for the challenge?"
+  },
+  "avis": {
+    "title": "THEY TRUST US !",
+    "daysAgo": "{{count}} day ago",
+    "daysAgo_plural": "{{count}} days ago",
+    "1": {
+      "message": "“My son really loved James' game! It’s amazing to see a game that stimulates his strategic mind while entertaining him. I highly recommend this to parents looking for a fun and educational experience.”"
+    },
+    "2": {
+      "message": "“Super fun and well-designed, my kids love it!”"
+    },
+    "3": {
+      "message": "“I was skeptical, but very impressed by the educational aspect!”"
+    }
+  },
+  "characterSection": {
+    "title": "CHARACTERS",
+    "sebi": {
+      "name": "Sebi the gazelle",
+      "description": "Sebi the gazelle is a true adventurer, always ready to explore the world. A bit absent-minded, she sometimes runs into obstacles without realizing it, but she always keeps her energy and smile! With your help, she can jump higher and avoid everything in her path."
+    },
+    "celia": {
+      "name": "Célia the parrot",
+      "description": "Célia the parrot is a sparkling and joyful friend, known for her rainbow-colored feathers and contagious laughter. But today, something’s wrong... Her feathers have lost their color and her smile has faded. Luckily, you're here to help! Grab your color palette and bring her vibrant feathers back to life."
+    },
+    "charly": {
+      "name": "Charly the chameleon",
+      "description": "Charly the chameleon is a shy and quiet character, always ready to blend into his surroundings. With his ability to change colors, he loves to hide and go unnoticed. Despite his reserved nature, he enjoys playing hide and seek with friends — and it's up to you to find him!"
+    },
+    "james": {
+      "name": "James the owl",
+      "description": "James the owl is a clever little genius with a mischievous look. Passionate about numbers and riddles, he loves making his friends think. Always perched somewhere with a book under his wing, he shares his knowledge with humor and wit!"
+    },
+    "mel": {
+      "name": "Mel the marmot",
+      "description": "Mel the marmot is a calm explorer who loves digging long underground tunnels. But with so many secret paths, she sometimes gets lost! A bit scatterbrained but always well-meaning, Mel needs your help to find her way safely to the sunny meadows."
+    },
+    "nour": {
+      "name": "Nour the nightingale",
+      "description": "Nour the nightingale is a cheerful bird passionate about singing — sometimes a bit too loudly! With his melodic voice, he sings everywhere, even if it's a little too much for Sebi the gazelle's sensitive ears. Always eager to improve, Nour needs your help to sing in tune and create beautiful harmonies!"
+    },
+    "drys": {
+      "name": "Drys the squirrel",
+      "description": "Drys the squirrel is a clever little fellow always looking for new treats. Super agile, he loves hiding his goodies under cups and challenging his friends to find them. A real trickster, Drys is always up for a little mystery… and he needs your help to remember where he hid everything!"
+    },
+    "noah": {
+      "name": "Noah the fox",
+      "description": "Noah the fox is a curious adventurer, always ready to explore new horizons. Passionate about geography, he dreams of learning everything about the world — especially the regions of France! With his sharp mind and cleverness, Noah needs your help to meet the challenge and become a true expert."
+    }
+  },
+  "footer": {
+    "home": "Home",
+    "games": "Games",
+    "characters": "Characters",
+    "contact": "Contact",
+    "rights": "©2024, Sebi La Gazelle. All rights reserved.",
+    "legal": "Legal notice",
+    "language": "English"
+  }
+}

@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContexte"; // Ton AuthProvider
 import "./index.css"; // Importer les styles globaux si nécessaires
 import App from "./App";
+import "./i18n";
 import Accueil from "./pages/Accueil";
 import Jeux from "./pages/Jeux";
 import Personnages from "./pages/Personnages";
@@ -13,6 +14,7 @@ import Connexion from "./pages/Connexion";
 import MainPage from "./pages/MainPage";
 import Game from "./pages/GamePage";
 
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 // Définir le routeur
 const router = createBrowserRouter([
   {

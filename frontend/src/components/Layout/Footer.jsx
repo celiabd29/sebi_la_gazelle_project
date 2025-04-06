@@ -1,23 +1,40 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import LogoSite from "../../assets/img/logo-sebi.webp";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+import footerVert from "../../assets/img/footer/footer_vert.png";
+import footerRose from "../../assets/img/footer/footer_rose.png";
 
 const Footer = () => {
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+  };
+
+  const navLinks = [
+    { label: t("footer.home"), to: "/" },
+    { label: t("footer.games"), to: "/jeux" },
+    { label: t("footer.characters"), to: "/personnages" },
+    { label: t("footer.contact"), to: "/contact" },
+  ];
+
+  // Choix dynamique du background image
+  const isRosePage =
+    location.pathname === "/jeux" || location.pathname === "/personnages";
+  const backgroundImage = isRosePage ? footerRose : footerVert;
+
   return (
     <footer
-      className="relative bg-cover bg-no-repeat 
-      bg-[url('./assets/img/footer/footer_vert.png')]
-      text-white pt-28
-        bg-right
-        tablette:bg-top-right
-      "
+      className="relative bg-cover bg-no-repeat pt-28 bg-right tablette:bg-top-right"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="container mx-auto px-4 miniTablette:px-6 tablette:px-10 text-center">
+      <div className="container mx-auto px-4 miniTablette:px-6 tablette:px-10 text-center text-black">
         {/* Logo */}
-        <div className="mb-2">
-          <Link
-          to="/"
-          >
+        <div className="mb-4">
+          <Link to="/">
             <img
               src={LogoSite}
               alt="Logo"
@@ -26,56 +43,72 @@ const Footer = () => {
           </Link>
         </div>
 
-        <nav className="mb-2">
-          <ul className=" grid grid-cols-2 space-y-1 text-lg font-bold miniTablette:space-y-0 miniTablette:flex miniTablette:justify-center miniTablette:space-x-10">
-            {["Accueil", "Jeux", "Personnages", "Contact"].map(
-              (item, index) => (
-                <li key={index}>
-                  <a
-                    href="#"
-                    className="hover:text- transition-colors duration-300"
-                  >
-                    {item}
-                  </a>
-                </li>
-              )
-            )}
+        {/* Navigation */}
+        <nav className="mb-6">
+          <ul className="grid grid-cols-2 text-lg font-fredoka font-medium space-y-1 miniTablette:space-y-0 miniTablette:flex miniTablette:justify-center miniTablette:space-x-10">
+            {navLinks.map((link, index) => (
+              <li key={index}>
+                <Link
+                  to={link.to}
+                  className="hover:text-fondOrange transition-colors duration-300"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
 
-        <motion.div
-          className="flex flex-row miniTablette:flex-row justify-center items-center mb-2 space-y-4 miniTablette:space-y-0 "
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <input
-            type="email"
-            placeholder="you@example.com"
-            className="w-64 miniTablette:w-96 p-3 rounded-full text-gray-800 focus:outline-none"
-          />
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="p-3 ml-5 bg-teal-500 hover:bg-teal-600 rounded-full text-white miniTablette:ml-3"
-          >
-            →
-          </motion.button>
-        </motion.div>
+        {/* Email + Langue */}
+        <div className="flex flex-col miniTablette:flex-row items-center justify-center gap-4 mb-6">
+          {/* Langue */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => changeLanguage("fr")}
+              className={`text-base font-fredoka ${
+                i18n.language === "fr" ? "font-bold" : ""
+              }`}
+            >
+              🇫🇷
+            </button>
+            <button
+              onClick={() => changeLanguage("en")}
+              className={`text-base font-fredoka ${
+                i18n.language === "en" ? "font-bold" : ""
+              }`}
+            >
+              🇬🇧
+            </button>
+          </div>
 
-        <motion.div className="mb-2" transition={{ delay: 0.8, duration: 0.5 }}>
-          <a
-            href="#"
-            className="inline-block text-red-300 hover:text-teal-300 text-2xl transition-colors duration-300"
+          {/* Email */}
+          <motion.div
+            className="flex items-center"
+            transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <i className="fab fa-instagram"></i>
-          </a>
-        </motion.div>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              className="w-64 miniTablette:w-96 p-3 rounded-full text-gray-800 focus:outline-none"
+            />
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              className="p-3 ml-3 bg-teal-500 hover:bg-teal-600 rounded-full text-white"
+            >
+              →
+            </motion.button>
+          </motion.div>
+        </div>
+
+        {/* Mentions légales */}
+        <div className="text-center mb-2 text-black">
+          <Link to="/mentions" className="font-fredoka hover:text-fondOrange">
+            {t("footer.legal")}
+          </Link>
+        </div>
 
         {/* Copyright */}
-        <motion.p
-          className="text-sm text-gray-600"
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          ©2024, Sebi La Gazelle. Tous droits réservés.
-        </motion.p>
+        <p className="text-sm text-black font-comic">{t("footer.rights")}</p>
       </div>
     </footer>
   );
