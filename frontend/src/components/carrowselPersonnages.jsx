@@ -1,100 +1,57 @@
+import { useTranslation } from "react-i18next";
 import celiaFond from "../assets/img/fonds/celia-fond.png";
 import charlyFond from "../assets/img/fonds/charly-fond.png";
 import jamesFond from "../assets/img/fonds/james-fond.png";
 import melFond from "../assets/img/fonds/mel-fond.png";
 import nourFond from "../assets/img/fonds/nour-fond.png";
-import drysFond from "../assets/img/fonds/drys-fond.png";
+import drysFond from "../assets/img/fonds/drys-fond.webp";
+import sebiFond from "../assets/img/fonds/sebi-fond.webp";
+import noahFond from "../assets/img/fonds/noah-fond.webp";
 
-const CarrowselPersonnages = () => {
-  const carrowselPerso = [
-    {
-      id: 1,
-      name: "Célia",
-      img: celiaFond,
-      description: "Célia est une aventurière curieuse et dynamique.",
-      // bgColor: "bg-fondGris",
-    },
-    {
-      id: 2,
-      name: "Charly",
-      img: charlyFond,
-      description: "Charly adore résoudre des énigmes et explorer de nouveaux mondes.",
-      // bgColor: "bg-fondVertFonce",
-    },
-    {
-      id: 3,
-      name: "James",
-      img: jamesFond,
-      description: "James est le sage de l'équipe, toujours prêt à partager ses connaissances.",
-      // bgColor: "bg-fondjauneFonce",
-    },
-    {
-      id: 4,
-      name: "Mél",
-      img: melFond,
-      description: "Mél est une artiste passionnée, créant de la magie avec ses dessins.",
-    },
-    {
-      id: 5,
-      name: "Nour",
-      img: nourFond,
-      description: "Nour est une grande stratège, prête à relever tous les défis.",
-    },
-    {
-      id: 6,
-      name: "Drys",
-      img: drysFond,
-      description: "Drys est un esprit libre, aimant l'aventure et les jeux.",
-    },
+const CarrouselPersonnages = () => {
+  const { t } = useTranslation();
+
+  const characterSection = [
+    { id: 1, name: "Sebi la gazelle", key: "sebi", img: sebiFond },
+    { id: 2, name: "Célia le perroquet", key: "celia", img: celiaFond },
+    { id: 3, name: "Charly le caméléon", key: "charly", img: charlyFond },
+    { id: 4, name: "James le hibou", key: "james", img: jamesFond },
+    { id: 5, name: "Mel la marmotte", key: "mel", img: melFond },
+    { id: 6, name: "Nour le Rossignol", key: "nour", img: nourFond },
+    { id: 7, name: "Drys l'écureuil", key: "drys", img: drysFond },
+    { id: 8, name: "Noah le renard", key: "noah", img: noahFond },
   ];
 
   return (
-<section className="py-12 bg-gray-100">
-  <div className="bg-fondRose container mx-auto px-4">
-    {/* Titre */}
-    <h2 className="text-center text-2xl font-bold text-blue-600 mb-6">Nos Personnages</h2>
+    <section className="md:mt-24 py-20 px-4 bg-fondRose rounded-t-[7rem]">
+      <h2 className="text-center text-3xl md:text-4xl font-semibold font-fredoka text-black mb-10">
+        {t("characterSection.title")}
+      </h2>
 
-    {/* Carousel */}
-    <div className="relative">
-      <div className="flex overflow-x-scroll snap-x">
-        {carrowselPerso.map((perso) => (
+      <div className="flex overflow-x-auto snap-x space-x-6 pb-8 max-w-full">
+        {characterSection.map((perso) => (
           <div
             key={perso.id}
-            className= {`flex-shrink-0 miniTablette:w-1/2 tablette:w-1/3 snap-center p-4 ${perso.bgColor}`}
+            className="snap-center flex-shrink-0 w-[90%] sm:w-[45%] lg:w-[30%] bg-white rounded-3xl shadow-lg overflow-hidden"
           >
-            <div className="rounded-lg overflow-hidden">
-              <img
-                src={perso.img}
-                className="w-full h-64 object-cover"
-                alt={perso.name}
-              />
-              <div className="p-4 bg-gray-800 text-gray-100">
-                <h5 className="text-lg font-semibold">{perso.name}</h5>
-                <p className="text-sm mt-2">{perso.description}</p>
-              </div>
+            <img
+              src={perso.img}
+              alt={perso.name}
+              className="w-full h-[25rem] object-cover rounded-t-3xl"
+            />
+            <div className="p-4">
+              <h3 className="text-xl font-semibold text-center font-fredoka text-black mb-2">
+                {t(`characterSection.${perso.key}.name`)}
+              </h3>
+              <p className="text-sm font-comic text-center text-black">
+                {t(`characterSection.${perso.key}.description`)}
+              </p>
             </div>
           </div>
         ))}
       </div>
-
-      {/* Contrôles */}
-      <button
-        className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700"
-        aria-label="Précédent"
-      >
-        ←
-      </button>
-      <button
-        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700"
-        aria-label="Suivant"
-      >
-        →
-      </button>
-    </div>
-  </div>
-</section>
-
+    </section>
   );
 };
 
-export default CarrowselPersonnages;
+export default CarrouselPersonnages;
