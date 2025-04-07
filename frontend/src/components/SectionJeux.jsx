@@ -19,7 +19,7 @@ const SectionJeux = ({ afficherDesc = true }) => {
       title: t("game2.title"),
       description: t("game2.description"),
       image: "src/assets/img/fonds/drys-fond.webp",
-      link: "/jeuxDrys", // idem
+      link: "/jeuxJames", // idem
     },
   ];
 

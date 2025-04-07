@@ -67,6 +67,12 @@
       "description": "Noah le renard est un aventurier curieux, toujours prêt à explorer de nouveaux horizons. Passionné par la géographie, il rêve de tout connaître sur le monde, et surtout des départements français ! Avec son flair et son esprit rusé, Noah a besoin de toi pour relever le défi et devenir un véritable expert."
     }
   },
+  "mentions": {
+    "title": "Mentions Légales",
+    "site": "Site",
+    "editeur": "Éditeur",
+    "hebergeur": "Hébergeur"
+  },
   "footer": {
     "home": "Accueil",
     "games": "Jeux",
