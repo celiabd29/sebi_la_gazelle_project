@@ -1,21 +1,31 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AuthProvider } from "../contexts/AuthContexte"; // Ton AuthProvider
-import "./index.css"; // Importer les styles globaux si nécessaires
+import { AuthProvider } from "../contexts/AuthContexte";
+import "./index.css";
 import App from "./App";
 import "./i18n";
+
+// Pages principales
 import Accueil from "./pages/Accueil";
 import Jeux from "./pages/Jeux";
 import Personnages from "./pages/Personnages";
 import Contact from "./pages/Contact";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
-import MainPage from "./pages/MainPage";
-import Game from "./pages/GamePage";
+import Mentions from "./pages/Mentions";
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-// Définir le routeur
+// Jeux DRYS
+// import MainPageDrys from "./pages/JeuxDrys/MainPage";
+// import GameDrys from "./pages/JeuxDrys/GamePage";
+
+// Jeux JAMES
+import MainPageJames from "./pages/Jeu_James/Home";
+import SettingsPage from "./pages/Jeu_James/SettingsPage";
+import GamePage from "./pages/Jeu_James/GamePage";
+import LevelPage from "./pages/Jeu_James/LevelPage";
+import Tableau from "./pages/Jeu_James/Tableau";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,22 +56,44 @@ const router = createBrowserRouter([
         path: "/connexion",
         element: <Connexion />,
       },
-    ],
-  },
-  {
-    path: "/jeuxDrys",
-    element: <MainPage />,
-    errorElement: <h1>Erreur 404 : Page non trouvée</h1>,
-    children: [
       {
-        path: "/jeuxDrys/GamePage",
-        element: <Game />,
+        path: "/mentions",
+        element: <Mentions />,
       },
     ],
   },
+  // {
+  //   path: "/jeuxDrys",
+  //   element: <MainPageDrys />, // la page d'accueil du jeu DRYS
+  //   children: [
+  //     {
+  //       path: "GamePage",
+  //       element: <GameDrys />,
+  //     },
+  //   ],
+  // },
+  {
+    path: "/jeuxJames",
+    element: <MainPageJames />, // la page d'accueil du jeu James
+  },
+  {
+    path: "/jeuxJames/settings",
+    element: <SettingsPage />,
+  },
+  {
+    path: "/jeuxJames/tableau",
+    element: <Tableau />,
+  },
+  {
+    path: "/jeuxJames/game/:level",
+    element: <GamePage />,
+  },
+  {
+    path: "/jeuxJames/level/:id",
+    element: <LevelPage />,
+  },
 ]);
 
-// Initialisation de l'application
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
