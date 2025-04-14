@@ -1,23 +1,12 @@
 import { FaGamepad, FaCog } from "react-icons/fa";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-const ActionButtons = ({ onGameClick }) => {
-  const navigate = useNavigate();
-
-  const handleGameClick = () => {
-    navigate("/tableau");
-  };
-
-  const handleSettingsClick = () => {
-    navigate("/settings");
-  };
-
+const ActionButtons = ({ onGameClick, onSettingsClick }) => {
   return (
     <div className="flex justify-center items-center fixed bottom-24 left-0 right-0 space-x-24">
       <button
         className="bg-[#BDFEC4] hover:bg-green-300 text-black rounded-lg w-28 h-28 flex items-center justify-center shadow-md transition-transform transform hover:scale-110"
-        onClick={handleGameClick}
+        onClick={onGameClick}
         title="Commencer le jeu"
         aria-label="Accéder au jeu"
       >
@@ -26,7 +15,7 @@ const ActionButtons = ({ onGameClick }) => {
 
       <button
         className="bg-[#FF6D83] hover:bg-red-400 text-black rounded-lg w-28 h-28 flex items-center justify-center shadow-md transition-transform transform hover:scale-110"
-        onClick={handleSettingsClick}
+        onClick={onSettingsClick}
         title="Réglages"
         aria-label="Accéder aux réglages"
       >

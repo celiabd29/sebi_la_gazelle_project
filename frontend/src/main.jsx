@@ -15,11 +15,8 @@ import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import Mentions from "./pages/Mentions";
 
-// Jeux DRYS
-// import MainPageDrys from "./pages/JeuxDrys/MainPage";
-// import GameDrys from "./pages/JeuxDrys/GamePage";
-
 // Jeux JAMES
+
 import MainPageJames from "./pages/Jeu_James/Home";
 import SettingsPage from "./pages/Jeu_James/SettingsPage";
 import GamePage from "./pages/Jeu_James/GamePage";
@@ -35,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Accueil />,
+      },
+      {
+        path: "/level/:number",
+        element: <LevelPage />,
+      },
+      {
+        path: "/tableau",
+        element: <Tableau />,
       },
       {
         path: "/jeux",
@@ -62,19 +67,9 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/jeuxDrys",
-  //   element: <MainPageDrys />, // la page d'accueil du jeu DRYS
-  //   children: [
-  //     {
-  //       path: "GamePage",
-  //       element: <GameDrys />,
-  //     },
-  //   ],
-  // },
   {
     path: "/jeuxJames",
-    element: <MainPageJames />, // la page d'accueil du jeu James
+    element: <MainPageJames />,
   },
   {
     path: "/jeuxJames/settings",

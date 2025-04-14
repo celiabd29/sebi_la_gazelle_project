@@ -5,6 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 
 import footerVert from "../../assets/img/footer/footer_vert.png";
 import footerRose from "../../assets/img/footer/footer_rose.png";
+import footerMarron from "../../assets/img/footer/footer_marron.png";
+import footerJaune from "../../assets/img/footer/footer_jaune.png";
 
 const Footer = () => {
   const { t, i18n } = useTranslation();
@@ -21,11 +23,16 @@ const Footer = () => {
     { label: t("footer.contact"), to: "/contact" },
   ];
 
-  // Choix dynamique du background image
-  const isRosePage =
-    location.pathname === "/jeux" || location.pathname === "/personnages";
-  const backgroundImage = isRosePage ? footerRose : footerVert;
+  // Mapping des routes vers les images
+  const footerBackgrounds = {
+    "/": footerVert,
+    "/jeux": footerMarron,
+    "/personnages": footerRose,
+    "/contact": footerJaune,
+  };
 
+  // Image de fond selon la route, valeur par défaut si route non définie
+  const backgroundImage = footerBackgrounds[location.pathname] || footerMarron;
   return (
     <footer
       className="relative bg-cover bg-no-repeat pt-28 bg-right tablette:bg-top-right"
