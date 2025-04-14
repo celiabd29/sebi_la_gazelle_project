@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import titre from "../assets/img/titre.png";
 
+// ✅ IMPORTS D'IMAGES CORRECTS
+import jamesFond from "../assets/img/fonds/james-fond.png";
+import drysFond from "../assets/img/fonds/drys-fond.webp";
+
 const SectionJeux = ({ afficherDesc = true }) => {
   const { t } = useTranslation();
 
@@ -11,15 +15,15 @@ const SectionJeux = ({ afficherDesc = true }) => {
       id: 1,
       title: t("game1.title"),
       description: t("game1.description"),
-      image: "src/assets/img/fonds/james-fond.png",
-      link: "/jeuxDrys", // tu pourras le rendre dynamique si besoin
+      image: jamesFond, // ✅ image importée
+      link: "/jeuxJames",
     },
     {
       id: 2,
       title: t("game2.title"),
       description: t("game2.description"),
-      image: "src/assets/img/fonds/drys-fond.webp",
-      link: "/jeuxJames", // idem
+      image: drysFond, // ✅ image importée
+      link: "/jeuxDrys",
     },
   ];
 
@@ -49,8 +53,8 @@ const SectionJeux = ({ afficherDesc = true }) => {
                 key={game.id}
                 className="bg-white rounded-3xl overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="relative h-48 overflow-hidden">
-                  <Link to={game.link}>
+                <Link to={game.link}>
+                  <div className="relative h-48 overflow-hidden">
                     <img
                       src={game.image}
                       alt={game.title}
@@ -58,8 +62,8 @@ const SectionJeux = ({ afficherDesc = true }) => {
                         game.id === 2 ? "object-bottom" : ""
                       }`}
                     />
-                  </Link>
-                </div>
+                  </div>
+                </Link>
 
                 <div className="p-6 flex flex-col justify-between h-full">
                   <div>
@@ -73,13 +77,17 @@ const SectionJeux = ({ afficherDesc = true }) => {
                     )}
                   </div>
 
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="mx-auto bg-gradient-to-r from-teal-500 to-teal-700 text-white px-6 py-3 rounded-full font-comic text-xl font-semibold hover:shadow-lg transition-all"
-                  >
-                    {t("playNow")}
-                  </motion.button>
+                  <div className="flex justify-center mt-4">
+                    <Link to={game.link}>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-gradient-to-r from-teal-500 to-teal-700 text-white px-6 py-3 rounded-full font-comic text-xl font-semibold hover:shadow-lg transition-all"
+                      >
+                        {t("playNow")}
+                      </motion.button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

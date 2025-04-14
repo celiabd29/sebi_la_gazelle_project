@@ -14,105 +14,70 @@ const ContactForm = () => {
 
   return (
     <div>
-      <div className="flex flex-col w-full md:w-1/2 xl:w-2/5 2xl:w-2/5 3xl:w-1/3 mx-auto p-8 md:p-10 2xl:p-12 3xl:p-14 bg-fondjaune rounded-2xl shadow-xl">
-        <div className="flex flex-row gap-3 pb-4">
-          <h1 className="text-3xl font-bold text-[#4B5563] my-auto">Contact</h1>
-        </div>
-        <form className="flex flex-col">
-          {/* onSubmit={handleSubmit(onSubmit)} */}
-          <div className="pb-2">
-            <label
-              htmlFor="name"
-              className="block mb-2 text-sm  text-[#111827]"
-            >
-              Nom
-            </label>
-            <div className="relative text-gray-400">
-              <span className="absolute left-0 flex items-center p-1 pl-3">
-                {/* icon de fontawsom */}
-                <i className="fas fa-user"></i>
-              </span>
+      <div className="bg-[#FCE5C2] rounded-[40px] my-20 mx-14 py-16 px-4 md:px-0">
+        <h2 className="text-center text-3xl md:text-4xl font-semibold font-fredoka text-black mb-10">
+          CONTACT
+        </h2>
+        <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-auto p-8">
+          <form className="flex flex-col gap-6">
+            <div>
+              <label htmlFor="nom" className="block mb-2 text-sm font-medium">
+                Nom
+              </label>
               <input
                 type="text"
-                name="name"
-                id="name"
-                className="pl-12 mb-2 bg-gray-50 text-gray-600 border focus:border-transparent border-gray-300 sm:text-sm rounded-lg ring ring-transparent focus:ring-1 focus:outline-none focus:ring-gray-400 block w-full p-2.5 rounded-l-lg py-3 px-4"
-                placeholder="Votre nom"
-                // {...register("name", { required: "Name is required" })}
+                id="nom"
+                placeholder="Charlene Reed"
+                className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
-              {/* {errors.name && ( */}
-              {/* <p className="text-red-500 text-xs mt-1">{errors.name.message}</p> */}
-              {/* )} */}
             </div>
-          </div>
-          <div className="pb-2">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-[#111827]"
-            >
-              Email
-            </label>
-            <div className="relative text-gray-400">
-              <span className="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-                <i className="fa-regular fa-envelope"></i>
-              </span>
+            <div>
+              <label
+                htmlFor="prenom"
+                className="block mb-2 text-sm font-medium"
+              >
+                Prenom
+              </label>
+              <input
+                type="text"
+                id="prenom"
+                placeholder="Charlene Reed"
+                className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block mb-2 text-sm font-medium">
+                Email
+              </label>
               <input
                 type="email"
-                name="email"
                 id="email"
-                className="pl-12 mb-2 bg-gray-50 text-gray-600 border focus:border-transparent border-gray-300 sm:text-sm rounded-lg block w-full p-2.5 rounded-l-lg py-3 px-4"
-                placeholder="name@company.com"
-                // {...register("email", {
-                // required: "Email is required",
-                // pattern: {
-                // value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                // message: "Invalid email address",
-                // },
-                // })}
+                placeholder="charlenereed@gmail.com"
+                className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
-              {/* {errors.email && ( */}
-              {/* <p className="text-red-500 text-xs mt-1">{errors.email.message}</p> */}
-              {/* )} */}
             </div>
-          </div>
-          {/* message */}
-          <div className="pb-6">
-            <label
-              htmlFor="message"
-              className="block mb-2 text-sm font-medium text-[#111827]"
-            >
-              Message
-            </label>
-            <div className="relative text-gray-400">
-              <span className="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-                <i className="fa-regular fa-envelope"></i>
-              </span>
+            <div>
+              <label
+                htmlFor="message"
+                className="block mb-2 text-sm font-medium"
+              >
+                Message
+              </label>
               <textarea
-                type="text"
-                name="message"
                 id="message"
-                className="pl-12 mb-2 bg-gray-50 text-gray-600 border focus:border-transparent border-gray-300 sm:text-sm rounded-lg  focus:ring-1 focus:outline-none block w-full p-2.5 rounded-l-lg py-3 px-4"
-                placeholder="Votre message"
-                // {...register("email", {
-                // required: "Email is required",
-                // pattern: {
-                // value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                // message: "Invalid email address",
-                // },
-                // })}
-              />
-              {/* {errors.email && ( */}
-              {/* <p className="text-red-500 text-xs mt-1">{errors.email.message}</p> */}
-              {/* )} */}
+                rows="4"
+                placeholder=""
+                className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
+              ></textarea>
             </div>
-          </div>
-          <button
-            type="submit"
-            className="w-full text-[#fce5c2] bg-[#000000] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          >
-            Envoyer
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="bg-black text-white text-sm font-medium py-3 rounded-md"
+            >
+              Envoyer
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

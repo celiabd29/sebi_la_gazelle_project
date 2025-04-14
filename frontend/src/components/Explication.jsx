@@ -37,11 +37,6 @@ const Explication = () => {
   return (
     <section className="py-12 bg-gradient-to-br from-blue-50 to-cyan-100">
       <div className="container mx-auto text-center">
-        {/* Titre principal */}
-        <h2 className="text-3xl font-bold text-teal-700 mb-8 mobile:text-4xl tablette:text-5xl">
-          Explications
-        </h2>
-
         {/* Grille des blocs */}
         <div
           className="grid gap-8 
