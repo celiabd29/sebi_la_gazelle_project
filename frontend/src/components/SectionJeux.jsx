@@ -22,7 +22,7 @@ const SectionJeux = ({ afficherDesc = true }) => {
   return (
     <section
       id="games"
-      className="py-16 px-4 bg-gradient-to-br from-teal-100 via-green-200 to-lime-200  bg-fondVert"
+      className="py-16 px-4 bg-gradient-to-br from-teal-100 via-green-200 to-lime-200 bg-fondVert"
     >
       <div className="container mx-auto  ">
         <h2 className="text-4xl md:text-5xl font-comic font-bold text-center mb-12 text-teal-700">

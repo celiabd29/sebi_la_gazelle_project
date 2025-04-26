@@ -18,7 +18,7 @@ const CarrowselPersonnages = () => {
       id: 2,
       name: "Charly",
       img: charlyFond,
-      description: "Charly adore résoudre des énigmes et explorer de nouveaux mondes.",
+      description: "Charly le caméléon est un personnage discret et timide, toujours prêt à se cacher dans son environnement. Avec sa capacité à changer de couleur, il adore se fondre dans les décors et passer inaperçu. Malgré sa nature réservée, il aime jouer à cache-cache avec ses amis, et c’est à toi de le retrouver !",
       // bgColor: "bg-fondVertFonce",
     },
     {
@@ -65,12 +65,19 @@ const CarrowselPersonnages = () => {
             <div className="rounded-lg overflow-hidden">
               <img
                 src={perso.img}
-                className="w-full h-64 object-cover"
+                className="w-full fixe:h-82 pc:h-82 grandMobile:h-64 object-cover"
                 alt={perso.name}
               />
               <div className="p-4 bg-gray-800 text-gray-100">
-                <h5 className="text-lg font-semibold">{perso.name}</h5>
-                <p className="text-sm mt-2">{perso.description}</p>
+                <h5 className="text-lg font-semibold text-center">{perso.name}</h5>
+                <p className="
+                mobile:text-xs
+                grandMobile:text-sm
+                miniTablette:text-base
+                tablette:text-lg
+                pc:text-lg 
+                fixe:lg
+                mt-2">{perso.description}</p>
               </div>
             </div>
           </div>

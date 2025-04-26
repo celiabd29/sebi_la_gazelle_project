@@ -10,8 +10,8 @@ import Personnages from "./pages/Personnages";
 import Contact from "./pages/Contact";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
-import MainPage from "./pages/MainPage";
-import Game from "./pages/GamePage";
+// import MainPage from "./pages/MainPage";
+// import Game from "./pages/GamePage";
 
 // Définir le routeur
 const router = createBrowserRouter([
@@ -45,18 +45,18 @@ const router = createBrowserRouter([
         element: <Connexion />,
       },
     ],
-  },
-  {
-    path: "/jeuxDrys",
-    element: <MainPage />,
-    errorElement: <h1>Erreur 404 : Page non trouvée</h1>,
-    children: [
-      {
-        path: "/jeuxDrys/GamePage",
-        element: <Game />,
-      },
-    ],
-  },
+  }
+  // {
+  //   path: "/jeuxDrys",
+  //   element: <MainPage />,
+  //   errorElement: <h1>Erreur 404 : Page non trouvée</h1>,
+  //   children: [
+  //     {
+  //       path: "/jeuxDrys/GamePage",
+  //       element: <Game />,
+  //     },
+  //   ],
+  // },
 ]);
 
 // Initialisation de l'application
