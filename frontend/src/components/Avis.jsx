@@ -1,89 +1,94 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { Star } from "lucide-react";
+import avatar1 from "../assets/img/logo-sebi.webp";
+import avatar2 from "../assets/img/logo-sebi.webp";
+import avatar3 from "../assets/img/logo-sebi.webp";
 
-const HomePages = () => {
-  const [avisActif, setAvisActif] = useState(0);
-  // avisActif contient l'index de l'avis actuellement affiché.
-  // avisActif vaut 0, ce qui signifie que le premier avis du tableau avis sera affiché au chargement.
-  // setAvisActif permet de changer cet index lorsque l'utilisateur clique sur un bouton.
+const AvisSection = () => {
+  const { t } = useTranslation();
 
-  const avis = [
+  const reviews = [
     {
       id: 1,
-      message:
-        "“Mon fils a vraiment adoré le jeu de James ! C'est super de voir un jeu qui stimule son esprit stratégique tout en le divertissant. Je recommande ce jeu aux parents qui cherchent une expérience amusante et éducative pour leurs enfants”",
-      auteur: "Khames",
-      note: 5,
-      bgColor: "bg-fondVert", 
+      author: "Khames",
+      date: t("avis.daysAgo", { count: 2 }),
+      message: t("avis.1.message"),
+      note: 4,
+      avatar: avatar1,
+      bgColor: "bg-fondRose",
     },
     {
       id: 2,
-      message: "So fun and educational!",
-      auteur: "OH LE SITE DE MALADEEEEEEEE",
-      note: 5,
+      author: "Drys",
+      date: t("avis.daysAgo", { count: 5 }),
+      message: t("avis.2.message"),
+      note: 3,
+      avatar: avatar2,
       bgColor: "bg-fondjaune",
     },
     {
       id: 3,
-      message: "Best children's game site!",
-      auteur: "JE VEUX MANGER QUIK",
-      note: 5,
+      author: "Melinda",
+      date: t("avis.daysAgo", { count: 2 }),
+      message: t("avis.3.message"),
+      note: 1,
+      avatar: avatar3,
       bgColor: "bg-fondBleu",
-    },
-    {
-      id: 4,
-      message: "Best children's game site!",
-      auteur: "Y A PAS DE PIZZA",
-      note: 5,
-      bgColor: "bg-fondRose",
     },
   ];
 
   return (
-    <div>
-      <section
-        id="reviews"
-        className="py-16 px-4 bg-gradient-to-br from-amber-100 via-yellow-200 to-lime-100 fond:fondVert"
-      >
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-4xl md:text-5xl font-comic font-bold text-center mb-12 text-yellow-700">
-            Ils nous ont fait confiance !
-          </h2>
-          <div className={`relative bg-white rounded-3xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 ${avis[avisActif].bgColor}`}>
-            <motion.div
-              key={avisActif}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className='text-center' 
-            >
-              <p className="text-2xl font-comic text-gray-700 mb-4">
-                {avis[avisActif].message}
-              </p>{" "}
-              {/* texte de l'avis actuellement sélectionné. */}
-              <p className="font-comic font-semibold text-xl text-yellow-700">
-                {avis[avisActif].auteur}
+    <section
+      id="reviews"
+      className="mb-4 py-16 px-4 bg-gradient-to-br from-amber-100 via-yellow-200 to-lime-100 fond:fondVert"
+    >
+      <h2 className="text-center text-4xl md:text-5xl font-fredoka font-semibold text-yellow-700 mb-12">
+        {t("avis.title")}
+      </h2>
+
+      <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {reviews.map((avis) => (
+          <div
+            key={avis.id}
+            className={`rounded-3xl p-8 text-black shadow-xl flex flex-col justify-between ${avis.bgColor}`}
+          >
+            <div>
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={avis.avatar}
+                    alt={avis.author}
+                    className="w-14 h-14 object-contain"
+                  />
+                  <h3 className="text-2xl font-fredoka font-semibold">
+                    {avis.author}
+                  </h3>
+                </div>
+                <span className="text-sm text-black font-light">
+                  {avis.date}
+                </span>
+              </div>
+
+              <p className="text-black text-md font-comic leading-relaxed mb-6">
+                {avis.message}
               </p>
-              {/* auteur de l'avis actuellement sélectionné. */}
-              <i className= ""> </i>
-            </motion.div>
-            <div className="flex justify-center mt-6 gap-3">
-              {avis.map((_, index) => (
-                // i 'index de l'élément dans le tableau. 
-                // _ est utilisé pour ignorer l'élément lui-même, car nous n'en avons pas besoin ici.
-                <button
-                  key={index} // key est nécessaire pour React pour identifier chaque élément de la liste.
-                  onClick={() => setAvisActif(index)} // Lorsque l'utilisateur clique sur un bouton, setAvisActif(i) est appelé pour changer l'avis actif.
-                  className={`w-4 h-4 rounded-full ${
-                    index === avisActif ? "bg-fondBleuFonce scale-125" : "bg-fondGris"
-                  }`}
+            </div>
+
+            <div className="flex gap-2 text-yellow-400 text-2xl mt-4">
+              {Array.from({ length: 5 }, (_, i) => (
+                <Star
+                  key={i}
+                  fill={i < avis.note ? "#FFD700" : "white"}
+                  stroke="black"
+                  className="w-6 h-6"
                 />
               ))}
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        ))}
+      </div>
+    </section>
   );
 };
 
-export default HomePages;
+export default AvisSection;
