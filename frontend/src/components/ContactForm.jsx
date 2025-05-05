@@ -1,16 +1,30 @@
-// import { useForm } from "react-hook-form";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const ContactForm = () => {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
-  // const onSubmit = (data) => {
-  //   console.log("Form Submitted:", data);
-  // };
-  // Ajoutez ici votre logique d'envoi (e.g., API call)
+const ContactForm = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:8008/api/contact", data);
+  
+      if (response.status === 201) {
+        alert("Message envoyé avec succès !");
+        reset(); // Vide le formulaire
+      } else {
+        alert(response.data.message || "Une erreur est survenue.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi :", error); // Affiche l’erreur
+      alert("Erreur serveur."); // Affiche un message à l’utilisateur
+    }
+  };
+  
+
 
   return (
     <div>
@@ -19,7 +33,7 @@ const ContactForm = () => {
           CONTACT
         </h2>
         <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-auto p-8">
-          <form className="flex flex-col gap-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
             <div>
               <label htmlFor="nom" className="block mb-2 text-sm font-medium">
                 Nom
@@ -27,23 +41,24 @@ const ContactForm = () => {
               <input
                 type="text"
                 id="nom"
+                {...register("nom", { required: "Le nom est requis" })}
                 placeholder="Charlene Reed"
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
+              {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom.message}</p>}
             </div>
             <div>
-              <label
-                htmlFor="prenom"
-                className="block mb-2 text-sm font-medium"
-              >
-                Prenom
+              <label htmlFor="prenom" className="block mb-2 text-sm font-medium">
+                Prénom
               </label>
               <input
                 type="text"
                 id="prenom"
-                placeholder="Charlene Reed"
+                {...register("prenom", { required: "Le prénom est requis" })}
+                placeholder="Charlene"
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
+              {errors.prenom && <p className="text-red-500 text-sm mt-1">{errors.prenom.message}</p>}
             </div>
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium">
@@ -52,23 +67,29 @@ const ContactForm = () => {
               <input
                 type="email"
                 id="email"
+                {...register("email", {
+                  required: "L'email est requis",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Email invalide",
+                  },
+                })}
                 placeholder="charlenereed@gmail.com"
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
             </div>
             <div>
-              <label
-                htmlFor="message"
-                className="block mb-2 text-sm font-medium"
-              >
+              <label htmlFor="message" className="block mb-2 text-sm font-medium">
                 Message
               </label>
               <textarea
                 id="message"
                 rows="4"
-                placeholder=""
+                {...register("message", { required: "Le message est requis" })}
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               ></textarea>
+              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
             </div>
             <button
               type="submit"

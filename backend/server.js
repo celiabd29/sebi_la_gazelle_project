@@ -10,16 +10,17 @@ dotenv.config();
 
 // Connecter à la base de données
 connecterDB();
-
 // Créer une instance d'Express
 const app = express();
 
 // Middleware CORS et parsing JSON
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json()); 
 
 // Serveur API
 app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
+app.use("/api/contact", require("./routes/contactRoutes"));
 
 // Servir les fichiers statiques du build React
 if (process.env.NODE_ENV === "production") {

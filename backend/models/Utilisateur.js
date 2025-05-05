@@ -7,6 +7,8 @@ const utilisateurSchema = new mongoose.Schema({
     email: { type: String, required: false, unique: true },
     motDePasse: { type: String, required: true },
     avatar: { type: String, default: "default-avatar.png" },
+    estVerifie: { type: Boolean, default: false },
+    verificationToken: { type: String }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Utilisateur", utilisateurSchema);

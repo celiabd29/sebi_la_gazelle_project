@@ -28,34 +28,41 @@ const SectionJeux = ({ afficherDesc = true }) => {
   ];
 
   return (
-    <section
-      id="games"
-      className="py-16 px-4 bg-gradient-to-br from-teal-100 via-green-200 to-lime-200  bg-fondVert"
-    >
-      <div className="container mx-auto  ">
-        <h2 className="text-4xl md:text-5xl font-comic font-bold text-center mb-12 text-teal-700">
-          Jeux
-        </h2>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 3 }}
-          className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-        >
-          {games.map((game) => (
-            <div
-              key={game.id}
-              className="rounded-3xl overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <Link to="/jeuxDrys">
-                  <img
-                    src={game.image}
-                    alt={game.title}
-                    className={`w-full h-full transition-transform duration-300 object-cover ${
-                      game.id === 2 ? "object-bottom" : ""
-                    }`}
-                  />
+    <section>
+      <img
+        src={titre}
+        alt="titre du site"
+        className="md:hidden w-4/5 pc:w-1/2 mx-auto my-6"
+      />
+      <div
+        id="games"
+        className="md:mt-24 py-16 px-4 bg-gradient-to-br from-teal-100 via-green-200 to-lime-200 bg-fondVert rounded-t-[7rem]"
+      >
+        <div className="container mx-auto">
+          <h2 className="font-fredoka text-4xl md:text-5xl font-semibold text-center mb-12 text-teal-700">
+            {t("gamesTitle")}
+          </h2>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 3 }}
+            className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+          >
+            {games.map((game) => (
+              <div
+                key={game.id}
+                className="bg-white rounded-3xl overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300 flex flex-col justify-between"
+              >
+                <Link to={game.link}>
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={game.image}
+                      alt={game.title}
+                      className={`w-full h-full transition-transform duration-300 object-cover ${
+                        game.id === 2 ? "object-bottom" : ""
+                      }`}
+                    />
+                  </div>
                 </Link>
 
                 <div className="p-6 flex flex-col justify-between h-full">

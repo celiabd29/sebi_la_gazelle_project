@@ -12,6 +12,7 @@ const Inscription = () => {
       console.error("Erreur d'inscription :", error);
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
