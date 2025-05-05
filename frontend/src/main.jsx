@@ -13,8 +13,9 @@ import Personnages from "./pages/Personnages";
 import Contact from "./pages/Contact";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
-import MainPage from "./pages/MainPage";
-import Game from "./pages/GamePage";
+// import MainPage from "./pages/MainPage";
+// import Game from "./pages/GamePage";
+import VerificationEmail from "./pages/Verification";
 
 // Définir le routeur
 const router = createBrowserRouter([
@@ -27,14 +28,14 @@ const router = createBrowserRouter([
         path: "/",
         element: <Accueil />,
       },
-      {
-        path: "/level/:number",
-        element: <LevelPage />,
-      },
-      {
-        path: "/tableau",
-        element: <Tableau />,
-      },
+      // {
+      //   path: "/level/:number",
+      //   element: <LevelPage />,
+      // },
+      // {
+      //   path: "/tableau",
+      //   element: <Tableau />,
+      // },
       {
         path: "/jeux",
         element: <Jeux />,
@@ -56,22 +57,26 @@ const router = createBrowserRouter([
         element: <Connexion />,
       },
       {
-        path: "/mentions",
-        element: <Mentions />,
+        path: "/verification",
+        element: <VerificationEmail />,
       },
+      // {
+      //   path: "/mentions",
+      //   element: <Mentions />,
+      // },
     ],
   },
-  {
-    path: "/jeuxDrys",
-    element: <MainPage />,
-    errorElement: <h1>Erreur 404 : Page non trouvée</h1>,
-    children: [
-      {
-        path: "/jeuxDrys/GamePage",
-        element: <Game />,
-      },
-    ],
-  },
+  // {
+  //   path: "/jeuxDrys",
+  //   element: <MainPage />,
+  //   errorElement: <h1>Erreur 404 : Page non trouvée</h1>,
+  //   children: [
+  //     {
+  //       path: "/jeuxDrys/GamePage",
+  //       element: <Game />,
+  //     },
+  //   ],
+  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
