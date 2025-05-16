@@ -16,6 +16,7 @@ import Connexion from "./pages/Connexion";
 // import MainPage from "./pages/MainPage";
 // import Game from "./pages/GamePage";
 import VerificationEmail from "./pages/Verification";
+import Dashboard from "./pages/Admin/Dashboard";
 
 // Définir le routeur
 const router = createBrowserRouter([
@@ -60,10 +61,10 @@ const router = createBrowserRouter([
         path: "/verification",
         element: <VerificationEmail />,
       },
-      // {
-      //   path: "/mentions",
-      //   element: <Mentions />,
-      // },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
     ],
   },
   // {

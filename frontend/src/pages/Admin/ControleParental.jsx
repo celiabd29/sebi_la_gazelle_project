@@ -1,7 +1,7 @@
+
 const ControleParental = () => {
     return (
         <div>
-            
         </div>
     );
 }

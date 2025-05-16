@@ -8,8 +8,9 @@ const verifierAdmin = require("../middleware/auth");
 router.post("/inscription", inscription);
 router.post("/connexion", connexion);
 router.get("/verification", verifierCompte);
+
 router.get("/admin/dashboard", verifierToken, verifierAdmin, (req, res) => {
-  res.json({ message: "Bienvenue dans l'espace admin" });
+  res.json({ message: "Bienvenue dans l'espace admin", utilisateur: req.utilisateur });
 });
 
 module.exports = router;

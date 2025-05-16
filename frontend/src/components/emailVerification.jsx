@@ -1,39 +1,36 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
 
 const EmailVerification = () => {
-  const [searchParams] = useSearchParams();
   const [message, setMessage] = useState("Vérification en cours...");
   const [success, setSuccess] = useState(null);
 
-  useEffect(() => {
-    const token = searchParams.get("token");
+useEffect(() => {
+  const token = new URLSearchParams(window.location.search).get("token");
 
-    if (!token) {
-      setMessage("Token manquant dans l'URL");
+  if (!token) {
+    setMessage("Token manquant dans l'URL");
+    setSuccess(false);
+    return;
+  }
+
+  const verifyEmail = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8008/api/utilisateurs/verification?token=${token}`
+      );
+      setMessage(res.data.message);
+      setSuccess(true);
+    } catch (err) {
+      setMessage(
+        err.response?.data?.message || "Erreur lors de la vérification"
+      );
       setSuccess(false);
-      return;
     }
+  };
 
-    const verifyEmail = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:8008/api/utilisateurs/verification?token=${token}`
-        );
-        setMessage(res.data.message);
-        setSuccess(true);
-      } catch (err) {
-        setMessage(
-          err.response?.data?.message || "Erreur lors de la vérification"
-        );
-        setSuccess(false);
-      }
-    };
-
-    verifyEmail();
-  }, [searchParams]);
-
+  verifyEmail();
+}, []);
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div
