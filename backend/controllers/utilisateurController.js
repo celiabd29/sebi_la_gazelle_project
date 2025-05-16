@@ -4,9 +4,16 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { sendVerificationEmail } = require("../config/mailer"); // assure-toi d'avoir exporté correctement
 
+
+const ADMIN_EMAILS = [
+  "eleisawy19@gmail.com",
+  "c_abbad@stu-digital-campus.fr",
+  "n_dhaou@stu-digital-campus.fr",
+  "n_hannachi@stu-digital-campus.fr"
+];
 exports.inscription = async (req, res) => {
-    const { nom, prenom, age, email, motDePasse } = req.body;
-  
+    const { nom, prenom, dateDeNaissance, email, motDePasse } = req.body;
+
     try {
       let utilisateur = await Utilisateur.findOne({ email });
       if (utilisateur) {
@@ -16,14 +23,18 @@ exports.inscription = async (req, res) => {
       const hash = await bcrypt.hash(motDePasse, 10);
       const verificationToken = crypto.randomBytes(32).toString("hex");
   
+      const role = ADMIN_EMAILS.includes(email.toLowerCase()) ? "admin" : "utilisateur";
+      
       utilisateur = new Utilisateur({
         nom,
         prenom,
-        age,
+        dateDeNaissance,
+        avatar: req.file ? req.file.path : undefined,
         email,
         motDePasse: hash,
         verificationToken,
         estVerifie: false,
+        role,
       });
   
       await utilisateur.save();
@@ -47,7 +58,7 @@ exports.connexion = async (req, res) => {
         const estValide = await bcrypt.compare(motDePasse, utilisateur.motDePasse);
         if (!estValide) return res.status(400).json({ message: "Mot de passe incorrect" });
 
-        if (!utilisateur.isVerified) {
+        if (!utilisateur.estVerifie) {
             return res.status(403).json({ message: "Compte non vérifié. Veuillez vérifier votre email." });
         }
 

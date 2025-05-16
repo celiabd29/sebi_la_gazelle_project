@@ -19,6 +19,14 @@ const Inscription = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-4">Inscription</h2>
 
+        {/* prénom */}
+        <label className="block">Prénom :</label>
+        <input
+          type="text"
+          {...register("prenom", { required: "Nom requis" })}
+          className="border p-2 rounded w-full"
+        />
+
         {/* Nom */}
         <label className="block">Nom :</label>
         <input
@@ -26,7 +34,20 @@ const Inscription = () => {
           {...register("nom", { required: "Nom requis" })}
           className="border p-2 rounded w-full"
         />
+        {/* Erreur prénom */}
+        {errors.prenom && <p className="text-red-500">{errors.prenom.message}</p>}
+      
+        {/* Erreur nom */}
         {errors.nom && <p className="text-red-500">{errors.nom.message}</p>}
+
+        {/* Date de naissance */}
+        {/* <label className="block mt-3">Date de naissance :</label>
+        <input
+          type="date"
+          {...register("dateDeNaissance", { required: "Date de naissance requise" })}
+          className="border p-2 rounded w-full"
+        />
+        {errors.dateDeNaissance && <p className="text-red-500">{errors.dateDeNaissance.message}</p>} */}
 
         {/* Email */}
         <label className="block mt-3">Email :</label>
