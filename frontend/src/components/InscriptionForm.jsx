@@ -22,6 +22,7 @@ const Inscription = () => {
       const finalData = { ...data, avatar: selectedAvatar };
       await axios.post("http://localhost:8008/api/utilisateurs/inscription", finalData);
       alert("Inscription réussie !");
+      localStorage.setItem("utilisateur", JSON.stringify(finalData)); // dans ton `onSubmit`
     } catch (error) {
       console.error("Erreur d'inscription :", error);
     }
