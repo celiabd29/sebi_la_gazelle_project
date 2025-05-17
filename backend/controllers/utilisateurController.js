@@ -12,7 +12,7 @@ const ADMIN_EMAILS = [
   "n_hannachi@stu-digital-campus.fr"
 ];
 exports.inscription = async (req, res) => {
-    const { nom, prenom, dateDeNaissance, email, motDePasse } = req.body;
+    const { nom, prenom, dateDeNaissance, email, motDePasse, avatar } = req.body;
 
     try {
       let utilisateur = await Utilisateur.findOne({ email });
@@ -29,7 +29,7 @@ exports.inscription = async (req, res) => {
         nom,
         prenom,
         dateDeNaissance,
-        avatar: req.file ? req.file.path : undefined,
+        avatar,
         email,
         motDePasse: hash,
         verificationToken,

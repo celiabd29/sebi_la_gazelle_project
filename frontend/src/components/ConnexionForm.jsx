@@ -11,11 +11,13 @@ const Connexion = () => {
        try {
       const response = await axios.post("http://localhost:8008/api/utilisateurs/connexion", data);
       const utilisateur = response.data.utilisateur;
-
+      
+      
       enregistrerUtilisateur(utilisateur);
-
+      
       // 🔁 Redirection selon le rôle
       if (utilisateur.role === "admin") {
+        localStorage.setItem("utilisateur", JSON.stringify(utilisateur)); // dans ton `onSubmit`
         navigate("/dashboard");
       } else {
         navigate("/");
