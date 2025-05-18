@@ -1,4 +1,4 @@
-import ProfilUtilisateur from "../components/ProfilUtilisateur"
+import ProfilUtilisateur from "../../components/ProfilUtilisateur"
 
 const Profil = () => {
   return (
