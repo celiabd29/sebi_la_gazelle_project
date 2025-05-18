@@ -22,6 +22,7 @@ app.use(express.json());
 app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 app.use("/api/verification", require("./routes/utilisateurRoutes"));
+app.use("/api/tous", require("./routes/utilisateurRoutes"));
 // Servir les fichiers statiques du build React
 if (process.env.NODE_ENV === "production") {
   // Serve les fichiers du dossier 'build' généré par React

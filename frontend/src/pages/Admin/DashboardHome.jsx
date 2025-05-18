@@ -1,8 +1,9 @@
-import EspaceAdmin from "../../components/EspaceAdmin";
+import DashboardHome from "../../components/DashboardHome";
+
 const Dashboard = () => {
     return (
         <div>
-            <EspaceAdmin />            
+            <DashboardHome />          
         </div>
     );
 }

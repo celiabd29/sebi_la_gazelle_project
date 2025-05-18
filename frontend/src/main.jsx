@@ -13,11 +13,10 @@ import Personnages from "./pages/Personnages";
 import Contact from "./pages/Contact";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
-// import MainPage from "./pages/MainPage";
-// import Game from "./pages/GamePage";
 import VerificationEmail from "./pages/Verification";
-import Dashboard from "./pages/Admin/Dashboard";
-import Profil from "./pages/Profil";
+import DashboardAccueil from "./pages/Admin/DashboardHome";
+import Profil from "./pages/EspaceParent/Profil";
+import DashboardLayout from "./components/Layout/DashboardLayout";
 
 // Définir le routeur
 const router = createBrowserRouter([
@@ -30,14 +29,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <Accueil />,
       },
-      // {
-      //   path: "/level/:number",
-      //   element: <LevelPage />,
-      // },
-      // {
-      //   path: "/tableau",
-      //   element: <Tableau />,
-      // },
       {
         path: "/jeux",
         element: <Jeux />,
@@ -63,26 +54,21 @@ const router = createBrowserRouter([
         element: <VerificationEmail />,
       },
       {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
-      {
         path:"/profil",
         element: <Profil />,
       }
     ],
   },
-  // {
-  //   path: "/jeuxDrys",
-  //   element: <MainPage />,
-  //   errorElement: <h1>Erreur 404 : Page non trouvée</h1>,
-  //   children: [
-  //     {
-  //       path: "/jeuxDrys/GamePage",
-  //       element: <Game />,
-  //     },
-  //   ],
-  // },
+    {
+      path: "/dashboard",
+      element: <DashboardLayout />,
+      children: [
+        { path: "", element: <DashboardAccueil /> },
+        // { path: "utilisateurs", element: <Utilisateurs /> },
+        // { path: "analyse", element: <Analyse /> },
+        // { path: "parametres", element: <Parametres /> },
+      ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
