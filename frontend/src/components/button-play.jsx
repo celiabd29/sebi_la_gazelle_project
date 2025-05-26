@@ -5,8 +5,9 @@ function ActionButtons() {
   const navigate = useNavigate(); // Crée une instance de useNavigate
 
   const handleGameClick = () => {
-    navigate('/GamePage');  // Redirige vers '/game'
+    navigate('/jeuxDrys/PalierPage'); // <-- C'est bien ce chemin-là qu'il faut
   };
+  
 
   const handleSettingsClick = () => {
     // Affiche un message dans la console

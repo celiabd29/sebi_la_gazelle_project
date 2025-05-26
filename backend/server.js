@@ -4,6 +4,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const connecterDB = require("./config/database");
+const scoreRoutes = require("./backend/routes/scoreRoutes");
+
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -16,7 +18,8 @@ const app = express();
 
 // Middleware CORS et parsing JSON
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json()); // ✅ parsing JSON moderne
+
 
 // Serveur API
 app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
@@ -31,6 +34,8 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   });
 }
+
+app.use("/api/scores", scoreRoutes);
 
 // Démarrer le serveur
 app.listen(process.env.PORT, () => console.log("Serveur démarré sur le port 8008 : http://localhost:8008/"));
