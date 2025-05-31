@@ -1,18 +1,43 @@
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../contexts/AuthContexte";
+import { useAuth } from "../contexts/AuthContexte";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Connexion = () => {
+  const navigate = useNavigate();
   const { enregistrerUtilisateur } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post("http://localhost:8008/api/utilisateurs/connexion", data);
-      enregistrerUtilisateur(response.data.utilisateur);
-      alert("Connexion réussie !");
+      const { utilisateur } = response.data;
+    console.log(utilisateur); // pour voir si y'a bien _id
+
+
+      enregistrerUtilisateur(utilisateur);
+
+      // 💾 Stocke l'utilisateur dans le localStorage
+     localStorage.setItem("utilisateur", JSON.stringify({
+      _id: utilisateur._id,
+      prenom: utilisateur.prenom,
+      nom: utilisateur.nom,
+      email: utilisateur.email,
+      avatar: utilisateur.avatar,
+    }));
+
+
+
+      // 🔁 Redirection selon le rôle
+      if (utilisateur.role === "admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       console.error("Erreur de connexion :", error);
+      alert(error.response?.data?.message || "Erreur lors de la connexion");
     }
   };
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 
 import { useNavigate, Outlet } from 'react-router-dom';
-import ExitButton from "../../components/button-exit";
-import LanguageButton from "../../components/button-language";
+import ExitButton from "../../components/compo_jeux/ExitButton";
+import LanguageButton from "../../components/LanguageSwitcher";
 import ActionButtons from "../../components/button-play";
 import background from "../../assets/img/background-jeu-drys.png"; // corriger le chemin si nécessaire
 import foretSound from "../../assets/sounds/foret.wav"; // adapte le chemin si besoin
