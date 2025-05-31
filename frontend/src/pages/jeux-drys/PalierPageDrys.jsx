@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import LanguageButton from "../../components/button-language";
+import LanguageButton from "../../components/LanguageSwitcher";
 import ArbreImage from "../../assets/img/arbre.png";
 import PommeImage from "../../assets/img/pomme.webp";
 import OrangeImage from "../../assets/img/orange.png";
@@ -11,22 +11,38 @@ import background from "../../assets/img/fond-drys-palier.png";
 const PalierPage = () => {
   const navigate = useNavigate();
   const [fallingFruits, setFallingFruits] = useState([]);
-  const [starsByLevel, setStarsByLevel] = useState({});
+  const [levels, setLevels] = useState([]);
 
-  // Charger les étoiles depuis le localStorage
   useEffect(() => {
-    const stars = JSON.parse(localStorage.getItem("stars") || "{}");
-    setStarsByLevel(stars);
-  }, []);
+    const user = JSON.parse(localStorage.getItem("utilisateur"));
 
-  // Niveau débloqué (dernier palier réussi + 1)
-  const unlockedLevel =
-    Math.max(
-      1,
-      ...Object.entries(starsByLevel)
-        .filter(([_, stars]) => stars > 0)
-        .map(([lvl]) => parseInt(lvl) + 1)
-    ) || 1;
+    if (!user || !user._id) {
+      // Utilisateur non connecté : 0 étoile et tous les niveaux débloqués
+      setLevels([
+        { level: 1, stars: 0, unlocked: true },
+        { level: 2, stars: 0, unlocked: true },
+        { level: 3, stars: 0, unlocked: true },
+        { level: 4, stars: 0, unlocked: true },
+        { level: 5, stars: 0, unlocked: true },
+      ]);
+      return;
+    }
+
+    // Utilisateur connecté → on récupère les vrais scores
+    fetch(`http://localhost:8008/api/scores/${user._id}?gameName=Drys`)
+      .then((res) => res.json())
+      .then((data) => {
+        const newLevels = [];
+        for (let i = 1; i <= 5; i++) {
+          const score = data.find((d) => d.level === i);
+          const stars = score?.stars || 0;
+          const unlocked =
+            i === 1 || (data.find((d) => d.level === i - 1)?.stars >= 1);
+          newLevels.push({ level: i, stars, unlocked });
+        }
+        setLevels(newLevels);
+      });
+  }, []);
 
   const fruits = [
     { id: 1, type: "pomme", positionX: "45%", positionY: "18%" },
@@ -74,8 +90,9 @@ const PalierPage = () => {
           />
 
           {fruits.map((fruit) => {
-            const isUnlocked = fruit.id <= unlockedLevel;
-            const starCount = starsByLevel[fruit.id] || 0;
+            const levelData = levels.find((lvl) => lvl.level === fruit.id);
+            const isUnlocked = levelData?.unlocked ?? true;
+            const starCount = levelData?.stars || 0;
 
             return (
               <motion.div

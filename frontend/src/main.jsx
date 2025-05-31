@@ -4,6 +4,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import "./i18n";
 
+
+import { AuthProvider } from "./contexts/AuthContexte";
+
+// Pages générales
 import App from "./App";
 import Accueil from "./pages/Accueil";
 import Jeux from "./pages/Jeux";
@@ -13,19 +17,29 @@ import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import Mentions from "./pages/Mentions";
 
+// Jeu Drys
 import MainPageDrys from "./pages/jeux-drys/MainPageDrys";
 import PalierPageDrys from "./pages/jeux-drys/PalierPageDrys";
 import GamePageDrys from "./pages/jeux-drys/GamePage";
-import { ConditionalProviders } from "./ConditionalProviders";
 import ScorePage from "./pages/jeux-drys/ScorePage";
+import { ConditionalProviders } from "./ConditionalProviders";
 
-
+// Jeu James
 import MainPageJames from "./pages/Jeu_James/Home";
 import SettingsPage from "./pages/Jeu_James/SettingsPage";
 import GamePage from "./pages/Jeu_James/GamePage";
 import LevelPage from "./pages/Jeu_James/LevelPage";
 import Tableau from "./pages/Jeu_James/Tableau";
 
+// Autres sections
+import VerificationEmail from "./pages/Verification";
+import DashboardAccueil from "./pages/Admin/DashboardHome";
+import Profil from "./pages/EspaceParent/Profil";
+import DashboardLayout from "./components/Layout/DashboardLayout";
+
+
+
+// Définir le routeur
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +53,8 @@ const router = createBrowserRouter([
       { path: "/inscription", element: <Inscription /> },
       { path: "/connexion", element: <Connexion /> },
       { path: "/mentions", element: <Mentions /> },
+      { path: "/verification", element: <VerificationEmail /> },
+      { path: "/profil", element: <Profil /> },
     ],
   },
   {
@@ -48,11 +64,16 @@ const router = createBrowserRouter([
       { path: "", element: <MainPageDrys /> },
       { path: "PalierPage", element: <PalierPageDrys /> },
       { path: "GamePage", element: <GamePageDrys /> },
-      // 👇 AJOUTE CECI
       { path: "ScorePage", element: <ScorePage /> },
     ],
   },
-  
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      { path: "", element: <DashboardAccueil /> },
+    ],
+  },
   { path: "/jeuxJames", element: <MainPageJames /> },
   { path: "/jeuxJames/settings", element: <SettingsPage /> },
   { path: "/jeuxJames/tableau", element: <Tableau /> },
@@ -62,6 +83,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
+    <AuthProvider> {/* ✅ Ajout du Provider ici */}
+      <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
+    </AuthProvider>
   </React.StrictMode>
 );

@@ -6,7 +6,7 @@ import gobletImage from "../../assets/img/goblet.png";
 import ballImage from "../../assets/img/balle.webp";
 import backgroundImage from "../../assets/img/table-drys.jpg";
 import ReturnButton from "../../components/button-return";
-import LanguageButton from "../../components/button-language";
+import LanguageButton from "../../components/LanguageSwitcher";
 import StarIcon from "../../assets/img/myrtille.png"; // ou le chemin correct
 
 
@@ -85,28 +85,29 @@ const GameBoard = () => {
       const stars = triesLeft;
       const score = stars * 15;
 
-      if (isLoggedIn && stars > 0) {
+     if (isLoggedIn && stars > 0) {
+        console.log("👤 Enregistrement pour user :", user);
         fetch("http://localhost:8008/api/scores", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`, // si tu envoies un token
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            userId: user.id,
+            userId: user._id, // ✅ CORRECTION ICI
             gameName: "Drys",
             level,
             stars,
+            score
           }),
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("Score enregistré :", data);
+            console.log("✅ Score bien enregistré :", data);
           })
           .catch((err) => {
-            console.error("Erreur enregistrement score :", err);
+            console.error("❌ Erreur enregistrement score :", err);
           });
-      } else {
+      }else {
         // invité = stockage local uniquement
         const guestScores = JSON.parse(localStorage.getItem("guestScores") || "{}");
         guestScores[level] = stars;
@@ -158,6 +159,9 @@ const GameBoard = () => {
     setTimeLeft(initialTime);
     setBallVisible(true); // La balle est visible au début
   };
+
+  
+
 
   useEffect(() => {
     return () => clearInterval(timerRef.current);

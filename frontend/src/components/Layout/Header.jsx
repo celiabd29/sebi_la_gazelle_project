@@ -13,6 +13,19 @@ const Header = () => {
   const noBannerRoutes = ["/connexion", "/inscription"];
   const isNoBannerPage = noBannerRoutes.includes(location.pathname);
   const { t, i18n } = useTranslation();
+  const [utilisateur, setUtilisateur] = useState(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("utilisateur");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setUtilisateur(parsed);
+      } catch (err) {
+        console.error("Erreur parsing localStorage:", err);
+      }
+    }
+  }, []);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -75,12 +88,35 @@ const Header = () => {
 
         {/* Icône profil + langue en desktop */}
         <div className="hidden lg:flex items-center gap-6 mr-2">
-          <Link to="/connexion" className="hover:scale-110 transition">
-            <UserCircle
-              size={28}
-              className="text-black hover:text-fondOrange"
-            />
-          </Link>
+          {utilisateur ? (
+            <Link to="/profil">
+              <img
+                src={utilisateur.avatar}
+                alt="Avatar"
+                className="w-10 h-10 rounded-full border-2 border-fondOrange"
+              />
+            </Link>
+          ) : (
+            <Link to="/connexion">
+              <UserCircle
+                size={28}
+                className="text-black hover:text-fondOrange"
+              />
+            </Link>
+          )}
+
+          {utilisateur && (
+            <button
+              onClick={() => {
+                localStorage.removeItem("utilisateur");
+                setUtilisateur(null);
+              }}
+              className="text-sm text-red-500 hover:underline ml-4"
+            >
+              Déconnexion
+            </button>
+          )}
+
           <LanguageSwitcher />
         </div>
 
