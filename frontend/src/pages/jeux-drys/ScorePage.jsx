@@ -46,47 +46,63 @@ const ScorePage = () => {
       });
       const data = await res.json();
       console.log("✅ Score enregistré :", data);
+      return data;
     } catch (err) {
       console.error("❌ Erreur enregistrement score :", err);
     }
   };
 
   const fetchTotalStars = async () => {
-    try {
-      const res = await fetch(`http://localhost:8008/api/scores/${storedUser._id}?gameName=Drys`);
-      const data = await res.json();
-      const total = Array.isArray(data)
-        ? data.reduce((sum, entry) => sum + entry.stars, 0)
-        : 0;
-      setTotalStars(total);
-    } catch (err) {
-      console.error("❌ Erreur récupération scores :", err);
-    }
-  };
-
-  const fetchLeaderboard = async () => {
   try {
-    const res = await fetch(`http://localhost:8008/api/scores/leaderboard?gameName=Drys`);
+    const res = await fetch(`http://localhost:8008/api/scores/${storedUser._id}?gameName=Drys`);
     const data = await res.json();
+    console.log("⭐ Données brutes des scores récupérés :", data); // Ajout ici
+
     if (Array.isArray(data)) {
-      setLeaderboard(data);
-      const foundIndex = data.findIndex((entry) => entry.userId === user._id);
-      if (foundIndex !== -1) {
-        setUserRank(foundIndex + 1);
-      }
+      const maxStarsByLevel = {};
+      data.forEach((entry) => {
+        const level = entry.level;
+        if (!maxStarsByLevel[level] || entry.stars > maxStarsByLevel[level]) {
+          maxStarsByLevel[level] = entry.stars;
+        }
+      });
+      const total = Object.values(maxStarsByLevel).reduce((sum, stars) => sum + stars, 0);
+      setTotalStars(total);
     } else {
-      console.warn("⚠️ La donnée leaderboard n’est pas un tableau :", data);
-      setLeaderboard([]);
+      setTotalStars(0);
     }
   } catch (err) {
-    console.error("❌ Erreur leaderboard :", err);
+    console.error("❌ Erreur récupération scores :", err);
   }
 };
 
 
-  saveScore();
-  fetchTotalStars();
-  fetchLeaderboard();
+  const fetchLeaderboard = async () => {
+    try {
+      const res = await fetch(`http://localhost:8008/api/scores/leaderboard?gameName=Drys`);
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setLeaderboard(data);
+        const foundIndex = data.findIndex((entry) => entry.userId?.toString() === user._id);
+        if (foundIndex !== -1) {
+          setUserRank(foundIndex + 1);
+        }
+      } else {
+        console.warn("⚠️ La donnée leaderboard n’est pas un tableau :", data);
+        setLeaderboard([]);
+      }
+    } catch (err) {
+      console.error("❌ Erreur leaderboard :", err);
+    }
+  };
+
+  const runAll = async () => {
+    await saveScore();
+    await fetchTotalStars();
+    await fetchLeaderboard();
+  };
+
+  runAll();
 }, []);
 
 
@@ -119,15 +135,7 @@ const ScorePage = () => {
       {/* Classement */}
       <div className="mt-6">
         <h2 className="text-xl font-bold">🏆 Classement</h2>
-        <ul>
-          {userRank ? (
-            <p className="mt-2 text-sm text-gray-600">
-              🧍‍♀️ Tu es classé(e) <strong>#{userRank}</strong> avec <strong>{totalStars}</strong> étoiles
-            </p>
-          ) : (
-            <p className="mt-2 text-sm text-gray-500 italic">Tu n’es pas encore dans le top 10 !</p>
-          )}
-
+        <ul className="mb-2">
           {leaderboard.map((entry, index) => (
             <li key={entry.userId} className="flex items-center gap-2 my-2">
               <span>{index + 1}.</span>
@@ -136,9 +144,14 @@ const ScorePage = () => {
               <span className="ml-auto">{entry.totalStars} ⭐</span>
             </li>
           ))}
-
-
         </ul>
+
+        <p className="mt-2 text-sm text-gray-600">
+          🧍‍♀️ {userRank
+            ? <>Tu es classé(e) <strong>#{userRank}</strong> avec <strong>{totalStars}</strong> étoiles</>
+            : <>Tu n’es pas encore dans le top 3, mais tu as <strong>{totalStars}</strong> étoiles</>}
+        </p>
+
       </div>
 
       {/* Étoiles du niveau */}
