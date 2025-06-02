@@ -120,5 +120,19 @@
   "game_content_placeholder": "Contenu du jeu pour ce niveau.",
   "complete_level": "Terminer le niveau",
   "game_james": "Les super calculs de James le hibou",
-  "game_drys": "Les cachotteries de Drys l'écureuil"
+  "game_drys": "Les cachotteries de Drys l'écureuil",
+  "contact_title": "Nous contacter",
+  "contact_magic_title": "Envoie-nous ton message ✨",
+  "form_name_label": "Nom",
+  "form_name_placeholder": "Ton nom",
+  "form_firstname_label": "Prénom",
+  "form_firstname_placeholder": "Ton prénom",
+  "form_email_label": "Email",
+  "form_email_placeholder": "exemple@mail.com",
+  "form_message_label": "Message",
+  "form_message_placeholder": "Écris ton message ici",
+  "form_submit": "Envoyer",
+  "form_success": "Message envoyé avec succès !",
+  "form_error_generic": "Une erreur est survenue.",
+  "form_error_server": "Erreur serveur. Veuillez réessayer plus tard."
 }
