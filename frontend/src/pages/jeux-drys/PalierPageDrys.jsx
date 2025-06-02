@@ -7,6 +7,7 @@ import PommeImage from "../../assets/img/pomme.webp";
 import OrangeImage from "../../assets/img/orange.png";
 import MyrtilleImage from "../../assets/img/myrtille.png";
 import background from "../../assets/img/fond-drys-palier.png";
+import ReturnButton from "../../components/button-return";
 
 const PalierPage = () => {
   const navigate = useNavigate();
@@ -71,9 +72,18 @@ const PalierPage = () => {
       style={{ backgroundImage: `url(${background})` }}
     >
       <div className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Bouton langue */}
         <div className="absolute top-4 right-4 z-50">
           <LanguageButton />
         </div>
+
+        {/* ✅ Bouton retour */}
+        <div className="absolute top-4 left-4 z-50">
+          <ReturnButton />
+        </div>
+
+
+        
 
         <div className="hidden md:flex justify-center relative w-full mt-30">
           <img
