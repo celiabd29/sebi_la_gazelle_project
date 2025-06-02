@@ -4,7 +4,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import "./i18n";
 
-
 import { AuthProvider } from "./contexts/AuthContexte";
 
 // Pages générales
@@ -26,18 +25,17 @@ import { ConditionalProviders } from "./ConditionalProviders";
 
 // Jeu James
 import MainPageJames from "./pages/Jeu_James/Home";
+import Tableau from "./pages/Jeu_James/Tableau";
 import SettingsPage from "./pages/Jeu_James/SettingsPage";
 import GamePage from "./pages/Jeu_James/GamePage";
 import LevelPage from "./pages/Jeu_James/LevelPage";
-import Tableau from "./pages/Jeu_James/Tableau";
+import FinLevelPage from "./pages/Jeu_James/FinLevelPage";
 
 // Autres sections
 import VerificationEmail from "./pages/Verification";
 import DashboardAccueil from "./pages/Admin/DashboardHome";
 import Profil from "./pages/EspaceParent/Profil";
 import DashboardLayout from "./components/Layout/DashboardLayout";
-
-
 
 // Définir le routeur
 const router = createBrowserRouter([
@@ -70,20 +68,21 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardLayout />,
-    children: [
-      { path: "", element: <DashboardAccueil /> },
-    ],
+    children: [{ path: "", element: <DashboardAccueil /> }],
   },
   { path: "/jeuxJames", element: <MainPageJames /> },
   { path: "/jeuxJames/settings", element: <SettingsPage /> },
   { path: "/jeuxJames/tableau", element: <Tableau /> },
   { path: "/jeuxJames/game/:level", element: <GamePage /> },
   { path: "/jeuxJames/level/:id", element: <LevelPage /> },
+  { path: "/jeuxJames/fin/:level", element: <FinLevelPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider> {/* ✅ Ajout du Provider ici */}
+    <AuthProvider>
+      {" "}
+      {/* ✅ Ajout du Provider ici */}
       <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
     </AuthProvider>
   </React.StrictMode>

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from "react-i18next";
 import { useNavigate, Outlet } from 'react-router-dom';
-import ExitButton from "../../components/compo_jeux/ExitButton";
+import ExitButton from "../../components/button-exit";
 import LanguageButton from "../../components/LanguageSwitcher";
-import ActionButtons from "../../components/button-play";
+import ActionButtons from "../../components/compo_jeux/button-play";
 import background from "../../assets/img/background-jeu-drys.png"; // corriger le chemin si nécessaire
 import foretSound from "../../assets/sounds/foret.wav"; // adapte le chemin si besoin
 import { useSound } from "../../contexts/SoundProvider"; // ✅ ajoute cette ligne

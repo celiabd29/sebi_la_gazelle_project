@@ -19,7 +19,7 @@ const GameBoard = () => {
   // Paramètres dynamiques basés sur le niveau
   const numberOfShuffles = 6; // Augmente les mélanges avec le niveau
   const shuffleSpeed = 1000 - Math.min(level * 100, 1500); // Plus long au début (max 2s par mélange)
-  const initialTime = 60 - Math.min(level * 2, 40); // Temps plus long au début (min 20s)
+  const initialTime = 60;
 
   const [ballPosition, setBallPosition] = useState(1); // Position initiale de la balle
   const [isShuffling, setIsShuffling] = useState(false); // Si les gobelets sont en train de mélanger
@@ -222,7 +222,7 @@ useEffect(() => {
             strokeWidth="10"
             fill="none"
             strokeDasharray="282.6"
-            strokeDashoffset={(1 - timeLeft / initialTime) * 282.6}
+            strokeDashoffset={(1 - timeLeft / 60) * 282.6}
             strokeLinecap="round"
           />
           <text
@@ -231,11 +231,13 @@ useEffect(() => {
             textAnchor="middle"
             fontSize="14"
             fill="#fff"
-            className="rotate-[90deg]"
+            transform="rotate(90 50 50)"
+            className="font-bold text-xl z-10"
           >
-            {timeLeft}s
+            {`${Math.floor(timeLeft / 60).toString().padStart(2, "0")}:${(timeLeft % 60).toString().padStart(2, "0")}`}
           </text>
         </svg>
+
       )}
     </div>
 

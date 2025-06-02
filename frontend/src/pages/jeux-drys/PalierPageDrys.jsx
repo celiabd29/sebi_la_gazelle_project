@@ -6,6 +6,7 @@ import ArbreImage from "../../assets/img/arbre.png";
 import PommeImage from "../../assets/img/pomme.webp";
 import OrangeImage from "../../assets/img/orange.png";
 import MyrtilleImage from "../../assets/img/myrtille.png";
+import StarIcon from "../../assets/img/star.png";
 import background from "../../assets/img/fond-drys-palier.png";
 import ReturnButton from "../../components/button-return";
 
@@ -58,12 +59,18 @@ const PalierPage = () => {
   };
 
   const getStarIcons = (count) => {
-    return Array.from({ length: 3 }, (_, i) => (
-      <i
-        key={i}
-        className={`fas fa-star ${i + 1 <= count ? "text-yellow-400" : "text-gray-300"} text-sm mx-0.5`}
-      ></i>
-    ));
+    return (
+      <div className="flex justify-center gap-1">
+        {Array.from({ length: 3 }, (_, i) => (
+          <img
+            key={i}
+            src={StarIcon}
+            alt="star"
+            className={`w-5 h-5 ${i < count ? "opacity-100" : "opacity-20"}`}
+          />
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -72,18 +79,13 @@ const PalierPage = () => {
       style={{ backgroundImage: `url(${background})` }}
     >
       <div className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden">
-        {/* Bouton langue */}
         <div className="absolute top-4 right-4 z-50">
           <LanguageButton />
         </div>
 
-        {/* ✅ Bouton retour */}
         <div className="absolute top-4 left-4 z-50">
           <ReturnButton />
         </div>
-
-
-        
 
         <div className="hidden md:flex justify-center relative w-full mt-30">
           <img
@@ -93,7 +95,7 @@ const PalierPage = () => {
           />
 
           {fruits.map((fruit, index) => {
-             const positions = [
+            const positions = [
               { left: "48%", top: "18%" },
               { left: "40%", top: "26%" },
               { left: "56%", top: "26%" },
@@ -112,7 +114,7 @@ const PalierPage = () => {
                 onClick={() => isUnlocked && handleClick(fruit.id)}
                 animate={fallingFruits.includes(fruit.id) ? { y: "100vh", opacity: 0, transition: { duration: 1, ease: "easeIn" } } : {}}
               >
-                <div className="absolute top-12 flex items-center z-10">
+                <div className="absolute top-12 z-10">
                   {getStarIcons(starCount)}
                 </div>
 
@@ -132,64 +134,26 @@ const PalierPage = () => {
           })}
         </div>
 
+        {/* Version mobile */}
         <div className="md:hidden mt-8 p-6 bg-white/70 rounded-xl backdrop-blur-md flex flex-col items-center gap-8">
-          <div className="flex flex-col items-center">
-            {(() => {
-              const fruit = fruits[0];
-              const levelData = levels.find((lvl) => lvl.level === fruit.id);
-              const isUnlocked = levelData?.unlocked ?? true;
-              const starCount = levelData?.stars || 0;
-              return (
-                <div className={`flex flex-col items-center ${isUnlocked ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`} onClick={() => isUnlocked && handleClick(fruit.id)}>
-                  <div className="mb-2">{getStarIcons(starCount)}</div>
-                  <div className="relative">
-                    <img src={PommeImage} alt="pomme" className="w-[65px] h-[65px]" />
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
-                      {isUnlocked ? fruit.id : "🔒"}
-                    </span>
-                  </div>
-                </div>
-              );
-            })()}
-          </div>
+          {fruits.map((fruit) => {
+            const levelData = levels.find((lvl) => lvl.level === fruit.id);
+            const isUnlocked = levelData?.unlocked ?? true;
+            const starCount = levelData?.stars || 0;
+            const image = fruit.type === "pomme" ? PommeImage : fruit.type === "orange" ? OrangeImage : MyrtilleImage;
 
-          <div className="flex justify-center gap-12">
-            {[fruits[1], fruits[2]].map((fruit) => {
-              const levelData = levels.find((lvl) => lvl.level === fruit.id);
-              const isUnlocked = levelData?.unlocked ?? true;
-              const starCount = levelData?.stars || 0;
-              return (
-                <div key={fruit.id} className={`flex flex-col items-center ${isUnlocked ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`} onClick={() => isUnlocked && handleClick(fruit.id)}>
-                  <div className="mb-2">{getStarIcons(starCount)}</div>
-                  <div className="relative">
-                    <img src={OrangeImage} alt="orange" className="w-[65px] h-[65px]" />
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
-                      {isUnlocked ? fruit.id : "🔒"}
-                    </span>
-                  </div>
+            return (
+              <div key={fruit.id} className={`flex flex-col items-center ${isUnlocked ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`} onClick={() => isUnlocked && handleClick(fruit.id)}>
+                <div className="mb-2">{getStarIcons(starCount)}</div>
+                <div className="relative">
+                  <img src={image} alt={fruit.type} className="w-[65px] h-[65px]" />
+                  <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
+                    {isUnlocked ? fruit.id : "🔒"}
+                  </span>
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="flex justify-center gap-12">
-            {[fruits[3], fruits[4]].map((fruit) => {
-              const levelData = levels.find((lvl) => lvl.level === fruit.id);
-              const isUnlocked = levelData?.unlocked ?? true;
-              const starCount = levelData?.stars || 0;
-              return (
-                <div key={fruit.id} className={`flex flex-col items-center ${isUnlocked ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`} onClick={() => isUnlocked && handleClick(fruit.id)}>
-                  <div className="mb-2">{getStarIcons(starCount)}</div>
-                  <div className="relative">
-                    <img src={MyrtilleImage} alt="myrtille" className="w-[65px] h-[65px]" />
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
-                      {isUnlocked ? fruit.id : "🔒"}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,44 +1,41 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function BlocSonLang() {
-  const [language, setLanguage] = useState("fr");
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language || "fr");
 
   const toggleLanguage = () => {
-    setLanguage((prevLanguage) => (prevLanguage === "fr" ? "en" : "fr"));
-    alert(`Langue changée en : ${language === "fr" ? "Anglais" : "Français"}`);
+    const newLang = language === "fr" ? "en" : "fr";
+    i18n.changeLanguage(newLang);
+    setLanguage(newLang);
   };
 
   return (
     <div className="bg-[#FF6D83] rounded-lg shadow-md p-8 w-3/4 max-w-xl">
+      {/* Bloc Son */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="ml-4 text-black text-2xl font-regular font-[Fredoka]">
-          Son
+          {t("sound")}
         </h2>
         <button className="w-28 h-12 bg-[#F9C474] text-lg text-black font-medium px-11 py-2 rounded-md shadow hover:bg-gray-100 transition font-[Fredoka]">
           ON
         </button>
       </div>
 
+      {/* Bloc Langue */}
       <div className="flex justify-between items-center">
         <h2 className="ml-4 text-black text-2xl font-regular font-[Fredoka]">
-          Langue
+          {t("language")}
         </h2>
         <button
           className="w-28 h-12 rounded-lg bg-[#F9C474] flex items-center justify-center shadow-lg hover:bg-blue-300"
           onClick={toggleLanguage}
-          title="Changer la langue"
+          title={t("change_language")}
         >
-          <img
-            src={language === "fr" ? "/img/france.png" : "/img/uk.png"}
-            alt={language === "fr" ? "Français" : "Anglais"}
-            className="w-8 h-8"
-          />
           <p className="ml-2 text-lg font-medium text-black font-[Fredoka]">
-            {language === "fr" ? "FR" : "EN"}
+            {language === "fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
           </p>
-          <i className="fa-solid fa-chevron-down ml-2"></i>
         </button>
       </div>
     </div>

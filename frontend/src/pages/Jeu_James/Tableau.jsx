@@ -1,64 +1,99 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ReturnButton from "../../components/compo_jeux/ReturnButton";
-import GrandeEtoile from "../../assets/img/icons/star_big.svg"; // étoile obtenue
-import EtoileVide from "../../assets/img/icons/star_small.svg"; // étoile non obtenue
-import LockIcon from "../../assets/img/icons/lock.png"; // cadenas noir
+import ReturnButton from "../../components/button-return";
+import SettingsButton from "../../components/button-settings";
+import StarIcon from "../../assets/img/star.png"; // Même icône qu'avec Drys
+import LockIcon from "../../assets/img/icons/lock.png";
+import backgroundImage from "../../assets/img/backgroundJames.jpeg"; // adapte le nom si besoin
 
-// Définir les couleurs des lignes
 const rowColors = ["#94E7FC", "#F9C474", "#FF6D83"];
-
-const niveaux = Array.from({ length: 15 }, (_, i) => {
-  return {
-    number: i + 1,
-    unlocked: i < 3,
-    stars: 3 - i > 0 ? 3 - i : 0,
-    color: rowColors[Math.floor(i / 5)],
-  };
-});
 
 function Tableau() {
   const navigate = useNavigate();
+  const [levels, setLevels] = useState([]);
 
-  const handleButtonClick = (level) => {
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("utilisateur"));
+
+    if (!user || !user._id) {
+      setLevels(
+        Array.from({ length: 5 }, (_, i) => ({
+          number: i + 1,
+          stars: 0,
+          unlocked: true,
+          color: rowColors[i % rowColors.length],
+        }))
+      );
+      return;
+    }
+
+    fetch(`http://localhost:8008/api/scores/${user._id}?gameName=James`)
+      .then((res) => res.json())
+      .then((data) => {
+        const newLevels = [];
+        for (let i = 1; i <= 5; i++) {
+          const score = data.find((d) => d.level === i);
+          const stars = score?.stars || 0;
+          const unlocked = i === 1 || (data.find((d) => d.level === i - 1)?.stars >= 1);
+          newLevels.push({
+            number: i,
+            stars,
+            unlocked,
+            color: rowColors[(i - 1) % rowColors.length],
+          });
+        }
+        setLevels(newLevels);
+      });
+  }, []);
+
+  const handleClick = (level) => {
     if (level.unlocked) {
-      navigate(`/level/${level.number}`);
+      navigate(`/jeuxJames/game/${level.number}`);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center py-8 relative">
-      <ReturnButton className="absolute top-4 left-4" />
+   <div
+    className="relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center overflow-hidden"
+    style={{ backgroundImage: `url(${backgroundImage})` }}
+  >
+
+      <div className="absolute top-6 left-4">
+        <ReturnButton />
+      </div>
+      <div className="absolute top-6 right-4 z-50">
+        <SettingsButton />
+      </div>
 
       <div
-        className="bg-green-700 rounded-xl border-[1rem] border-brown-500 p-8"
-        style={{ width: "fit-content" }}
+        className="bg-green-700 rounded-xl p-6 sm:p-10 shadow-lg w-full max-w-4xl"
+        style={{ border: "16px solid #CE7F42" }}
       >
-        <div className="grid grid-cols-5 gap-6">
-          {niveaux.map((level) => (
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-6 sm:gap-10 justify-center">
+          {levels.map((level) => (
             <div
               key={level.number}
-              className="flex flex-col items-center"
-              onClick={() => handleButtonClick(level)}
-              style={{ cursor: level.unlocked ? "pointer" : "default" }}
+              onClick={() => handleClick(level)}
+              className={`flex flex-col items-center ${level.unlocked ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
             >
-              {/* Étoiles */}
-              <div className="flex mb-1">
+              <div className="flex mb-2">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <img
                     key={i}
-                    src={i < level.stars ? GrandeEtoile : EtoileVide}
+                    src={StarIcon}
                     alt="star"
-                    className="w-5 h-5 mx-[1px]"
+                    className={`w-6 h-6 mx-0.5 ${i < level.stars ? "opacity-100" : "opacity-20"}`}
                   />
                 ))}
               </div>
 
-              {/* Case niveau */}
               <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center text-xl font-bold font-[Fredoka] shadow-md"
+                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl flex items-center justify-center text-xl font-bold font-[Fredoka] shadow-md ${
+                  level.unlocked ? "hover:scale-105 transition" : ""
+                }`}
                 style={{
                   backgroundColor: level.unlocked ? level.color : "#d1d5db",
+                  color: level.unlocked ? "#000" : "#555",
                 }}
               >
                 {level.unlocked ? (
