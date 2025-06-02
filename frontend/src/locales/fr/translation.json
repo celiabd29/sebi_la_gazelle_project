@@ -134,5 +134,22 @@
   "form_submit": "Envoyer",
   "form_success": "Message envoyé avec succès !",
   "form_error_generic": "Une erreur est survenue.",
-  "form_error_server": "Erreur serveur. Veuillez réessayer plus tard."
+  "form_error_server": "Erreur serveur. Veuillez réessayer plus tard.",
+  "login_title": "Connexion",
+  "login_button": "Se connecter",
+  "form_email_required": "L'email est requis",
+  "form_password_label": "Mot de passe",
+  "form_password_required": "Mot de passe requis",
+  "no_account": "Tu n'as pas de compte ?",
+  "create_one": "Crée-en un !",
+  "register_title": "Crée ton compte",
+  "register_button": "S'inscrire",
+  "register_success": "Inscription réussie !",
+  "register_error": "Une erreur est survenue pendant l'inscription.",
+  "form_firstname_required": "Le prénom est requis",
+  "form_name_required": "Le nom est requis",
+  "form_birthdate_label": "Date de naissance",
+  "form_birthdate_required": "La date de naissance est requise",
+  "form_password_min": "Minimum 6 caractères",
+  "form_avatar_label": "Choisis ton avatar :"
 }

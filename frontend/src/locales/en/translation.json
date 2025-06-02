@@ -128,5 +128,22 @@
   "form_submit": "Send",
   "form_success": "Message sent successfully!",
   "form_error_generic": "An error occurred.",
-  "form_error_server": "Server error. Please try again later."
+  "form_error_server": "Server error. Please try again later.",
+  "login_title": "Login",
+  "login_button": "Sign in",
+  "form_email_required": "Email is required",
+  "form_password_label": "Password",
+  "form_password_required": "Password is required",
+  "no_account": "Don't have an account?",
+  "create_one": "Create one!",
+  "register_title": "Create your account",
+  "register_button": "Register",
+  "register_success": "Registration successful!",
+  "register_error": "An error occurred during registration.",
+  "form_firstname_required": "First name is required",
+  "form_name_required": "Last name is required",
+  "form_birthdate_label": "Date of birth",
+  "form_birthdate_required": "Birthdate is required",
+  "form_password_min": "Minimum 6 characters",
+  "form_avatar_label": "Choose your avatar:"
 }
