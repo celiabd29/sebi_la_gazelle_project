@@ -1,29 +1,55 @@
-import Explication from "../components/explication";
-import SectionJeux from "../components/SectionJeux";
-import HeroSectionGame from "../components/heroSectionGame";
 import Header from "../components/Layout/Header";
-import Footer from "../components/Layout/footer";
-import { useLocation } from "react-router-dom";
-import footerVert from "../assets/img/footer/footer_vert.png";
-import footerMarron from "../assets/img/footer/footer_marron.png";
+import { useLocation, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import JamesCard from "../assets/img/fonds/james-fond.png";
+import DrysCard from "../assets/img/fonds/drys-fond.webp";
+import Background from "../assets/img/accueil/jeux.webp";
+
 const Jeux = () => {
   const location = useLocation();
-
-  let backgroundImage = footerMarron;
-  if (location.pathname === "/jeux" || location.pathname === "/personnages") {
-    backgroundImage = footerMarron;
-  }
+  const { t } = useTranslation();
 
   return (
     <div>
       <Header />
-      <HeroSectionGame />
-      <SectionJeux afficherDesc={false} />
-      <Explication />
-      <Footer
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-        className="relative bg-cover bg-no-repeat text-white pt-28 bg-right tablette:bg-top-right"
-      />
+      <section
+        className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat pt-28 px-4 md:px-10"
+        style={{ backgroundImage: `url(${Background})` }}
+      >
+        <div className="absolute inset-0 bg-white bg-opacity-40 backdrop-blur-sm z-0" />
+
+        <div className="relative z-10 flex flex-col md:flex-row justify-center items-center gap-20 mt-12 md:mt-24">
+          {/* James */}
+          <Link
+            to="/jeuxJames"
+            className="flex flex-col items-center group gap-y-4"
+          >
+            <img
+              src={JamesCard}
+              alt="James le hibou"
+              className="w-[18rem] md:w-[25rem] rounded-[2.5rem] shadow-md hover:scale-105 transition duration-300"
+            />
+            <p className="text-black font-[Fredoka] text-xl md:text-2xl text-center">
+              {t("game_james")}
+            </p>
+          </Link>
+
+          {/* Drys */}
+          <Link
+            to="/jeuxDrys"
+            className="flex flex-col items-center group gap-y-4"
+          >
+            <img
+              src={DrysCard}
+              alt="Drys l'écureuil"
+              className="w-[18rem] md:w-[25rem] rounded-[2.5rem] shadow-md hover:scale-105 transition duration-300"
+            />
+            <p className="text-black font-[Fredoka] text-xl md:text-2xl text-center">
+              {t("game_drys")}
+            </p>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 };

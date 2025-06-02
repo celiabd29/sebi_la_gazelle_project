@@ -118,5 +118,7 @@
   "loading": "Chargement...",
   "play_level": "Jouer au niveau",
   "game_content_placeholder": "Contenu du jeu pour ce niveau.",
-  "complete_level": "Terminer le niveau"
+  "complete_level": "Terminer le niveau",
+  "game_james": "Les super calculs de James le hibou",
+  "game_drys": "Les cachotteries de Drys l'écureuil"
 }

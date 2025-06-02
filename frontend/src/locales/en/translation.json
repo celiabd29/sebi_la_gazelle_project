@@ -112,5 +112,7 @@
   "loading": "Loading...",
   "play_level": "Play level",
   "game_content_placeholder": "Game content for this level.",
-  "complete_level": "Complete level"
+  "complete_level": "Complete level",
+  "game_james": "Super calculations with James the owl",
+  "game_drys": "The secrets of Drys the squirrel"
 }
