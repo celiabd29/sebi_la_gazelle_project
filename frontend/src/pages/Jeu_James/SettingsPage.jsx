@@ -1,13 +1,16 @@
 import React from "react";
-import ReturnButton from "../../components/compo_jeux/ReturnButton";
+import ReturnButton from "../../components/button-return";
 import BlocSonLang from "../../components/compo_jeux/BlocSonLang";
+import { useTranslation } from "react-i18next";
 
 const SettingPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <ReturnButton />
       <h2 className="text-6xl mt-20 font-bold text-center text-black font-[Fredoka]">
-        Paramètres
+        {t("settings")}
       </h2>
       <div className="flex justify-center items-center mt-40">
         <BlocSonLang />

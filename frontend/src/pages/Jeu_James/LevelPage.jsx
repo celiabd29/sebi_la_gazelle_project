@@ -1,66 +1,106 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ReturnButton from "../../components/compo_jeux/ReturnButton";
+import { useTranslation } from "react-i18next";
+import ReturnButton from "../../components/button-return";
+import SettingsButton from "../../components/button-settings";
+import Roll from "../../assets/img/Roll.webp";
+import RollMobile from "../../assets/img/RollMobile.webp";
+import Banderole from "../../assets/img/Banderole.webp";
+import TheTask from "../../assets/img/The_task.webp";
+import Classement from "../../assets/img/classement.webp";
 
 function LevelPage() {
-  const { id } = useParams(); // Récupère le numéro du niveau à partir de l'URL
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const levelNumber = id ? parseInt(id, 10) : null;
-  const navigate = useNavigate(); // Initialisation de useNavigate
 
-  // Définir le contenu du niveau en fonction de son numéro
   const getLevelContent = (level) => {
     switch (level) {
       case 1:
-        return "Bienvenue au Niveau 1 ! Résolvez cette énigme pour commencer.";
+        return t("level_1_text");
       case 2:
-        return "Niveau 2 : James le hibou a besoin de votre aide pour avancer.";
+        return t("level_2_text");
       case 3:
-        return "Niveau 3 : Un nouveau défi vous attend ici !";
-      // Ajoute plus de niveaux si nécessaire
+        return t("level_3_text");
+      case 4:
+        return t("level_4_text");
+      case 5:
+        return t("level_5_text");
       default:
-        return "Ce niveau n'existe pas encore. Revenez bientôt !";
+        return t("level_default_text");
     }
   };
 
   return (
-    <div>
-      <div className="relative min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden">
-        {/* Bulles animées */}
-        <div className="bubble bg-[#BDFEC4]"></div>
-        <div className="bubble bg-[#BDFEC4]"></div>
-        <div className="bubble bg-[#BDFEC4]"></div>
-        <div className="bubble bg-[#BDFEC4]"></div>
-        <div className="bubble bg-[#BDFEC4]"></div>
-        <div className="bubble bg-[#BDFEC4]"></div>
-        <div className="bubble bg-[#BDFEC4]"></div>
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden">
+      <ReturnButton />
+      <SettingsButton />
 
-        {/* Contenu principal */}
-        <ReturnButton />
-        <div className="bg-[url('../img/Roll.svg')] relative z-8 w-[61.3rem] h-[80vh]">
-          <div
-            className="relative z-10 flex flex-col items-center justify-center  "
-            style={{ fontFamily: "Fredoka" }}
-          >
-            <div className="bg-[url('../img/Banderole.svg')] relative z-9 w-[17rem] h-[10.2vh] flex items-center justify-center">
-              <h1 className="text-3xl text-white font-medium mb-6 ">
-                Niveau {levelNumber}
-              </h1>
-            </div>
-            <div className="bg-[url('../img/The_task.svg')] relative z-9 mt-8 w-[22rem] h-[21.7vh] flex items-end justify-center">
-              <p className="text-base text-[#DF514E] text-center mb-5 px-6">
-                {getLevelContent(levelNumber)}
-              </p>
-            </div>
-            <div className="bg-[url('../img/classement.svg')] relative z-9 mt-8 w-[29rem] h-[24vh]"></div>
-            <button
-              className="bg-[#BDFEC4] font-bold text-black text-2xl mt-5 px-9 py-2 rounded-lg shadow-md hover:bg-[#FF6D83] transition-all"
-              onClick={() => navigate(`/game/${levelNumber}`)} // Redirection vers la page de jeu
-            >
-              Commencer
-            </button>
-          </div>
-        </div>
+      {/* Mobile & tablette */}
+      <div
+        className="relative z-8 w-[95%] max-w-[36rem] md:hidden h-[90vh] bg-no-repeat bg-contain bg-center mt-10"
+        style={{ backgroundImage: `url(${RollMobile})` }}
+      >
+        <Content
+          levelNumber={levelNumber}
+          getLevelContent={getLevelContent}
+          navigate={navigate}
+          t={t}
+        />
       </div>
+
+      {/* Desktop */}
+      <div
+        className="relative z-8 hidden md:block w-[50rem] lg:w-[61.3rem] h-[80vh] bg-no-repeat bg-contain bg-center mt-14"
+        style={{ backgroundImage: `url(${Roll})` }}
+      >
+        <Content
+          levelNumber={levelNumber}
+          getLevelContent={getLevelContent}
+          navigate={navigate}
+          t={t}
+        />
+      </div>
+    </div>
+  );
+}
+
+function Content({ levelNumber, getLevelContent, navigate, t }) {
+  return (
+    <div
+      className="relative z-10 flex flex-col items-center justify-center"
+      style={{ fontFamily: "Fredoka" }}
+    >
+      <div
+        className="w-[14rem] h-[10.2vh] flex items-center justify-center bg-no-repeat bg-contain"
+        style={{ backgroundImage: `url(${Banderole})` }}
+      >
+        <h1 className="text-2xl text-white font-medium mb-6">
+          {t("level")} {levelNumber}
+        </h1>
+      </div>
+
+      <div
+        className="mt-8 w-[18rem] h-[20.7vh] flex items-end justify-center bg-no-repeat bg-contain"
+        style={{ backgroundImage: `url(${TheTask})` }}
+      >
+        <p className="text-base text-[#DF514E] text-center mb-5 px-6">
+          {getLevelContent(levelNumber)}
+        </p>
+      </div>
+
+      <div
+        className="mt-12 w-[20rem] h-[24vh] bg-no-repeat bg-contain"
+        style={{ backgroundImage: `url(${Classement})` }}
+      />
+
+      <button
+        onClick={() => navigate(`/jeuxJames/game/${levelNumber}`)}
+        className="bg-[#BDFEC4] font-bold text-black text-2xl mt-5 px-9 py-2 rounded-lg shadow-md hover:bg-[#FF6D83] transition-all"
+      >
+        {t("start")}
+      </button>
     </div>
   );
 }

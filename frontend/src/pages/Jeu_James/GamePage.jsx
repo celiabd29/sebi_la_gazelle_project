@@ -1,85 +1,178 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import GameLevel1 from "../Jeu_James/GameLevel1";
-import ReturnButton from "../../components/compo_jeux/ReturnButton";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import ReturnButton from "../../components/button-return";
+import SettingsButton from "../../components/button-settings";
 
-function GamePage() {
-  const { level } = useParams(); // Récupère le numéro du niveau à partir de l'URL
-  const levelNumber = level ? parseInt(level, 10) : null;
-  const navigate = useNavigate();
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-  // Définir le contenu du jeu en fonction du niveau
-  const getGameContent = (level) => {
-    switch (level) {
-      case 1:
-        return <GameLevel1 />;
-      case 2:
-        return {
-          title: "Niveau 2",
-          // description: "James le hibou a besoin de votre aide pour avancer.",
-          // challenge: "Résolvez cette soustraction : 9 - 5 = ?",
-        };
-      case 3:
-        return {
-          title: "Niveau 3",
-          // description: "Un nouveau défi vous attend ici !",
-          // challenge: "Faites cette multiplication : 6 × 7 = ?",
-        };
+function generateOperations(level) {
+  let operators = ["+"];
+  let max = 10;
+
+  switch (level) {
+    case 1:
+      operators = ["+"];
+      max = 10;
+      break;
+    case 2:
+      operators = ["+", "-"];
+      max = 20;
+      break;
+    case 3:
+      operators = ["×"];
+      max = 10;
+      break;
+    case 4:
+      operators = ["÷"];
+      max = 10;
+      break;
+    case 5:
+      operators = ["+", "-", "×", "÷"];
+      max = 20;
+      break;
+    default:
+      operators = ["+"];
+  }
+
+  const operations = [];
+  let attempts = 0;
+
+  while (operations.length < 9 && attempts < 1000) {
+    attempts++;
+    const left = getRandomInt(1, max);
+    const right = getRandomInt(1, max);
+    const operator = operators[getRandomInt(0, operators.length - 1)];
+
+    let answer;
+    switch (operator) {
+      case "+":
+        answer = left + right;
+        break;
+      case "-":
+        if (left < right) continue;
+        answer = left - right;
+        break;
+      case "×":
+        answer = left * right;
+        break;
+      case "÷":
+        if (right === 0 || left % right !== 0 || left / right > 10) continue;
+        answer = left / right;
+        break;
       default:
-        return {
-          title: "Ce niveau n'existe pas encore.",
-          description: "Revenez bientôt !",
-          challenge: "",
-        };
+        continue;
     }
+
+    operations.push({ left, right, operator, answer });
+  }
+
+  return operations;
+}
+
+const GamePage = () => {
+  const { level } = useParams();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const levelNumber = parseInt(level, 10) || 1;
+
+  const [operations, setOperations] = useState([]);
+  const [answers, setAnswers] = useState(Array(9).fill(""));
+  const [score, setScore] = useState(null);
+  const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    setOperations(generateOperations(levelNumber));
+    setAnswers(Array(9).fill(""));
+    setValidated(false);
+    setScore(null);
+  }, [levelNumber]);
+
+  const handleChange = (e, i) => {
+    const updated = [...answers];
+    updated[i] = e.target.value;
+    setAnswers(updated);
   };
 
-  const { title, description, challenge } = getGameContent(levelNumber);
+  const handleValidation = () => {
+    let newScore = 0;
+    answers.forEach((ans, index) => {
+      if (parseInt(ans) === operations[index].answer) {
+        newScore++;
+      }
+    });
+    setScore(newScore);
+    setValidated(true);
+
+    const stars =
+      newScore === 9 ? 3 : newScore >= 6 ? 2 : newScore >= 3 ? 1 : 0;
+    const fail = stars < 2;
+
+    navigate(
+      `/jeuxJames/fin/${levelNumber}?score=${newScore}&stars=${stars}&fail=${fail}`
+    );
+  };
+
+  if (operations.length === 0) return <p>{t("loading")}</p>;
 
   return (
-    <div>
-      <div className="relative min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden">
-        <ReturnButton />
+    <div className="min-h-screen bg-sky-100 relative flex flex-col items-center justify-center p-4">
+      <ReturnButton />
+      <SettingsButton />
 
-        {/* Contenu principal */}
-        <div
-          className="relative z-10 flex flex-col items-center justify-center"
-          style={{ fontFamily: "Fredoka" }}
-        >
-          <h1 className="text-4xl font-bold text-[#27812A] mb-6">{title}</h1>
-          <p className="text-lg text-gray-700 text-center mb-10 px-6">
-            {description}
-          </p>
-
-          {challenge && (
-            <div className="bg-[#FF6D83] text-white px-8 py-4 rounded-lg mb-6">
-              <p className="text-xl font-semibold">{challenge}</p>
-              {/* Formulaire de réponse ou interaction */}
-              <input
-                type="number"
-                placeholder="Votre réponse"
-                className="mt-4 p-2 rounded-lg"
-                // Ici tu peux ajouter une logique de vérification des réponses
-              />
-            </div>
-          )}
-
-          <button
-            className="bg-[#F9C474] text-black text-xl px-8 py-4 rounded-lg shadow-md hover:bg-[#FF6D83] transition-all"
-            onClick={() => {
-              if (levelNumber != null) {
-                navigate(`/game/${levelNumber + 1}`);
-              } else {
-                console.error("Le niveau est invalide");
-              }
-            }}
-          >
-            Suivant
-          </button>
+      <div className="flex flex-col items-center gap-2 mb-10 mt-[5rem] md:mt-4">
+        <div className="border-2 border-blue-400 rounded-full px-4 py-1 text-xl font-bold text-blue-700">
+          {t("level")} {levelNumber}
         </div>
       </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10 md:gap-14 mb-10 w-full px-2 max-w-5xl">
+        {operations.map((op, i) => {
+          const isCorrect = parseInt(answers[i]) === op.answer;
+          return (
+            <div
+              key={i}
+              className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap"
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white border-2 border-blue-400 rounded-lg flex items-center justify-center text-lg sm:text-xl font-bold">
+                {op.left}
+              </div>
+              <div className="text-lg sm:text-xl font-bold">{op.operator}</div>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white border-2 border-blue-400 rounded-lg flex items-center justify-center text-lg sm:text-xl font-bold">
+                {op.right}
+              </div>
+              <div className="text-lg sm:text-xl font-bold">=</div>
+              <input
+                type="text"
+                value={answers[i]}
+                onChange={(e) => handleChange(e, i)}
+                disabled={validated}
+                className={`w-10 h-10 sm:w-12 sm:h-12 text-center border-2 rounded-lg text-lg sm:text-xl font-bold 
+                  ${
+                    validated
+                      ? isCorrect
+                        ? "border-green-500 bg-green-100"
+                        : "border-red-500 bg-red-100"
+                      : "border-blue-400"
+                  }`}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {!validated && (
+        <button
+          onClick={handleValidation}
+          className="bg-green-500 text-white px-6 py-2 text-lg rounded-lg shadow hover:bg-green-600"
+        >
+          {t("validate")}
+        </button>
+      )}
     </div>
   );
-}
+};
 
 export default GamePage;

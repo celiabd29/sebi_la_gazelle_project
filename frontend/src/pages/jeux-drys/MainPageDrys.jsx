@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-import { useNavigate, Outlet } from 'react-router-dom';
-import ExitButton from "../../components/compo_jeux/ExitButton";
+import { useNavigate, Outlet } from "react-router-dom";
+import ExitButton from "../../components/button-exit";
 import LanguageButton from "../../components/LanguageSwitcher";
 import ActionButtons from "../../components/button-play";
 import background from "../../assets/img/background-jeu-drys.png"; // corriger le chemin si nécessaire
@@ -23,35 +23,33 @@ const MainPage = () => {
     return () => window.removeEventListener("click", handleFirstClick);
   }, [startSound]);
 
-
   const handleGameClick = () => {
-    navigate('/jeuxDrys/PalierPage');
+    navigate("/jeuxDrys/PalierPage");
   };
 
   useEffect(() => {
     const audio = new Audio(foretSound);
     audio.loop = true;
     audio.volume = 0.4;
-  
+
     const playSound = () => {
       audio.play().catch((e) => {
         console.log("Autoplay bloqué même après clic !");
       });
-  
+
       // Retirer l'écouteur une fois lancé
-      window.removeEventListener('click', playSound);
+      window.removeEventListener("click", playSound);
     };
-  
+
     // Attendre une interaction utilisateur
-    window.addEventListener('click', playSound);
-  
+    window.addEventListener("click", playSound);
+
     return () => {
       audio.pause();
       audio.currentTime = 0;
-      window.removeEventListener('click', playSound);
+      window.removeEventListener("click", playSound);
     };
   }, []);
-  
 
   return (
     <>
@@ -59,9 +57,9 @@ const MainPage = () => {
         className="min-h-screen flex flex-col justify-between"
         style={{
           backgroundImage: `url(${background})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <div>
