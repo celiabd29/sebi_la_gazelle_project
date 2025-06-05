@@ -3,7 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import SettingsButton from "../../components/button-settings";
 import ReturnButton from "../../components/button-return";
-import backgroundImage from "../../assets/img/backgroundJames.jpeg"; // adapte le nom si besoin
+import backgroundImage from "../../assets/img/backgroundJames.png"; // adapte le nom si besoin
+import { motion } from "framer-motion";
+import gameStartAudio from "../../assets/sounds/james_sounds/game_song.m4a";
+import warningAudio from "../../assets/sounds/drys_sounds/time_play.m4a";
+import sebiImage from "../../assets/img/tete-seb.png";
+import { useSound } from "../../contexts/SoundProvider";
+
+
 
 
 function getRandomInt(min, max) {
@@ -92,6 +99,15 @@ const GamePage = () => {
   const timerRef = useRef(null);
   const [gameStarted, setGameStarted] = useState(false);
 
+  const [showSebi, setShowSebi] = useState(false);
+  const warningTimeoutRef = useRef(null);
+  const audioRef = useRef(null);
+
+  const { soundOn, musicOn } = useSound();
+
+
+
+
 
   useEffect(() => {
     setOperations(generateOperations(levelNumber));
@@ -106,12 +122,43 @@ const GamePage = () => {
   const startGame = () => {
     setGameStarted(true);
     setValidated(false);
-    setTimeLeft(60); // 1 minute
+    setTimeLeft(60);
 
+    // Son de démarrage
+    if (musicOn) {
+      const gameAudio = new Audio(gameStartAudio);
+      audioRef.current = gameAudio;
+      gameAudio.play().catch(() => console.log("❌ autoplay bloqué"));
+    }
+
+
+    // Affiche Sebi pendant le son de démarrage
+    setShowSebi(true);
+    setTimeout(() => {
+      setShowSebi(false);
+    }, 4000); // il disparaît après 4 secondes (tu peux ajuster)
+
+    // Son d’avertissement après 30 sec
+    warningTimeoutRef.current = setTimeout(() => {
+      if (soundOn) {
+        const warn = new Audio(warningAudio);
+        warn.play();
+      }
+
+
+      // Réaffiche Sebi pendant l'avertissement
+      setShowSebi(true);
+      setTimeout(() => {
+        setShowSebi(false);
+      }, 4000); // pareil, durée affichage
+    }, 30000);
+
+    // Timer de 60s
     timerRef.current = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(timerRef.current);
+          clearTimeout(warningTimeoutRef.current);
           setValidated(true);
           navigate(`/jeuxJames/fin/${levelNumber}?score=0&stars=0&fail=true`);
           return 0;
@@ -119,7 +166,31 @@ const GamePage = () => {
         return prevTime - 1;
       });
     }, 1000);
+
+    useEffect(() => {
+      setOperations(generateOperations(levelNumber));
+      setAnswers(Array(3).fill(""));
+      setValidated(false);
+      setScore(null);
+      setTimeLeft(60);
+      setGameStarted(false);
+    }, [levelNumber]);
+
+    // 🔽 ICI
+    useEffect(() => {
+      return () => {
+        clearInterval(timerRef.current);
+        clearTimeout(warningTimeoutRef.current);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
+      };
+    }, []);
+
+
   };
+
 
 
 
@@ -137,6 +208,8 @@ const GamePage = () => {
 
   const handleValidation = () => {
     clearInterval(timerRef.current); // stop timer quand on valide
+    clearTimeout(warningTimeoutRef.current);
+
 
     let newScore = 0;
     answers.forEach((ans, index) => {
@@ -178,7 +251,8 @@ const GamePage = () => {
   if (operations.length === 0) return <p>{t("loading")}</p>;
 
 
-  
+
+    
   
 
   return (
@@ -194,6 +268,18 @@ const GamePage = () => {
           <ReturnButton />
         </div> 
       </div>
+
+      {showSebi && (
+        <motion.img
+          src={sebiImage}
+          alt="Sebi"
+          initial={{ x: -200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="xl:w-[450px] absolute xl:top-44 xl:left-[-130px] z-50 w-[200px] top-32 left-[-70px] md:w-[300px] md:top-40 md:left-[-100px] sm:w-[250px] sm:top-36 sm:left-[-90px] mobile:w-[150px] mobile:top-32 mobile:left-[-50px]"
+        />
+      )}
+
 
       <div className="flex flex-col items-center gap-4 mt-10 absolute top-12 left-1/2 transform -translate-x-1/2">
         <div className="text-white xl:text-4xl md:text-3xl text-2xl font-extrabold">
@@ -242,10 +328,9 @@ const GamePage = () => {
           return (
             <div
               key={i}
-              className={`flex items-center justify-center gap-3 flex-wrap ${
-                i === 1 ? "mt-[-100px]" : ""
-              }`}
+              className="w-full flex justify-center items-center gap-3 flex-wrap sm:flex-nowrap mb-6"
             >
+
 
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-blue-500 rounded-xl flex items-center justify-center text-2xl sm:text-3xl font-extrabold shadow-md"
 >

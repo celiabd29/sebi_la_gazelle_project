@@ -7,10 +7,21 @@ import ballImage from "../../assets/img/balle.webp";
 import backgroundImage from "../../assets/img/table-drys.png";
 import ReturnButton from "../../components/button-return";
 import LanguageButton from "../../components/LanguageSwitcher";
-import StarIcon from "../../assets/img/myrtille.png"; // ou le chemin correct
+import StarIcon from "../../assets/img/myrtille.png"; // ou le chemin correc
+import SettingsButton from "../../components/button-settings"; // Bouton pour les paramètres
+import commencerAudio from "../../assets/sounds/drys_sounds/commencer.m4a";
+import raterAudio from "../../assets/sounds/drys_sounds/rater_drys.m4a";
+import sebiImg from "../../assets/img/sebi_droite.png";
+import sebiTete from "../../assets/img/tete-seb.png"; // Image de Sebi pour le jeu
+import { useSound } from "../../contexts/SoundProvider"; // Contexte pour gérer le son
+import timeAudio from "../../assets/sounds/drys_sounds/time_play.m4a"; // Son de fin de temps
+
+
+
 
 
 const GameBoard = () => {
+  const { soundOn } = useSound(); // ✅ récupère l'état de la voix
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -35,12 +46,25 @@ const GameBoard = () => {
   const isLoggedIn = !!user;
   const [showWrongMessage, setShowWrongMessage] = useState(false);
 
+  const [sebiVisible, setSebiVisible] = useState(false);
+
+  const [triggeredWarnings, setTriggeredWarnings] = useState(0);
+
+
 
   const getProgressColor = (timeLeft) => {
-  if (timeLeft > 39) return "#22c55e"; // vert
-  if (timeLeft > 19) return "#f97316"; // orange
-  return "#ef4444"; // rouge
+    if (timeLeft > 39) return "#22c55e"; // vert
+    if (timeLeft > 19) return "#f97316"; // orange
+    return "#ef4444"; // rouge
+  };
+
+const showSebi = (duration = 4300) => {
+  setSebiVisible(true);
+  setTimeout(() => {
+    setSebiVisible(false);
+  }, duration);
 };
+
 
 
 
@@ -88,9 +112,11 @@ const GameBoard = () => {
   const [triesLeft, setTriesLeft] = useState(3);
 
   const handleCupClick = (index) => {
-    if (isShuffling || gameOver) return;
-  
-   if (cupPositions[index] === ballPosition) {
+  if (isShuffling || gameOver) return;
+
+  const isCorrect = cupPositions[index] === ballPosition;
+
+  if (isCorrect) {
     const stars = triesLeft;
     const score = stars * 15;
 
@@ -118,46 +144,65 @@ const GameBoard = () => {
 
     navigate(`/jeuxDrys/ScorePage?level=${level}&stars=${stars}&score=${score}`);
   } else {
+    // Cas : mauvaise réponse
     if (triesLeft > 1) {
       setTriesLeft((prev) => prev - 1);
+
+      if (soundOn) {
+        const raterSound = new Audio(raterAudio);
+        raterSound.play();
+      }
+
+
       setShowWrongMessage(true);
-      setBallVisible(true); // Montre la balle
+      showSebi(); // ✅ ici
+
+      setBallVisible(true);
+
       setTimeout(() => {
         setShowWrongMessage(false);
-        setBallVisible(false); // Cache la balle après l’aperçu
-        shuffleCups(); // Relance le mélange
+        setBallVisible(false);
+        shuffleCups();
       }, 2000);
-    } else {
+    }else {
+      // Dernier essai = pas de son
       navigate(`/jeuxDrys/ScorePage?level=${level}&stars=0&score=0`);
     }
   }
+};
 
-  };
   
 
 
-  // Démarre le jeu
-  const startGame = () => {
-    setGameStarted(true);
-    setGameOver(false);
-    setBallPosition(Math.floor(Math.random() * 3)); // Place la balle sous un gobelet aléatoire
-    setTimeLeft(initialTime);
+const startGame = () => {
+  if (soundOn) {
+    const audio = new Audio(commencerAudio);
+    audio.play();
+  }
 
-    timerRef.current = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timerRef.current);
-          setGameOver(true);
-          navigate(`/jeuxDrys/ScorePage?level=${level}&stars=0&score=0`);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+  showSebi();
+
+  setGameStarted(true);
+  setGameOver(false);
+  setBallPosition(Math.floor(Math.random() * 3));
+  setTimeLeft(initialTime);
+
+  timerRef.current = setInterval(() => {
+    setTimeLeft((prevTime) => {
+      if (prevTime <= 1) {
+        clearInterval(timerRef.current);
+        setGameOver(true);
+        navigate(`/jeuxDrys/ScorePage?level=${level}&stars=0&score=0`);
+        return 0;
+      }
+      return prevTime - 1;
+    });
+  }, 1000);
+
+  shuffleCups();
+};
 
 
-    shuffleCups();
-  };
 
   // Réinitialise le jeu
   const resetGame = () => {
@@ -176,19 +221,35 @@ const GameBoard = () => {
 
   const [cupOffset, setCupOffset] = useState(100); // Valeur mobile par défaut
 
-useEffect(() => {
-  const handleResize = () => {
-    const width = window.innerWidth;
-    if (width >= 1280) setCupOffset(200);     // xl
-    else if (width >= 768) setCupOffset(175); // md
-    else if (width >= 640) setCupOffset(140); // sm
-    else setCupOffset(80);                   // mobile
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width >= 1280) setCupOffset(200);     // xl
+      else if (width >= 768) setCupOffset(175); // md
+      else if (width >= 640) setCupOffset(140); // sm
+      else setCupOffset(80);                   // mobile
+    };
 
-  handleResize(); // au chargement
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
+    handleResize(); // au chargement
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!gameStarted) return;
+
+    if (timeLeft === 30 && triggeredWarnings === 0) {
+      if (soundOn) {
+        const warnAudio = new Audio(timeAudio);
+        warnAudio.play().catch((err) => {
+          console.error("⚠️ Son ne s’est pas lancé :", err);
+        });
+      }
+
+      showSebi();
+      setTriggeredWarnings(1); // Pour ne pas le rejouer
+    }
+  }, [timeLeft, soundOn, triggeredWarnings, gameStarted]);
 
 
  return (
@@ -196,19 +257,30 @@ useEffect(() => {
     className="min-h-screen flex flex-col justify-between bg-cover bg-center bg-no-repeat relative font-[Fredoka]"
     style={{ backgroundImage: `url(${backgroundImage})` }}
   >
-    {/* Top bar avec retour et langue */}
-    <div className="flex justify-between p-4">
-      <div className="absolute top-4 left-4">
-        <ReturnButton />
-      </div>
-      <div className="absolute top-4 right-4">
-        <LanguageButton />
-      </div>
+    <div className="absolute top-6 left-4">
+      <ReturnButton />
     </div>
+    <div className="absolute top-6 right-4 z-50">
+      <SettingsButton />
+    </div>
+
+    {sebiVisible && (
+      <motion.img
+        src={sebiTete}
+        alt="Sebi"
+        initial={{ x: -200, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: 200, opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        className="xl:w-[450px] absolute xl:top-44 xl:left-[-130px] z-50 w-[200px] top-32 left-[-70px] md:w-[300px] md:top-40 md:left-[-100px] sm:w-[250px] sm:top-36 sm:left-[-90px] mobile:w-[150px] mobile:top-32 mobile:left-[-50px]"
+        style={{ transform: "rotate(-45deg)" }} // ✅ flip horizontal
+      />
+    )}
 
     {/* Niveau + Timer */}
     <div className="absolute top-14 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
       <div className="text-white xl:text-4xl md:text-3xl text-2xl font-extrabold mb-2">Niveau {level}</div>
+      
 
       {/* Timer visible uniquement si le jeu est lancé */}
       {gameStarted && (

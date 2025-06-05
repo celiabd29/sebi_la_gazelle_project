@@ -21,6 +21,7 @@ import MainPageDrys from "./pages/jeux-drys/MainPageDrys";
 import PalierPageDrys from "./pages/jeux-drys/PalierPageDrys";
 import GamePageDrys from "./pages/jeux-drys/GamePage";
 import ScorePage from "./pages/jeux-drys/ScorePage";
+import SettingPage from "./pages/jeux-drys/SettingsPage";
 import { ConditionalProviders } from "./ConditionalProviders";
 
 // Jeu James
@@ -30,6 +31,7 @@ import SettingsPage from "./pages/Jeu_James/SettingsPage";
 import GamePage from "./pages/Jeu_James/GamePage";
 import LevelPage from "./pages/Jeu_James/LevelPage";
 import FinLevelPage from "./pages/Jeu_James/FinLevelPage";
+import LayoutJames from "./layouts/LayoutJames"; // ajoute ce import en haut
 
 // Autres sections
 import VerificationEmail from "./pages/Verification";
@@ -63,6 +65,7 @@ const router = createBrowserRouter([
       { path: "PalierPage", element: <PalierPageDrys /> },
       { path: "GamePage", element: <GamePageDrys /> },
       { path: "ScorePage", element: <ScorePage /> },
+      { path: "SettingPage", element: <SettingPage /> },
     ],
   },
   {
@@ -70,12 +73,23 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [{ path: "", element: <DashboardAccueil /> }],
   },
-  { path: "/jeuxJames", element: <MainPageJames /> },
-  { path: "/jeuxJames/settings", element: <SettingsPage /> },
-  { path: "/jeuxJames/tableau", element: <Tableau /> },
-  { path: "/jeuxJames/game/:level", element: <GamePage /> },
-  { path: "/jeuxJames/level/:id", element: <LevelPage /> },
-  { path: "/jeuxJames/fin/:level", element: <FinLevelPage /> },
+ {
+  path: "/jeuxJames",
+  element: (
+    <ConditionalProviders>
+      <LayoutJames />
+    </ConditionalProviders>
+  ),
+  children: [
+    { path: "", element: <MainPageJames /> },
+    { path: "settings", element: <SettingsPage /> },
+    { path: "tableau", element: <Tableau /> },
+    { path: "game/:level", element: <GamePage /> },
+    { path: "level/:id", element: <LevelPage /> },
+    { path: "fin/:level", element: <FinLevelPage /> },
+  ],
+},
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

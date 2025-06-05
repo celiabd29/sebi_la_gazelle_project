@@ -5,9 +5,11 @@ import { SoundProvider } from "./contexts/SoundProvider";
 export const ConditionalProviders = () => {
   const location = useLocation();
 
-  const isDrys = location.pathname.startsWith("/jeuxDrys");
+  const isJeu =
+    location.pathname.startsWith("/jeuxDrys") ||
+    location.pathname.startsWith("/jeuxJames");
 
-  return isDrys ? (
+  return isJeu ? (
     <SoundProvider>
       <Outlet />
     </SoundProvider>

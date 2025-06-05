@@ -5,6 +5,18 @@ import characterWinImage from "../../assets/img/drys_win.png";
 import characterLoseImage from "../../assets/img/drys_lose.png";
 import ReturnButton from "../../components/button-return";
 import lightImage from "../../assets/img/lumiere.png";
+import SettingsButton from "../../components/button-settings";
+import Confetti from "react-confetti";
+import { useWindowSize } from "@react-hook/window-size";
+import trompetteAudio from "../../assets/sounds/drys_sounds/lost.mp3";
+import confettiAudio from "../../assets/sounds/drys_sounds/win.mp3";
+import { useRef } from "react";
+import { useSound } from "../../contexts/SoundProvider";
+import Rain from "react-rain-animation";
+import "react-rain-animation/lib/style.css";
+
+
+
 
 
 
@@ -13,69 +25,121 @@ const ScorePage = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
 
+
   const stars = parseInt(queryParams.get("stars")) || 0;
   const level = parseInt(queryParams.get("level")) || 1;
   const score = parseInt(queryParams.get("score")) || 0;
+  const { musicOn } = useSound(); // ✅ on utilise musicOn maintenant
+
 
   const isSuccess = stars >= 2;
 
   const [totalStars, setTotalStars] = useState(0);
   const [leaderboard, setLeaderboard] = useState([]);
   const [userRank, setUserRank] = useState(null);
-  const user = JSON.parse(localStorage.getItem("utilisateur"));
+  const trompetteRef = useRef(null);
+  const audioRef = useRef(null);
+
+
+
+  const [width, height] = useWindowSize();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("utilisateur"));
+    if (isSuccess && musicOn) {
+      audioRef.current = new Audio(confettiAudio);
+      audioRef.current.volume = 0.5;
+      audioRef.current.play().catch(() => {});
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, [isSuccess, musicOn]);
+
+
+  useEffect(() => {
+    if (!isSuccess && musicOn) {
+      trompetteRef.current = new Audio(trompetteAudio);
+      trompetteRef.current.volume = 0.4;
+      trompetteRef.current.play().catch(() => {});
+    }
+
+    return () => {
+      if (trompetteRef.current) {
+        trompetteRef.current.pause();
+        trompetteRef.current.currentTime = 0;
+      }
+    };
+  }, [isSuccess, musicOn]);
+
+
+
+
+ useEffect(() => {
+  const storedUser = JSON.parse(localStorage.getItem("utilisateur"));
+
+  const saveScore = async () => {
     if (!storedUser || !storedUser._id) return;
 
-    const saveScore = async () => {
-      await fetch("http://localhost:8008/api/scores", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: storedUser._id,
-          gameName: "Drys",
-          level,
-          stars,
-        }),
+    await fetch("http://localhost:8008/api/scores", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: storedUser._id,
+        gameName: "Drys",
+        level,
+        stars,
+      }),
+    });
+  };
+
+  const fetchTotalStars = async () => {
+    if (!storedUser || !storedUser._id) return;
+
+    const res = await fetch(`http://localhost:8008/api/scores/${storedUser._id}?gameName=Drys`);
+    const data = await res.json();
+
+    if (Array.isArray(data)) {
+      const maxStarsByLevel = {};
+      data.forEach((entry) => {
+        const level = entry.level;
+        if (!maxStarsByLevel[level] || entry.stars > maxStarsByLevel[level]) {
+          maxStarsByLevel[level] = entry.stars;
+        }
       });
-    };
+      const total = Object.values(maxStarsByLevel).reduce((sum, stars) => sum + stars, 0);
+      setTotalStars(total);
+    }
+  };
 
-    const fetchTotalStars = async () => {
-      const res = await fetch(`http://localhost:8008/api/scores/${storedUser._id}?gameName=Drys`);
-      const data = await res.json();
+  const fetchLeaderboard = async () => {
+    const res = await fetch(`http://localhost:8008/api/scores/leaderboard?gameName=Drys`);
+    const data = await res.json();
 
-      if (Array.isArray(data)) {
-        const maxStarsByLevel = {};
-        data.forEach((entry) => {
-          const level = entry.level;
-          if (!maxStarsByLevel[level] || entry.stars > maxStarsByLevel[level]) {
-            maxStarsByLevel[level] = entry.stars;
-          }
-        });
-        const total = Object.values(maxStarsByLevel).reduce((sum, stars) => sum + stars, 0);
-        setTotalStars(total);
-      }
-    };
+    if (Array.isArray(data)) {
+      setLeaderboard(data);
 
-    const fetchLeaderboard = async () => {
-      const res = await fetch(`http://localhost:8008/api/scores/leaderboard?gameName=Drys`);
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setLeaderboard(data);
-        const foundIndex = data.findIndex((entry) => entry.userId?.toString() === user._id);
+      if (storedUser && storedUser._id) {
+        const foundIndex = data.findIndex((entry) => entry.userId?.toString() === storedUser._id);
         if (foundIndex !== -1) setUserRank(foundIndex + 1);
       }
-    };
+    }
+  };
 
-    const runAll = async () => {
-      await saveScore();
-      await fetchTotalStars();
-      await fetchLeaderboard();
-    };
+  const runAll = async () => {
+    await Promise.all([
+      saveScore(),
+      fetchTotalStars(),
+      fetchLeaderboard()
+    ]);
+  };
 
-    runAll();
-  }, []);
+  runAll();
+}, [level, stars]);
+
 
   const handleReplay = () => {
     navigate(`/jeuxDrys/GamePage?level=${level}`);
@@ -89,14 +153,23 @@ const ScorePage = () => {
     navigate("/jeuxDrys/PalierPage");
   };
 
+  
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center text-center pt-28 xl:pt-0
- ${isSuccess ? "bg-[#65B76E]" : "bg-[#ff95ac]"}`}>
+    ${isSuccess ? "bg-[#65B76E]" : "bg-[#ff95ac]"}`}>
 
-    {/* Retour */}
-    <div className="absolute top-4 left-4">
+    {isSuccess && <Confetti width={width} height={height} />}
+   
+
+
+
+
+    <div className="absolute top-6 left-4">
       <ReturnButton />
+    </div>
+    <div className="absolute top-6 right-4 z-50">
+      <SettingsButton />
     </div>
 
 
@@ -194,7 +267,7 @@ const ScorePage = () => {
           <ul className="space-y-4">
             {leaderboard.slice(0, 3).map((entry, index) => (
               <li
-                key={entry.userId}
+                key={entry.userId || index}
                 className="flex items-center justify-between rounded-xl px-3 py-2 shadow-sm"
               >
                 <span className="text-xl font-extrabold text-white drop-shadow-md">{index + 1}</span>

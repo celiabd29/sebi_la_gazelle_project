@@ -2,15 +2,30 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReturnButton from "../../components/button-return";
 import SettingsButton from "../../components/button-settings";
-import StarIcon from "../../assets/img/star.png"; // Même icône qu'avec Drys
+import StarIcon from "../../assets/img/star.png";
 import LockIcon from "../../assets/img/icons/lock.png";
-import backgroundImage from "../../assets/img/backgroundJames.jpeg"; // adapte le nom si besoin
+import backgroundImage from "../../assets/img/backgroundJames.png";
+
+import sebiImage from "../../assets/img/sebi_gauche.png";
+import palierVoice from "../../assets/sounds/james_sounds/palier_song.m4a";
+
+import { motion } from "framer-motion";
+import { useSound } from "../../contexts/SoundProvider";
 
 const rowColors = ["#94E7FC", "#F9C474", "#FF6D83"];
 
 function Tableau() {
   const navigate = useNavigate();
   const [levels, setLevels] = useState([]);
+  const { soundOn } = useSound();
+
+  useEffect(() => {
+    if (soundOn) {
+      const voice = new Audio(palierVoice);
+      voice.volume = 0.5;
+      voice.play().catch(() => console.log("🔇 Lecture palier_song bloquée"));
+    }
+  }, [soundOn]);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("utilisateur"));
@@ -53,11 +68,30 @@ function Tableau() {
   };
 
   return (
-   <div
-    className="relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center overflow-hidden"
-    style={{ backgroundImage: `url(${backgroundImage})` }}
-  >
+    <div
+      className="relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center overflow-hidden"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      {/* Sebi animé */}
+      <motion.img
+        src={sebiImage}
+        alt="Sebi"
+        initial={{ x: -300, opacity: 0, scale: 0.9 }}
+        animate={{
+          x: 0,
+          opacity: 1,
+          scale: [1, 1.1, 1],
+          y: [0, -20, 0],
+        }}
+        transition={{
+          duration: 1.2,
+          delay: 0.2,
+          ease: "easeOut",
+        }}
+        className="w-[300px] top-[65%] left-[-5%] xl:left-[30%] xl:top-[65%] xl:w-[400px] sm:w-[320px] sm:left-[5%] md:w-[360px] md:top-[62%] md:left-[15%]  absolute   transform -translate-x-1/2 -translate-y-1/2 object-contain z-50"
+      />
 
+      {/* Boutons */}
       <div className="absolute top-6 left-4">
         <ReturnButton />
       </div>
@@ -65,6 +99,7 @@ function Tableau() {
         <SettingsButton />
       </div>
 
+      {/* Tableau */}
       <div
         className="bg-green-700 rounded-xl p-6 sm:p-10 shadow-lg w-full max-w-4xl"
         style={{ border: "16px solid #CE7F42" }}
