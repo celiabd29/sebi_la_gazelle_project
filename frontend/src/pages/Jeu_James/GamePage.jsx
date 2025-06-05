@@ -125,7 +125,7 @@ const GamePage = () => {
     setTimeLeft(60);
 
     // Son de démarrage
-    if (musicOn) {
+    if (soundOn) {
       const gameAudio = new Audio(gameStartAudio);
       audioRef.current = gameAudio;
       gameAudio.play().catch(() => console.log("❌ autoplay bloqué"));
