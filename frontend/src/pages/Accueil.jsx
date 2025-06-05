@@ -25,7 +25,7 @@ const Accueil = () => {
       <SectionJeux />
       <APropos />
       <Avis />
-      <Footer backgroundImage={backgroundImage} />
+      <Footer />
     </div>
   );
 };

@@ -42,26 +42,29 @@ const Inscription = () => {
 
   return (
     <section
-      className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-start pt-10 px-6"
+      className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center pt-20 px-4 sm:px-6 md:justify-start md:px-10"
       style={{ backgroundImage: `url(${Background})` }}
     >
-      <div className="relative w-full max-w-xl bg-white/90 rounded-[2.5rem] shadow-xl border-[5px] border-[#FFE6C7] px-8 py-8 backdrop-blur-md font-[Fredoka] scale-[0.93] mr-auto ml-16">
+      <div className="relative w-full max-w-[90%] md:max-w-xl bg-white/90 rounded-[2rem] md:rounded-[2.5rem] shadow-xl border-[5px] border-[#FFE6C7] px-6 py-8 md:px-8 md:py-10 backdrop-blur-md font-[Fredoka] mx-auto md:ml-16">
         {/* Bouton de langue */}
         <button
           onClick={toggleLangue}
-          className="absolute top-4 right-6 text-sm text-[#4B2A13] bg-[#FFD6A5] px-4 py-1 rounded-full shadow hover:bg-[#FFC28A] transition"
+          className="absolute top-4 right-4 text-sm text-[#4B2A13] bg-[#FFD6A5] px-4 py-1 rounded-full shadow hover:bg-[#FFC28A] transition"
         >
           {i18n.language === "fr" ? "EN" : "FR"}
         </button>
 
-        <h2 className="text-4xl text-center font-[Fredoka] text-[#4B2A13] mb-4">
+        <h2 className="text-3xl md:text-4xl text-center text-[#4B2A13] mb-6">
           {t("register_title")}
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 text-base md:text-lg"
+        >
           {/* Prénom */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_firstname_label")}
             </label>
             <input
@@ -79,7 +82,7 @@ const Inscription = () => {
 
           {/* Nom */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_name_label")}
             </label>
             <input
@@ -95,7 +98,7 @@ const Inscription = () => {
 
           {/* Date de naissance */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_birthdate_label")}
             </label>
             <input
@@ -114,7 +117,7 @@ const Inscription = () => {
 
           {/* Email */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_email_label")}
             </label>
             <input
@@ -130,7 +133,7 @@ const Inscription = () => {
 
           {/* Mot de passe */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_password_label")}
             </label>
             <input
@@ -151,7 +154,7 @@ const Inscription = () => {
 
           {/* Avatar */}
           <div>
-            <label className="text-[#804000] mb-2 block text-lg">
+            <label className="text-[#804000] mb-2 block">
               {t("form_avatar_label")}
             </label>
             <div className="flex justify-center gap-4">
@@ -174,7 +177,7 @@ const Inscription = () => {
           {/* Bouton d’inscription */}
           <button
             type="submit"
-            className="mt-4 bg-[#FFB570] hover:bg-[#FF994D] text-white text-lg font-medium py-3 rounded-full shadow-md transition"
+            className="mt-4 bg-[#FFB570] hover:bg-[#FF994D] text-white text-lg font-medium py-3 rounded-full shadow-md transition w-full"
           >
             {t("register_button")}
           </button>

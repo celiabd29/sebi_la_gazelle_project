@@ -8,7 +8,7 @@ import footerRose from "../../assets/img/footer/footer_rose.png";
 import footerMarron from "../../assets/img/footer/footer_marron.png";
 import footerJaune from "../../assets/img/footer/footer_jaune.png";
 
-const Footer = () => {
+const Footer = (props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
@@ -23,16 +23,21 @@ const Footer = () => {
     { label: t("footer.contact"), to: "/contact" },
   ];
 
-  // Mapping des routes vers les images
   const footerBackgrounds = {
     "/": footerVert,
     "/jeux": footerMarron,
     "/personnages": footerRose,
     "/contact": footerJaune,
+    "/mentions": footerJaune,
+    "/confidentialite": footerVert,
   };
 
-  // Image de fond selon la route, valeur par défaut si route non définie
-  const backgroundImage = footerBackgrounds[location.pathname] || footerMarron;
+  // 👇 Priorité au backgroundImage passé en prop
+  const backgroundImage =
+    props.backgroundImage ||
+    footerBackgrounds[location.pathname] ||
+    footerMarron;
+
   return (
     <footer
       className="relative bg-cover bg-no-repeat pt-28 bg-right tablette:bg-top-right"
@@ -111,6 +116,16 @@ const Footer = () => {
         <div className="text-center mb-2 text-black">
           <Link to="/mentions" className="font-fredoka hover:text-fondOrange">
             {t("footer.legal")}
+          </Link>
+        </div>
+
+        {/* Politique de confidentialité */}
+        <div className="text-center mb-4 text-black">
+          <Link
+            to="/confidentialite"
+            className="font-fredoka hover:text-fondOrange"
+          >
+            {t("footer.privacy")}
           </Link>
         </div>
 

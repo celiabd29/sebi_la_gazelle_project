@@ -19,7 +19,7 @@
     "description": "Oh là là, Drys l’écureuil est un petit coquin, il mange en cachette ! Viens aider Sebi la gazelle à retrouver les petites gourmandises que Drys l’écureuil a cachées sous des gobelets ! Est-ce que tu pourras deviner où il les a mises ? Attention, plus tu avances dans le jeu, plus les gobelets bougeront vite ! Est-ce que tu es prêt(e) à relever le défi ?"
   },
   "avis": {
-    "title": "ILS NOUS ONT FAIT CONFIANCE !",
+    "title": "LES AVIS",
     "daysAgo": "il y a {{count}} jour",
     "daysAgo_plural": "il y a {{count}} jours",
     "1": {
@@ -80,8 +80,10 @@
     "contact": "Contact",
     "rights": "©2024, Sebi La Gazelle. Tous droits réservés.",
     "legal": "Mentions légales",
+    "privacy": "Politique de confidentialité",
     "language": "Français"
   },
+
   "title_james": "Super calculs avec James le hibou",
   "start_game": "Commencer",
   "level": "Niveau",
@@ -151,5 +153,81 @@
   "form_birthdate_label": "Date de naissance",
   "form_birthdate_required": "La date de naissance est requise",
   "form_password_min": "Minimum 6 caractères",
-  "form_avatar_label": "Choisis ton avatar :"
+  "form_avatar_label": "Choisis ton avatar :",
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "intro": "Chez Sebi la gazelle, nous attachons une grande importance à la confidentialité et à la sécurité des données personnelles de nos utilisateurs, en particulier lorsqu’il s’agit des enfants. Cette politique de confidentialité explique quelles informations nous collectons, comment nous les utilisons et les protégeons.",
+    "1": {
+      "title": "1. Collecte des Informations Personnelles",
+      "desc": "Nous pouvons collecter certaines informations personnelles pour améliorer l’expérience utilisateur. Cela peut inclure :",
+      "item1": "Le prénom ou pseudonyme de l’enfant",
+      "item2": "L’âge de l’enfant",
+      "item3": "Les avis des parents sur les jeux proposés",
+      "note": "Aucune information sensible, comme l’adresse ou des données de localisation précises, n’est collectée."
+    },
+    "2": {
+      "title": "2. Utilisation des Informations",
+      "desc": "Les informations collectées nous aident à :",
+      "item1": "Améliorer et personnaliser les contenus de jeu pour rendre l'expérience plus adaptée aux enfants",
+      "item2": "Recevoir des retours des parents afin de développer de nouvelles fonctionnalités"
+    },
+    "3": {
+      "title": "3. Partage des Informations",
+      "desc": "Les informations collectées sont strictement confidentielles et ne sont pas partagées avec des tiers, sauf dans les cas où cela est nécessaire pour fournir le service (comme des partenaires techniques ou des services d’hébergement sécurisés)."
+    },
+    "4": {
+      "title": "4. Sécurité des Informations",
+      "desc": "Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles pour protéger les données contre tout accès, modification, divulgation ou destruction non autorisés. Par exemple, toutes les informations sensibles sont stockées de manière sécurisée et cryptée."
+    },
+    "5": {
+      "title": "5. Droits des Utilisateurs",
+      "desc": "Les parents ont le droit de :",
+      "item1": "Accéder aux informations collectées concernant leur enfant",
+      "item2": "Demander la modification ou la suppression de ces informations",
+      "note": "Pour exercer ces droits, veuillez nous contacter à l'adresse suivante :"
+    },
+    "6": {
+      "title": "6. Modifications de cette Politique de Confidentialité",
+      "desc": "Cette politique de confidentialité peut être modifiée de temps à autre pour refléter les évolutions de nos pratiques ou pour des raisons légales. Nous vous informerons de toute modification via contact@sebilagazelle.fr."
+    },
+    "7": {
+      "title": "7. Contact",
+      "desc": "Pour toute question concernant cette politique de confidentialité ou le traitement des données personnelles, n’hésitez pas à nous contacter :",
+      "item1": "Email : contact@sebilagazelle.fr",
+      "item2": "Adresse postale : Paris"
+    }
+  },
+  "legal": {
+    "title": "Mentions légales",
+    "1": {
+      "title": "1. Éditeur du site",
+      "desc": "Le site sebilagazelle.fr est un projet scolaire développé dans le cadre d’un travail universitaire. Il est géré par un collectif de trois étudiants :",
+      "member1": "Dhaou Noussaïba",
+      "member2": "Abbad Célia",
+      "member3": "Eleisawy Mohamed",
+      "contact": "Pour toute question ou réclamation, vous pouvez nous contacter à l’adresse suivante :"
+    },
+    "2": {
+      "title": "2. Hébergement",
+      "host": "Le site est hébergé par la société suivante :"
+    },
+    "3": {
+      "title": "3. Propriété intellectuelle",
+      "desc1": "Tous les contenus (textes, images, illustrations, éléments graphiques, sons, vidéos, etc.) présents sur ce site sont la propriété exclusive des auteurs du projet ou ont été utilisés avec les autorisations nécessaires dans le cadre scolaire.",
+      "desc2": "Toute reproduction, diffusion ou utilisation sans autorisation est interdite, sauf dans le cadre d’un usage strictement personnel et non commercial."
+    },
+    "4": {
+      "title": "4. Données personnelles",
+      "desc1": "Ce site ne collecte pas de données personnelles sensibles. Certaines informations peuvent être collectées à des fins pédagogiques (pseudonyme, âge) mais ne sont en aucun cas transmises à des tiers. Pour plus de détails, consultez notre",
+      "link": "politique de confidentialité"
+    },
+    "5": {
+      "title": "5. Cookies",
+      "desc": "Le site peut utiliser des cookies pour améliorer l’expérience utilisateur. Aucune donnée n’est exploitée à des fins publicitaires ou commerciales."
+    }
+  },
+  "sectionJeux": {
+    "james": "Sebi la gazelle t'invite à jouer avec elle pour compter ensemble ! Son copain James le hibou adore les nombres. Il va te poser des petits calculs, et tu devras trouver la réponse super vite, avant que le temps ne soit écoulé ! Plus tu gagnes des points, plus les calculs deviennent difficiles ! Tu es prêt(e) à relever le défi ?",
+    "drys": "Oh là là, Drys l’écureuil est un petit coquin, il mange en cachette ! Viens aider Sebi la gazelle à retrouver les petites gourmandises que Drys l’écureuil a cachées sous des gobelets ! Est-ce que tu pourras deviner où il les a mises ? Attention, plus tu avances dans le jeu, plus les gobelets bougeront vite ! Est-ce que tu es prêt(e) à relever le défi ?"
+  }
 }

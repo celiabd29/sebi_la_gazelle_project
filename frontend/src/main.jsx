@@ -15,6 +15,9 @@ import Contact from "./pages/Contact";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import Mentions from "./pages/Mentions";
+import Page404 from "./pages/Page404";
+import Page501 from "./pages/Page501.jsx";
+import ConfidentialitePage from "./pages/ConfidentialitePage.jsx";
 
 // Jeu Drys
 import MainPageDrys from "./pages/jeux-drys/MainPageDrys";
@@ -51,8 +54,11 @@ const router = createBrowserRouter([
       { path: "/inscription", element: <Inscription /> },
       { path: "/connexion", element: <Connexion /> },
       { path: "/mentions", element: <Mentions /> },
+      { path: "/confidentialite", element: <ConfidentialitePage /> },
       { path: "/verification", element: <VerificationEmail /> },
       { path: "/profil", element: <Profil /> },
+      { path: "*", element: <Page404 /> },
+      { path: "/501", element: <Page501 /> },
     ],
   },
   {

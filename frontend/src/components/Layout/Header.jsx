@@ -133,14 +133,11 @@ const Header = () => {
 
       {/* Menu mobile */}
       <div
-        className={`lg:hidden fixed top-0 right-0 h-full w-2/3 z-[999] 
-          bg-white shadow-xl transition-all duration-300 ease-in-out transform
-          ${
-            isMenuOpen
-              ? "translate-x-0"
-              : "translate-x-full pointer-events-none"
-          }
-        `}
+        className={`lg:hidden fixed top-0 right-0 h-full w-2/3 z-[999]
+    bg-white/20 backdrop-blur-xl shadow-xl
+    transition-all duration-300 ease-in-out transform
+    ${isMenuOpen ? "translate-x-0" : "translate-x-full pointer-events-none"}
+  `}
       >
         {/* Bouton fermeture */}
         <button
@@ -150,7 +147,7 @@ const Header = () => {
           ✕
         </button>
 
-        <div className="flex flex-col items-center justify-center gap-6 mt-20">
+        <div className="flex flex-col items-center justify-center gap-6 mt-20 font-fredoka">
           {[...links, { name: "Connexion", path: "/connexion" }].map(
             (link, index) => (
               <NavLink

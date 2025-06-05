@@ -18,7 +18,7 @@ const Jeux = () => {
       >
         <div className="absolute inset-0 bg-white bg-opacity-40 backdrop-blur-sm z-0" />
 
-        <div className="relative z-10 flex flex-col md:flex-row justify-center items-center gap-20 mt-12 md:mt-24">
+        <div className="relative z-10 flex flex-col md:flex-row justify-center items-center gap-24 mt-16 md:mt-28">
           {/* James */}
           <Link
             to="/jeuxJames"
@@ -27,9 +27,10 @@ const Jeux = () => {
             <img
               src={JamesCard}
               alt="James le hibou"
-              className="w-[18rem] md:w-[25rem] rounded-[2.5rem] shadow-md hover:scale-105 transition duration-300"
+              className="w-[18rem] h-[14rem] md:w-[30rem] md:h-[23rem] rounded-[2.5rem] shadow-md hover:scale-105 transition duration-300 object-cover"
             />
-            <p className="text-black font-[Fredoka] text-xl md:text-2xl text-center">
+
+            <p className="text-black text-xl md:text-2xl text-center">
               {t("game_james")}
             </p>
           </Link>
@@ -42,9 +43,10 @@ const Jeux = () => {
             <img
               src={DrysCard}
               alt="Drys l'écureuil"
-              className="w-[18rem] md:w-[25rem] rounded-[2.5rem] shadow-md hover:scale-105 transition duration-300"
+              className="w-[18rem] h-[14rem] md:w-[30rem] md:h-[23rem] rounded-[2.5rem] shadow-md hover:scale-105 transition duration-300 object-cover"
             />
-            <p className="text-black font-[Fredoka] text-xl md:text-2xl text-center">
+
+            <p className="text-black text-xl md:text-2xl text-center">
               {t("game_drys")}
             </p>
           </Link>
