@@ -4,11 +4,13 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Background from "/src/assets/img/accueil/contact.png";
 import { useTranslation } from "react-i18next";
+import logo from "../assets/img/logo-sebi.webp";
 
 const Connexion = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { enregistrerUtilisateur } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -50,9 +52,17 @@ const Connexion = () => {
 
   return (
     <section
-      className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center pt-20 px-4 sm:px-6 md:justify-start md:px-10"
+      className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center pt-20 px-4 sm:px-6 md:justify-start md:px-10"
       style={{ backgroundImage: `url(${Background})` }}
     >
+      {/* Logo centré en haut */}
+      <Link
+        to="/"
+        className="absolute top-6 left-1/2 transform -translate-x-1/2 z-50"
+      >
+        <img src={logo} alt="Logo Sebi la gazelle" className="w-20 h-20" />
+      </Link>
+
       <div className="relative w-full max-w-[90%] md:max-w-xl bg-white/90 rounded-[2rem] md:rounded-[2.5rem] shadow-xl border-[5px] border-[#FFE6C7] px-6 py-8 md:px-8 md:py-10 backdrop-blur-md font-[Fredoka] mx-auto md:ml-16">
         {/* Bouton langue */}
         <button
@@ -70,6 +80,7 @@ const Connexion = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-5 text-base md:text-lg"
         >
+          {/* Email */}
           <div>
             <label className="text-[#804000] mb-1 block">
               {t("form_email_label") || "Email"}
@@ -89,6 +100,7 @@ const Connexion = () => {
             )}
           </div>
 
+          {/* Mot de passe */}
           <div>
             <label className="text-[#804000] mb-1 block">
               {t("form_password_label") || "Mot de passe"}
@@ -108,6 +120,7 @@ const Connexion = () => {
             )}
           </div>
 
+          {/* Bouton connexion */}
           <button
             type="submit"
             className="mt-4 bg-[#FFB570] hover:bg-[#FF994D] text-white text-lg font-medium py-3 rounded-full shadow-md transition w-full"
@@ -116,6 +129,7 @@ const Connexion = () => {
           </button>
         </form>
 
+        {/* Lien vers inscription */}
         <p className="text-center text-[#4B2A13] mt-6 text-sm md:text-base">
           {t("no_account") || "Tu n'as pas de compte ?"}{" "}
           <Link

@@ -36,23 +36,25 @@ const App = () => {
         <Route path="/jeux" element={<Jeux />} />
         <Route path="/personnages" element={<Personnage />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/connexion" element={<Connexion />} />
-        <Route path="/inscription" element={<Inscription />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route
           path="/politique-confidentialite"
           element={<PolitiqueConfidentialite />}
         />
       </Route>
-
-      {/* Layout minimal pour les pages du jeu de James */}
+      <Route path="/connexion" element={<Connexion />} />
+      <Route path="/inscription" element={<Inscription />} />
+      {/* Layout minimal pour les pages connexions/inscriptions */}
       <Route element={<LayoutMinimal />}>
+        {/* Pages jeu de James */}
         <Route path="/jeu-james/home" element={<HomeJames />} />
         <Route path="/jeu-james/settings" element={<SettingsPage />} />
         <Route path="/jeu-james/game" element={<GamePageJames />} />
         <Route path="/jeu-james/level" element={<LevelPage />} />
         <Route path="/jeu-james/tableau" element={<Tableau />} />
         <Route path="/jeu-james/fin" element={<FinLevelPage />} />
+
+        {/* Pages jeu de Drys */}
         <Route path="/jeu-drys/main" element={<MainPageDrys />} />
         <Route path="/jeu-drys/start" element={<StartGameDrys />} />
         <Route path="/jeu-drys/game" element={<GamePageDrys />} />

@@ -1,11 +1,7 @@
 import InscriptionForm from "../components/InscriptionForm";
 
 const Inscription = () => {
-    return (
-        <div>
-            <InscriptionForm />
-        </div>
-    );
-}
+  return <InscriptionForm />;
+};
 
 export default Inscription;
