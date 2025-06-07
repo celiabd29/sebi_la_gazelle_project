@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import axios from "axios";
 import confetti from "canvas-confetti";
-import Background from "/src/assets/img/accueil/contact.png";
+import Background from "/src/assets/img/accueil/contact.webp";
 
 const HeroSectionContact = () => {
   const { t } = useTranslation();

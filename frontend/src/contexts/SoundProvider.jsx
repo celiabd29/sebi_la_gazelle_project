@@ -1,41 +1,32 @@
-import { createContext, useContext, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+// SoundProvider.jsx
+import { createContext, useContext, useRef } from "react";
 import foretSound from "../assets/sounds/foret.wav";
 
 const SoundContext = createContext();
 
 export const SoundProvider = ({ children }) => {
   const audioRef = useRef(null);
-  const location = useLocation();
 
-  useEffect(() => {
-    const isDrysRoute = location.pathname.startsWith("/jeuxDrys");
-
-    if (isDrysRoute) {
-      if (!audioRef.current) {
-        const audio = new Audio(foretSound);
-        audio.loop = true;
-        audio.volume = 0.4;
-        audioRef.current = audio;
-        audio.play().catch(() => {
-          console.log("Autoplay bloqué");
-        });
-      } else {
-        audioRef.current.play().catch(() => {});
-      }
+  const play = () => {
+    if (!audioRef.current) {
+      const audio = new Audio(foretSound);
+      audio.loop = true;
+      audio.volume = 0.4;
+      audioRef.current = audio;
+      audio.play().catch(() => console.log("Autoplay bloqué"));
     } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
+      audioRef.current.play().catch(() => {});
     }
+  };
 
-    return () => {
-      // Ne rien faire ici, le son reste si on est toujours dans /jeuxDrys
-    };
-  }, [location.pathname]);
+  const pause = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+  };
 
   return (
-    <SoundContext.Provider value={{}}>
+    <SoundContext.Provider value={{ play, pause }}>
       {children}
     </SoundContext.Provider>
   );

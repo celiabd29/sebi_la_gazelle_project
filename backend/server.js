@@ -8,7 +8,8 @@ const { MongoClient } = require("mongodb");
 dotenv.config();
 
 // ✅ Connexion Mongoose (utilisateurs, authentification)
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Mongoose connecté (utilisateurs)"))
   .catch((err) => {
     console.error("❌ Erreur Mongoose :", err);
@@ -19,6 +20,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ✅ Sert les fichiers statiques (ex: avatars dans /uploads)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // ✅ Connexion MongoClient pour les scores
 MongoClient.connect(process.env.MONGO_URI)
   .then((client) => {
@@ -26,10 +30,14 @@ MongoClient.connect(process.env.MONGO_URI)
 
     // ✅ Injecte db dans les routes scores
     const scoreRoutes = require("./routes/scoreRoutes");
-    app.use("/api/scores", (req, res, next) => {
-      req.db = db;
-      next();
-    }, scoreRoutes);
+    app.use(
+      "/api/scores",
+      (req, res, next) => {
+        req.db = db;
+        next();
+      },
+      scoreRoutes
+    );
 
     // ✅ Autres routes (Mongoose)
     app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
@@ -50,7 +58,6 @@ MongoClient.connect(process.env.MONGO_URI)
     app.listen(PORT, () => {
       console.log(`🚀 Serveur démarré : http://localhost:${PORT}`);
     });
-
   })
   .catch((err) => {
     console.error("❌ Erreur MongoClient (scores) :", err);

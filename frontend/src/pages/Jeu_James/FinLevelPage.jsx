@@ -1,140 +1,250 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import StarIcon from "../../assets/img/star.png";
+import characterWinImage from "../../assets/img/james_le_hibou-heureux.webp";
+import characterLoseImage from "../../assets/img/james_le_hibou_pleure.webp";
+import lightImage from "../../assets/img/lumiere.png";
 import ReturnButton from "../../components/button-return";
 import SettingsButton from "../../components/button-settings";
-import StarFull from "../../assets/img/icons/star_big.svg";
-import StarEmpty from "../../assets/img/icons/star_small.svg";
-import JamesBravo from "../../assets/img/james_le_hibou-heureux.webp";
-import JamesFail from "../../assets/img/james_le_hibou_pleure.webp";
-import EtoileLumiere from "../../assets/img/etoile-lumiere.webp";
-import Classement from "../../assets/img/classement-mobile.webp";
-import ClassementMobile from "../../assets/img/classement.webp";
+import { useSound } from "../../contexts/SoundProvider";
+import confettiAudio from "../../assets/sounds/james_sounds/win.mp3";
+import trompetteAudio from "../../assets/sounds/james_sounds/lost.mp3";
+import confetti from "canvas-confetti";
+import { useTranslation } from "react-i18next";
 
-const FinLevelPage = () => {
-  const { id } = useParams();
-  const [searchParams] = useSearchParams();
+const ScorePage = () => {
+  const { level } = useParams(); // <-- récupération via l’URL
+  const levelNumber = parseInt(level, 10) || 1;
+
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [topScores, setTopScores] = useState([]);
+  const queryParams = new URLSearchParams(window.location.search);
+  const stars = parseInt(queryParams.get("stars")) || 0;
 
-  const isFail = searchParams.get("fail") === "true";
-  const score = parseInt(searchParams.get("score")) || 0;
-  const stars = parseInt(searchParams.get("stars")) || 0;
+  const isSuccess = stars >= 2;
+  const [totalStars, setTotalStars] = useState(0);
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [userRank, setUserRank] = useState(null);
+  const user = JSON.parse(localStorage.getItem("utilisateur"));
+
+  const trompetteRef = useRef(null);
+  const audioRef = useRef(null);
+  const { musicOn } = useSound();
 
   useEffect(() => {
-    fetch(`/api/scores/level/${id}`)
-      .then((res) => res.json())
-      .then((data) => setTopScores(data.slice(0, 3)))
-      .catch((err) => console.error("Erreur chargement classement:", err));
-  }, [id]);
+    if (isSuccess && musicOn) {
+      audioRef.current = new Audio(confettiAudio);
+      audioRef.current.volume = 0.5;
+      audioRef.current.play().catch(() => {});
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, [isSuccess, musicOn]);
 
-  const renderStars = () =>
-    Array.from({ length: 3 }).map((_, i) => (
-      <img
-        key={i}
-        src={i < stars ? StarFull : StarEmpty}
-        alt="star"
-        className={`w-8 h-8 mx-1 ${i === 1 ? "-mt-4" : "mt-0"}`}
-      />
-    ));
+  useEffect(() => {
+    if (!isSuccess && musicOn) {
+      trompetteRef.current = new Audio(trompetteAudio);
+      trompetteRef.current.volume = 0.4;
+      trompetteRef.current.play().catch(() => {});
+    }
+    return () => {
+      if (trompetteRef.current) {
+        trompetteRef.current.pause();
+        trompetteRef.current.currentTime = 0;
+      }
+    };
+  }, [isSuccess, musicOn]);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("utilisateur"));
+
+    const saveScore = async () => {
+      if (!storedUser || !storedUser._id) return;
+      await fetch("http://localhost:8008/api/scores", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: storedUser._id,
+          gameName: "James",
+          level: levelNumber,
+          stars,
+        }),
+      });
+    };
+
+    const fetchTotalStars = async () => {
+      if (!storedUser || !storedUser._id) return;
+      const res = await fetch(
+        `http://localhost:8008/api/scores/${storedUser._id}?gameName=James`
+      );
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        const maxStarsByLevel = {};
+        data.forEach((entry) => {
+          const lvl = entry.level;
+          if (!maxStarsByLevel[lvl] || entry.stars > maxStarsByLevel[lvl]) {
+            maxStarsByLevel[lvl] = entry.stars;
+          }
+        });
+        const total = Object.values(maxStarsByLevel).reduce(
+          (sum, s) => sum + s,
+          0
+        );
+        setTotalStars(total);
+      }
+    };
+
+    const fetchLeaderboard = async () => {
+      const res = await fetch(
+        "http://localhost:8008/api/scores/leaderboard?gameName=James"
+      );
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setLeaderboard(data);
+        if (storedUser && storedUser._id) {
+          const rank = data.findIndex(
+            (entry) => entry.userId === storedUser._id
+          );
+          if (rank !== -1) setUserRank(rank + 1);
+        }
+      }
+    };
+
+    const runAll = async () => {
+      if (storedUser && storedUser._id) {
+        await saveScore();
+        await fetchTotalStars();
+      }
+      await fetchLeaderboard();
+    };
+
+    runAll();
+  }, [levelNumber, stars]);
+
+  const handleReplay = () => navigate(`/jeuxJames/game/${levelNumber}`);
+  const handleNext = () => navigate(`/jeuxJames/game/${levelNumber + 1}`);
+  const handleHome = () => navigate("/jeuxJames/tableau");
 
   return (
     <div
-      className={`min-h-screen relative flex items-center justify-center px-4 pt-10 pb-6 ${
-        isFail ? "bg-red-200" : "bg-green-200"
+      className={`min-h-screen flex flex-col items-center justify-center text-center pt-28 xl:pt-0 ${
+        isSuccess ? "bg-[#65B76E]" : "bg-[#ff95ac]"
       }`}
     >
-      <ReturnButton />
-      <SettingsButton />
+      <div className="absolute top-6 left-4">
+        <ReturnButton />
+      </div>
+      <div className="absolute top-6 right-4 z-50">
+        <SettingsButton />
+      </div>
 
-      {/* Classement desktop */}
-      <div
-        className="absolute flex items-center left-10 hidden lg:block w-[17.4rem] h-[35.2rem] p-3 bg-no-repeat bg-contain"
-        style={{ backgroundImage: `url(${Classement})` }}
-      >
-        <div className="text-center text-white font-medium mb-2 mt-4 text-xl font-fredoka">
-          🏆 TOP 3
-        </div>
-        {topScores.map((entry, index) => (
-          <div
+      <div className="flex justify-center gap-3 mb-4">
+        {[...Array(3)].map((_, index) => (
+          <img
             key={index}
-            className="flex items-center justify-between bg-white rounded-md px-2 py-1 mb-2 shadow-sm"
-          >
-            <span className="text-sm font-bold text-gray-800">
-              {index + 1}.
-            </span>
-            <span className="text-sm text-gray-600 truncate w-[70px]">
-              {entry.username}
-            </span>
-            <span className="text-sm font-bold text-yellow-600">
-              {entry.score}
-            </span>
-          </div>
+            src={StarIcon}
+            alt={t("stars")}
+            className={`xl:w-[100px] xl:h-[100px] w-[50px] h-[50px] object-contain ${
+              index < stars ? "opacity-100" : "opacity-20"
+            } ${index === 1 ? "xl:-mt-10 -mt-4" : "mt-0"}`}
+          />
         ))}
       </div>
 
-      {/* Partie centrale */}
-      <div className="flex flex-col items-center text-center mt-24 md:mt-0">
-        <div className="flex gap-1 mb-3">{renderStars()}</div>
+      <p className="xl:text-2xl text-xl text-white mt-1">
+        {t("levelWithNumber", { level: levelNumber })}
+      </p>
 
-        <h2 className="text-lg text-white mb-2 font-fredoka">
-          {t("level")} {id}
-        </h2>
-        <h1 className="text-6xl font-bold text-white mb-4 font-fredoka">
-          {isFail ? t("fail") : t("congrats")}
-        </h1>
+      <h1 className="text-[60px] xl:text-[96px] font-extrabold text-white leading-none tracking-wide">
+        {isSuccess ? t("congrats") : t("fail")}
+      </h1>
 
-        <div className="relative w-[16rem] md:w-[26rem] h-[16rem] md:h-[22rem] mb-2 flex items-center justify-center">
-          <img
-            src={EtoileLumiere}
-            alt="Lumière"
-            className="absolute w-full h-full animate-pulse"
-          />
-          <img
-            src={isFail ? JamesFail : JamesBravo}
-            alt="James"
-            className="relative z-10 w-[10rem] md:w-[14rem] h-[10rem] md:h-[14rem] rounded-full"
-          />
-        </div>
-
-        <p className="text-white font-bold text-xl mb-4">{t("score")}</p>
-        <div className="mb-6 px-14 py-2 bg-black bg-opacity-10 rounded-xl shadow text-2xl font-bold text-pink-500">
-          {score}
-        </div>
-
-        <div className="flex gap-6">
-          <button
-            onClick={() => navigate(`/jeuxJames/game/${id}`)}
-            className="bg-yellow-300 hover:bg-yellow-400 rounded-full w-14 h-14 text-2xl font-bold shadow"
-          >
-            ↻
-          </button>
-          <button
-            onClick={() => navigate(`/jeuxJames/tableau`)}
-            className="bg-blue-300 hover:bg-blue-400 rounded-full w-14 h-14 text-2xl font-bold shadow"
-          >
-            ⌂
-          </button>
-          {!isFail && parseInt(id) < 5 && stars >= 2 && (
-            <button
-              onClick={() => navigate(`/jeuxJames/level/${parseInt(id) + 1}`)}
-              className="bg-green-300 hover:bg-green-400 rounded-full w-14 h-14 text-2xl font-bold shadow"
-              title={t("next_level")}
-            >
-              ➜
-            </button>
-          )}
-        </div>
-
-        {/* Classement mobile */}
-        <div
-          className="block lg:hidden mt-10 w-[20rem] h-[24vh] bg-no-repeat bg-contain bg-center"
-          style={{ backgroundImage: `url(${ClassementMobile})` }}
+      <div className="relative xl:w-[550px] xl:h-[250px] w-[350px] h-[150px] my-6">
+        <img
+          src={lightImage}
+          alt={t("light")}
+          className="absolute inset-0 w-full h-auto object-contain z-0"
         />
+        <img
+          src={isSuccess ? characterWinImage : characterLoseImage}
+          alt={t("character")}
+          className="relative w-full h-full object-contain z-10"
+        />
+      </div>
+
+      <div className="px-6 py-2 rounded-[20px] w-fit flex items-center gap-2">
+        <span className="text-white font-bold text-[25px]">
+          {t("yourScore")}
+        </span>
+      </div>
+
+      <div className="bg-black/30 px-8 py-3 rounded-[30px] mt-2 flex items-center gap-3 text-white font-extrabold text-3xl px-24 shadow-lg">
+        <img src={StarIcon} alt={t("stars")} className="w-10 h-10 " />
+        {stars}
+      </div>
+
+      <div className="flex gap-4 mt-6">
+        <button
+          onClick={handleReplay}
+          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-yellow-400 shadow-md border-2 border-white flex items-center justify-center text-white text-3xl sm:text-4xl hover:scale-105 transition"
+        >
+          <i className="fas fa-rotate-right"></i>
+        </button>
+        <button
+          onClick={handleHome}
+          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-sky-400 shadow-md border-2 border-white flex items-center justify-center text-white text-3xl sm:text-4xl hover:scale-105 transition"
+        >
+          <i className="fas fa-house"></i>
+        </button>
+        {isSuccess && (
+          <button
+            onClick={handleNext}
+            className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-lime-500 shadow-md border-2 border-white flex items-center justify-center text-white text-3xl sm:text-4xl hover:scale-105 transition"
+          >
+            <i className="fas fa-arrow-right"></i>
+          </button>
+        )}
+      </div>
+
+      <div className="w-full flex justify-center mt-20 px-4 xl:absolute xl:left-32 xl:top-1/2 xl:-translate-y-1/2 xl:w-auto xl:mt-0 xl:px-0 pb-20 xl:pb-0">
+        <div className="bg-[#AB673B] rounded-[20px] p-6 shadow-lg w-[320px]">
+          <div className="bg-[#cb935a] rounded-[20px] py-16 px-6">
+            <ul className="space-y-4">
+              {leaderboard.slice(0, 3).map((entry, index) => (
+                <li
+                  key={entry.userId}
+                  className="flex items-center justify-between rounded-xl px-3 py-2 shadow-sm"
+                >
+                  <span className="text-xl font-extrabold text-white drop-shadow-md">
+                    {index + 1}
+                  </span>
+                  <div className="flex flex-col items-center">
+                    <div className="w-14 h-14 rounded-lg bg-white shadow-md overflow-hidden flex items-center justify-center">
+                      <img
+                        src={entry.avatar}
+                        alt="avatar"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <span className="text-xs mt-1 text-gray-700 font-semibold">
+                      {entry.prenom}
+                    </span>
+                  </div>
+                  <span className="text-right text-lg font-extrabold text-white">
+                    {entry.totalStars} ⭐
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default FinLevelPage;
+export default ScorePage;

@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import ReturnButton from "../../components/button-return";
 import SettingsButton from "../../components/button-settings";
+import ReturnButton from "../../components/button-return";
+import backgroundImage from "../../assets/img/backgroundJames.png";
+import { motion } from "framer-motion";
+import gameStartAudio from "../../assets/sounds/james_sounds/game_song.m4a";
+import warningAudio from "../../assets/sounds/drys_sounds/time_play.m4a";
+import sebiImage from "../../assets/img/tete-seb.png";
+import { useSound } from "../../contexts/SoundProvider";
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -40,7 +46,7 @@ function generateOperations(level) {
   const operations = [];
   let attempts = 0;
 
-  while (operations.length < 9 && attempts < 1000) {
+  while (operations.length < 3 && attempts < 1000) {
     attempts++;
     const left = getRandomInt(1, max);
     const right = getRandomInt(1, max);
@@ -79,15 +85,67 @@ const GamePage = () => {
   const levelNumber = parseInt(level, 10) || 1;
 
   const [operations, setOperations] = useState([]);
-  const [answers, setAnswers] = useState(Array(9).fill(""));
+  const [answers, setAnswers] = useState(Array(3).fill(""));
   const [score, setScore] = useState(null);
   const [validated, setValidated] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isLoggedIn = !!user;
+
+  const [timeLeft, setTimeLeft] = useState(60);
+  const timerRef = useRef(null);
+  const warningTimeoutRef = useRef(null);
+  const audioRef = useRef(null);
+  const [showSebi, setShowSebi] = useState(false);
+
+  const { soundOn } = useSound();
+
   useEffect(() => {
     setOperations(generateOperations(levelNumber));
-    setAnswers(Array(9).fill(""));
+    setAnswers(Array(3).fill(""));
     setValidated(false);
     setScore(null);
+    setTimeLeft(60);
+
+    if (soundOn) {
+      const gameAudio = new Audio(gameStartAudio);
+      audioRef.current = gameAudio;
+      gameAudio.play().catch(() => console.log("❌ autoplay bloqué"));
+    }
+
+    setShowSebi(true);
+    setTimeout(() => setShowSebi(false), 4000);
+
+    warningTimeoutRef.current = setTimeout(() => {
+      if (soundOn) {
+        const warn = new Audio(warningAudio);
+        warn.play();
+      }
+      setShowSebi(true);
+      setTimeout(() => setShowSebi(false), 4000);
+    }, 30000);
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timerRef.current);
+          clearTimeout(warningTimeoutRef.current);
+          setValidated(true);
+          navigate(`/jeuxJames/fin/${levelNumber}?score=0&stars=0&fail=true`);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(timerRef.current);
+      clearTimeout(warningTimeoutRef.current);
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
   }, [levelNumber]);
 
   const handleChange = (e, i) => {
@@ -97,6 +155,9 @@ const GamePage = () => {
   };
 
   const handleValidation = () => {
+    clearInterval(timerRef.current);
+    clearTimeout(warningTimeoutRef.current);
+
     let newScore = 0;
     answers.forEach((ans, index) => {
       if (parseInt(ans) === operations[index].answer) {
@@ -106,57 +167,133 @@ const GamePage = () => {
     setScore(newScore);
     setValidated(true);
 
-    const stars =
-      newScore === 9 ? 3 : newScore >= 6 ? 2 : newScore >= 3 ? 1 : 0;
-    const fail = stars < 2;
+    const stars = newScore;
+    const fail = stars <= 1;
+
+    if (isLoggedIn && stars > 0) {
+      fetch("http://localhost:8008/api/scores", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user._id,
+          gameName: "James",
+          level: levelNumber,
+          stars,
+          score: newScore * 10,
+        }),
+      }).catch((err) => console.error("❌ Erreur enregistrement score :", err));
+    } else {
+      const guestScores = JSON.parse(
+        localStorage.getItem("guestScores_James") || "{}"
+      );
+      guestScores[levelNumber] = stars;
+      localStorage.setItem("guestScores_James", JSON.stringify(guestScores));
+    }
 
     navigate(
       `/jeuxJames/fin/${levelNumber}?score=${newScore}&stars=${stars}&fail=${fail}`
     );
   };
 
-  if (operations.length === 0) return <p>{t("loading")}</p>;
-
   return (
-    <div className="min-h-screen bg-sky-100 relative flex flex-col items-center justify-center p-4">
-      <ReturnButton />
-      <SettingsButton />
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat relative flex flex-col items-center justify-center p-4 font-[Fredoka]"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="absolute top-4 right-4">
+        <SettingsButton />
+      </div>
+      <div className="absolute top-4 left-4">
+        <ReturnButton />
+      </div>
 
-      <div className="flex flex-col items-center gap-2 mb-10 mt-[5rem] md:mt-4">
-        <div className="border-2 border-blue-400 rounded-full px-4 py-1 text-xl font-bold text-blue-700">
-          {t("level")} {levelNumber}
+      {/* Niveau en haut centré */}
+      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white xl:text-4xl md:text-3xl text-2xl font-extrabold mt-20">
+        {t("level")} {levelNumber}
+      </div>
+
+      {/* Timer à droite, centré verticalement */}
+      <div className="absolute right-8 top-1/2 transform -translate-y-1/2 flex items-center justify-center mr-[10rem]">
+        <div className="relative w-24 h-24 flex items-center justify-center">
+          <svg
+            className="absolute top-0 left-0 w-full h-full"
+            viewBox="0 0 100 100"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              stroke="#ddd"
+              strokeWidth="10"
+              fill="none"
+            />
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              stroke={
+                timeLeft > 19 ? "#22c55e" : timeLeft > 9 ? "#f97316" : "#ef4444"
+              }
+              strokeWidth="10"
+              fill="none"
+              strokeDasharray="282.6"
+              strokeDashoffset={(1 - timeLeft / 60) * 282.6}
+              strokeLinecap="round"
+              transform="rotate(-90 50 50)"
+            />
+          </svg>
+          <span className="text-white font-bold text-xl z-10">
+            {`${Math.floor(timeLeft / 60)
+              .toString()
+              .padStart(2, "0")}:${(timeLeft % 60)
+              .toString()
+              .padStart(2, "0")}`}
+          </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10 md:gap-14 mb-10 w-full px-2 max-w-5xl">
+      {showSebi && (
+        <motion.img
+          src={sebiImage}
+          alt="Sebi"
+          initial={{ x: -200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="xl:w-[450px] absolute xl:top-44 xl:left-[-130px] z-50 w-[200px] top-32 left-[-70px] md:w-[300px] md:top-40 md:left-[-100px] sm:w-[250px] sm:top-36 sm:left-[-90px] mobile:w-[150px] mobile:top-32 mobile:left-[-50px]"
+        />
+      )}
+
+      {/* Opérations */}
+      <div className="flex flex-wrap justify-center items-start gap-10 mb-10 w-full px-4 max-w-6xl mt-24">
         {operations.map((op, i) => {
           const isCorrect = parseInt(answers[i]) === op.answer;
           return (
             <div
               key={i}
-              className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap"
+              className="w-full flex justify-center items-center gap-3 flex-wrap sm:flex-nowrap mb-6"
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white border-2 border-blue-400 rounded-lg flex items-center justify-center text-lg sm:text-xl font-bold">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-blue-500 rounded-xl flex items-center justify-center text-2xl sm:text-3xl font-extrabold shadow-md">
                 {op.left}
               </div>
-              <div className="text-lg sm:text-xl font-bold">{op.operator}</div>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white border-2 border-blue-400 rounded-lg flex items-center justify-center text-lg sm:text-xl font-bold">
+              <div className="text-xl sm:text-3xl font-medium">
+                {op.operator}
+              </div>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-blue-500 rounded-xl flex items-center justify-center text-2xl sm:text-3xl font-extrabold shadow-md">
                 {op.right}
               </div>
-              <div className="text-lg sm:text-xl font-bold">=</div>
+              <div className="text-xl sm:text-3xl font-medium">=</div>
               <input
                 type="text"
                 value={answers[i]}
                 onChange={(e) => handleChange(e, i)}
                 disabled={validated}
-                className={`w-10 h-10 sm:w-12 sm:h-12 text-center border-2 rounded-lg text-lg sm:text-xl font-bold 
-                  ${
-                    validated
-                      ? isCorrect
-                        ? "border-green-500 bg-green-100"
-                        : "border-red-500 bg-red-100"
-                      : "border-blue-400"
-                  }`}
+                className={`w-16 h-16 sm:w-20 sm:h-20 text-center border-4 rounded-xl text-2xl sm:text-3xl font-extrabold shadow-md ${
+                  validated
+                    ? isCorrect
+                      ? "border-green-500 bg-green-100"
+                      : "border-red-500 bg-red-100"
+                    : "border-blue-400"
+                }`}
               />
             </div>
           );
@@ -166,7 +303,7 @@ const GamePage = () => {
       {!validated && (
         <button
           onClick={handleValidation}
-          className="bg-green-500 text-white px-6 py-2 text-lg rounded-lg shadow hover:bg-green-600"
+          className="text-white xl:text-3xl xl:w-52 xl:h-20 md:text-2xl md:w-40 md:h-16 sm:text-xl sm:w-32 sm:h-12 w-32 text-xl h-16 bg-green-600 rounded-lg flex items-center justify-center shadow-lg hover:bg-green-700 transition duration-300 mt-10"
         >
           {t("validate")}
         </button>

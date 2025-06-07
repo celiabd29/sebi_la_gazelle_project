@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import React from "react";
 import LayoutPrincipal from "./components/Layout/LayoutPrincipal";
 import LayoutMinimal from "./components/Layout/LayoutMinimal";
 
@@ -10,6 +11,7 @@ import Connexion from "./pages/Connexion";
 import Inscription from "./pages/Inscription";
 import MentionsLegales from "./pages/Mentions";
 import PolitiqueConfidentialite from "./pages/ConfidentialitePage";
+import Profil from "./pages/Admin/Profil";
 
 // Pages jeu de James
 import HomeJames from "./pages/Jeu_James/Home";
@@ -21,8 +23,8 @@ import FinLevelPage from "./pages/Jeu_James/FinLevelPage";
 
 // Pages jeu de Drys
 import MainPageDrys from "./pages/jeux-drys/MainPageDrys";
-import StartGameDrys from "./pages/jeux-drys/StartGamePageDrys";
 import GamePageDrys from "./pages/jeux-drys/GamePage";
+import LevelPageDrys from "./pages/jeux-drys/LevelPageDrys";
 import PalierPageDrys from "./pages/jeux-drys/PalierPageDrys";
 import ScorePageDrys from "./pages/jeux-drys/ScorePage";
 import LayoutDrys from "./pages/jeux-drys/LayoutDrys";
@@ -41,24 +43,29 @@ const App = () => {
           path="/politique-confidentialite"
           element={<PolitiqueConfidentialite />}
         />
+        <Route path="/profil" element={<Profil />} />
       </Route>
+
+      {/* Pages connexions/inscriptions */}
       <Route path="/connexion" element={<Connexion />} />
       <Route path="/inscription" element={<Inscription />} />
-      {/* Layout minimal pour les pages connexions/inscriptions */}
+
+      {/* Layout minimal pour les jeux */}
       <Route element={<LayoutMinimal />}>
         {/* Pages jeu de James */}
-        <Route path="/jeu-james/home" element={<HomeJames />} />
-        <Route path="/jeu-james/settings" element={<SettingsPage />} />
-        <Route path="/jeu-james/game" element={<GamePageJames />} />
-        <Route path="/jeu-james/level" element={<LevelPage />} />
-        <Route path="/jeu-james/tableau" element={<Tableau />} />
-        <Route path="/jeu-james/fin" element={<FinLevelPage />} />
+        <Route path="/jeuJames/home" element={<HomeJames />} />
+        <Route path="/jeuJames/settings" element={<SettingsPage />} />
+        <Route path="/jeuJames/game" element={<GamePageJames />} />
+        <Route path="/jeuJames/level" element={<LevelPage />} />
+        <Route path="/jeuJames/tableau" element={<Tableau />} />
+        <Route path="/jeuJames/fin" element={<FinLevelPage />} />
 
         {/* Pages jeu de Drys */}
         <Route path="/jeu-drys/main" element={<MainPageDrys />} />
-        <Route path="/jeu-drys/start" element={<StartGameDrys />} />
         <Route path="/jeu-drys/game" element={<GamePageDrys />} />
         <Route path="/jeu-drys/palier" element={<PalierPageDrys />} />
+        <Route path="/jeuxDrys/level/:level" element={<LevelPageDrys />} />
+        <Route path="/jeuxDrys/game/:level" element={<GamePageDrys />} />
         <Route path="/jeu-drys/score" element={<ScorePageDrys />} />
         <Route path="/jeu-drys/layout" element={<LayoutDrys />} />
       </Route>

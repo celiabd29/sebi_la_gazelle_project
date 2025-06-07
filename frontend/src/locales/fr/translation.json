@@ -229,5 +229,25 @@
   "sectionJeux": {
     "james": "Sebi la gazelle t'invite à jouer avec elle pour compter ensemble ! Son copain James le hibou adore les nombres. Il va te poser des petits calculs, et tu devras trouver la réponse super vite, avant que le temps ne soit écoulé ! Plus tu gagnes des points, plus les calculs deviennent difficiles ! Tu es prêt(e) à relever le défi ?",
     "drys": "Oh là là, Drys l’écureuil est un petit coquin, il mange en cachette ! Viens aider Sebi la gazelle à retrouver les petites gourmandises que Drys l’écureuil a cachées sous des gobelets ! Est-ce que tu pourras deviner où il les a mises ? Attention, plus tu avances dans le jeu, plus les gobelets bougeront vite ! Est-ce que tu es prêt(e) à relever le défi ?"
-  }
+  },
+  "profile_tab": "Profil",
+  "reward_tab": "Récompenses",
+  "form_nom_label": "Nom",
+  "form_prenom_label": "Prénom",
+  "form_dateDeNaissance_label": "Date de naissance",
+  "reward_message": "Tu n’as pas encore de récompenses...",
+  "levelWithNumber": "Niveau {{level}}",
+  "yourScore": "TON SCORE",
+  "stars": "étoile",
+  "light": "Lumière",
+  "character": "Personnage",
+  "mainPage": {
+    "title": "Les cachotteries de Drys l'écureuil"
+  },
+  "drys_level_1_text": "Aide Drys à retrouver sa noisette dans le jardin enchanté !",
+  "drys_level_2_text": "Les arbres se sont déplacés ! Retrouve le bon chemin.",
+  "drys_level_3_text": "Attention aux ronces ! Il faut calculer pour avancer.",
+  "drys_level_4_text": "Les feuilles tombent... mais où est la cachette ?",
+  "drys_level_5_text": "C’est le défi final ! Tu es prêt pour le grand saut ?",
+  "drys_level_default_text": "Un nouveau défi t’attend avec Drys !"
 }

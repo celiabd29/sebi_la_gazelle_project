@@ -5,6 +5,7 @@ import "./index.css";
 import "./i18n";
 
 import { AuthProvider } from "./contexts/AuthContexte";
+import { SoundProvider } from "./contexts/SoundProvider"; // ✅ Import du SoundProvider
 
 // Pages générales
 import App from "./App";
@@ -87,9 +88,14 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      {" "}
-      {/* ✅ Ajout du Provider ici */}
-      <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
+      <SoundProvider>
+        {" "}
+        {/* ✅ Ajout ici */}
+        <RouterProvider
+          router={router}
+          fallbackElement={<p>Chargement...</p>}
+        />
+      </SoundProvider>
     </AuthProvider>
   </React.StrictMode>
 );
