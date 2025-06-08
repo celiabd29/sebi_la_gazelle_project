@@ -11,12 +11,12 @@ const ContactForm = () => {
   const onSubmit = async (data) => {
     try {
       // const response = await axios.post("http://localhost:8008/api/contact", data);
-     // Dans votre frontend (ContactForm.js)
-const response = await axios.post(
-  `${import.meta.env.VITE_API_URL}/contact`,
-  data,
-  { timeout: 15000 } // 15 secondes
-);
+      // Dans votre frontend (ContactForm.js)
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/contact`,
+        data,
+        { timeout: 15000 } // 15 secondes
+      );
       if (response.status === 201) {
         alert("Message envoyé avec succès !");
         reset(); // Vide le formulaire
@@ -28,8 +28,6 @@ const response = await axios.post(
       alert("Erreur serveur."); // Affiche un message à l’utilisateur
     }
   };
-  
-
 
   return (
     <div>
@@ -38,7 +36,10 @@ const response = await axios.post(
           CONTACT
         </h2>
         <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-auto p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-6"
+          >
             <div>
               <label htmlFor="nom" className="block mb-2 text-sm font-medium">
                 Nom
@@ -50,10 +51,17 @@ const response = await axios.post(
                 placeholder="Charlene Reed"
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
-              {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom.message}</p>}
+              {errors.nom && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.nom.message}
+                </p>
+              )}
             </div>
             <div>
-              <label htmlFor="prenom" className="block mb-2 text-sm font-medium">
+              <label
+                htmlFor="prenom"
+                className="block mb-2 text-sm font-medium"
+              >
                 Prénom
               </label>
               <input
@@ -63,7 +71,11 @@ const response = await axios.post(
                 placeholder="Charlene"
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
-              {errors.prenom && <p className="text-red-500 text-sm mt-1">{errors.prenom.message}</p>}
+              {errors.prenom && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.prenom.message}
+                </p>
+              )}
             </div>
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium">
@@ -82,10 +94,17 @@ const response = await axios.post(
                 placeholder="charlenereed@gmail.com"
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
             <div>
-              <label htmlFor="message" className="block mb-2 text-sm font-medium">
+              <label
+                htmlFor="message"
+                className="block mb-2 text-sm font-medium"
+              >
                 Message
               </label>
               <textarea
@@ -94,7 +113,11 @@ const response = await axios.post(
                 {...register("message", { required: "Le message est requis" })}
                 className="w-full border border-gray-300 text-sm rounded-md p-3 bg-gray-50"
               ></textarea>
-              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
+              {errors.message && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.message.message}
+                </p>
+              )}
             </div>
             <button
               type="submit"
