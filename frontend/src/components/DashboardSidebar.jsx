@@ -1,13 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { BarChart, MessageCircle, Users, Settings, LogOut } from "lucide-react";
+import { BarChart, MessageCircle, Users, Settings, LogOut, HomeIcon } from "lucide-react";
 
 const DashboardSidebar = () => {
   const links = [
-    { name: "Dashboard", icon: <BarChart />, path: "/admin" },
-    { name: "Analyse", icon: <BarChart />, path: "/admin/analyse" },
-    { name: "Messages", icon: <MessageCircle />, path: "/admin/messages" },
-    { name: "Utilisateur", icon: <Users />, path: "/admin/utilisateur" },
-    { name: "Settings", icon: <Settings />, path: "/admin/settings" },
+    { name: "Dashboard", icon: <HomeIcon />, path: "/dashboard" },
+    { name: "Analyse", icon: <BarChart />, path: "/dashboard/analyse" },
+    { name: "Messages", icon: <MessageCircle />, path: "/dashboard/messages" },
+    { name: "Utilisateur", icon: <Users />, path: "/dashboard/utilisateur" },
+    { name: "Paramètres", icon: <Settings />, path: "/dashboard/parametres" },
   ];
 
   return (

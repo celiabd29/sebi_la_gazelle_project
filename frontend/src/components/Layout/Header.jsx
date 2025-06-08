@@ -12,7 +12,7 @@ const Header = () => {
 
   const noBannerRoutes = ["/connexion", "/inscription"];
   const isNoBannerPage = noBannerRoutes.includes(location.pathname);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [utilisateur, setUtilisateur] = useState(null);
 
   useEffect(() => {
@@ -27,9 +27,9 @@ const Header = () => {
     }
   }, []);
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
+  // const changeLanguage = (lng) => {
+  //   i18n.changeLanguage(lng);
+  // };
 
   useEffect(() => {
     const handleScroll = () => {

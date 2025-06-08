@@ -36,6 +36,10 @@ import VerificationEmail from "./pages/Verification";
 import DashboardAccueil from "./pages/Admin/DashboardHome";
 import Profil from "./pages/EspaceParent/Profil";
 import DashboardLayout from "./components/Layout/DashboardLayout";
+import Analyse from "./pages/Admin/Analyse";
+import Utilisateur from "./pages/Admin/Utilisateur";
+import Messages from "./pages/Admin/Message";
+import Parametre from "./pages/Admin/Parametre";
 
 
 
@@ -57,6 +61,7 @@ const router = createBrowserRouter([
       { path: "/profil", element: <Profil /> },
     ],
   },
+<<<<<<< Updated upstream
   {
     path: "/jeuxDrys",
     element: <ConditionalProviders />,
@@ -66,6 +71,18 @@ const router = createBrowserRouter([
       { path: "GamePage", element: <GamePageDrys /> },
       { path: "ScorePage", element: <ScorePage /> },
     ],
+=======
+    {
+      path: "/dashboard",
+      element: <DashboardLayout />,
+      children: [
+        { path: "", element: <DashboardAccueil /> },
+        { path: "analyse", element: <Analyse /> },
+        { path: "utilisateur", element: <Utilisateur /> },
+        { path: "messages", element: <Messages /> },
+        { path: "parametres", element: <Parametre /> },
+      ],
+>>>>>>> Stashed changes
   },
   {
     path: "/dashboard",
