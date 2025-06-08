@@ -31,10 +31,6 @@ MongoClient.connect(process.env.MONGO_URI)
     // ✅ Middlewares
     // ✅ Configuration CORS précise (à placer avant les routes)
     const corsOptions = {
-      origin: [
-        "http://sebilagazelle.fr", // URL de production
-        "http://localhost:3000",   // URL de développement
-      ],
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true // Si vous utilisez des cookies/sessions
