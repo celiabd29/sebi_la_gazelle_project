@@ -64,7 +64,7 @@ function Tableau() {
 
   const handleClick = (level) => {
     if (level.unlocked) {
-      navigate(`/jeuxJames/level/${level.number}`);
+      navigate(`/jeuxJames/game/${level.number}`);
     }
   };
 

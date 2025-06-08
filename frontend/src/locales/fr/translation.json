@@ -92,7 +92,6 @@
   "congrats": "Bravo !",
   "fail": "Oh non ...",
   "top3": "🏆 TOP 3",
-  "settings": "Paramètres",
   "language": "Langue",
   "sound": "Son",
   "back": "Retour",
@@ -249,5 +248,26 @@
   "drys_level_3_text": "Attention aux ronces ! Il faut calculer pour avancer.",
   "drys_level_4_text": "Les feuilles tombent... mais où est la cachette ?",
   "drys_level_5_text": "C’est le défi final ! Tu es prêt pour le grand saut ?",
-  "drys_level_default_text": "Un nouveau défi t’attend avec Drys !"
+  "drys_level_default_text": "Un nouveau défi t’attend avec Drys !",
+
+  "settings": {
+    "title": "Paramètres",
+    "music": "Musique",
+    "voice": "Voix",
+    "language": "Langue",
+    "change_language": "Changer de langue",
+    "on": "ON",
+    "off": "OFF"
+  },
+  "wrong": "Mauvaise réponse ! Réessaie...",
+  "scorePage": {
+    "level": "Niveau {{level}}",
+    "congrats": "Bravo !",
+    "fail": "Oh non ...",
+    "yourScore": "TON SCORE",
+    "replay": "Rejouer",
+    "home": "Accueil",
+    "next": "Suivant",
+    "leaderboard": "Classement"
+  }
 }

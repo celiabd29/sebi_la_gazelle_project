@@ -9,8 +9,8 @@ const SettingPage = () => {
   return (
     <div>
       <ReturnButton />
-      <h2 className="text-6xl mt-20 font-bold text-center text-black font-[Fredoka]">
-        {t("settings")}
+      <h2 className="text-6xl mt-24 font-bold text-center text-black font-[Fredoka]">
+        {t("settings.title")}
       </h2>
       <div className="flex justify-center items-center mt-40">
         <BlocSonLang />

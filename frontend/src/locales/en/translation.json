@@ -85,7 +85,15 @@
   "congrats": "Well done!",
   "fail": "Oh no ...",
   "top3": "🏆 TOP 3",
-  "settings": "Settings",
+  "settings": {
+    "title": "Settings",
+    "music": "Music",
+    "voice": "Voice",
+    "language": "Language",
+    "change_language": "Change language",
+    "on": "ON",
+    "off": "OFF"
+  },
   "language": "Language",
   "sound": "Sound",
   "back": "Back",
@@ -242,5 +250,16 @@
   "drys_level_3_text": "Watch out for brambles! You need to calculate to move forward.",
   "drys_level_4_text": "Leaves are falling... but where’s the hiding spot?",
   "drys_level_5_text": "It’s the final challenge! Are you ready for the leap?",
-  "drys_level_default_text": "A new challenge awaits you with Drys!"
+  "drys_level_default_text": "A new challenge awaits you with Drys!",
+  "wrong": "Mauvaise réponse ! Réessaie...",
+  "scorePage": {
+    "level": "Level {{level}}",
+    "congrats": "Well done!",
+    "fail": "Oh no ...",
+    "yourScore": "YOUR SCORE",
+    "replay": "Replay",
+    "home": "Home",
+    "next": "Next",
+    "leaderboard": "Leaderboard"
+  }
 }

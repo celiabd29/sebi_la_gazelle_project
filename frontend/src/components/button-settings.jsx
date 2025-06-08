@@ -38,7 +38,7 @@ const SettingsButton = () => {
       {open && (
         <div className="absolute right-0 mt-4 w-[22rem] bg-[#FF6D83] text-black rounded-xl shadow-2xl p-6 font-[Fredoka]">
           <h2 className="text-2xl font-bold text-center mb-6">
-            {t("settings")}
+            {t("settings.title")}
           </h2>
 
           {/* Bloc Son */}
@@ -59,7 +59,6 @@ const SettingsButton = () => {
               onClick={toggleLanguage}
               className="w-28 h-12 bg-[#FDBA74] hover:bg-orange-300 rounded-md shadow text-xl font-bold flex items-center justify-center gap-2 active:translate-y-[2px] transition"
             >
-              <FaGlobe />
               {i18n.language === "fr" ? t("french") : t("english")}
               <FaChevronDown className="text-sm" />
             </button>

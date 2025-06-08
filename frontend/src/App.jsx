@@ -20,14 +20,15 @@ import GamePageJames from "./pages/Jeu_James/GamePage";
 import LevelPage from "./pages/Jeu_James/LevelPage";
 import Tableau from "./pages/Jeu_James/Tableau";
 import FinLevelPage from "./pages/Jeu_James/FinLevelPage";
+import LayoutJames from "./pages/Jeu_James/LayoutJames";
 
 // Pages jeu de Drys
 import MainPageDrys from "./pages/jeux-drys/MainPageDrys";
-import GamePageDrys from "./pages/jeux-drys/GamePage";
-import LevelPageDrys from "./pages/jeux-drys/LevelPageDrys";
+import GamePageDrys from "./pages/jeux-drys/GamePageDrys";
 import PalierPageDrys from "./pages/jeux-drys/PalierPageDrys";
 import ScorePageDrys from "./pages/jeux-drys/ScorePage";
 import LayoutDrys from "./pages/jeux-drys/LayoutDrys";
+import SettingsPageDrys from "./pages/jeux-drys/SettingsPageDrys";
 
 const App = () => {
   return (
@@ -58,16 +59,17 @@ const App = () => {
         <Route path="/jeuJames/game" element={<GamePageJames />} />
         <Route path="/jeuJames/level" element={<LevelPage />} />
         <Route path="/jeuJames/tableau" element={<Tableau />} />
+        <Route path="/jeuJames/layout" element={<LayoutJames />} />
         <Route path="/jeuJames/fin" element={<FinLevelPage />} />
 
         {/* Pages jeu de Drys */}
         <Route path="/jeu-drys/main" element={<MainPageDrys />} />
         <Route path="/jeu-drys/game" element={<GamePageDrys />} />
         <Route path="/jeu-drys/palier" element={<PalierPageDrys />} />
-        <Route path="/jeuxDrys/level/:level" element={<LevelPageDrys />} />
-        <Route path="/jeuxDrys/game/:level" element={<GamePageDrys />} />
+        <Route path="/jeu-drys/game/:level" element={<GamePageDrys />} />
         <Route path="/jeu-drys/score" element={<ScorePageDrys />} />
         <Route path="/jeu-drys/layout" element={<LayoutDrys />} />
+        <Route path="/jeu-drys/settings" element={<SettingsPageDrys />} />
       </Route>
     </Routes>
   );

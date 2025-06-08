@@ -56,21 +56,21 @@ const Jeux = () => {
           </div>
 
           {/* Personnages sur les côtés */}
-          <div className="relative w-full mt-10 md:mt-0">
+          <div className="relative w-full mt-6 md:mt-[-7rem]">
             <img
               src={drys}
               alt="Drys personnage"
-              className="absolute left-0 bottom-0 w-24 sm:w-32 md:w-[20rem] lg:w-48 object-contain"
+              className="absolute left-0 bottom-0 w-24 sm:w-32 md:w-40 lg:w-[29rem] object-contain"
             />
             <img
               src={sebi}
               alt="Sebi personnage"
-              className="mx-auto w-28 sm:w-36 md:w-[44rem] lg:w-52 object-contain"
+              className="mx-auto w-28 sm:w-36 md:w-44 lg:w-[20rem] object-contain"
             />
             <img
               src={james}
               alt="James personnage"
-              className="absolute right-0 bottom-0 w-24 sm:w-32 md:w-[20rem] lg:w-48 object-contain"
+              className="absolute right-0 bottom-0 w-24 sm:w-32 md:w-40 lg:w-[29rem] object-contain"
             />
           </div>
         </div>

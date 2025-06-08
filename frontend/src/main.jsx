@@ -5,7 +5,7 @@ import "./index.css";
 import "./i18n";
 
 import { AuthProvider } from "./contexts/AuthContexte";
-import { SoundProvider } from "./contexts/SoundProvider"; // ✅ Import du SoundProvider
+import { SoundProvider } from "./contexts/SoundProvider";
 
 // Pages générales
 import App from "./App";
@@ -23,9 +23,10 @@ import ConfidentialitePage from "./pages/ConfidentialitePage.jsx";
 // Jeu Drys
 import MainPageDrys from "./pages/jeux-drys/MainPageDrys";
 import PalierPageDrys from "./pages/jeux-drys/PalierPageDrys";
-import GamePageDrys from "./pages/jeux-drys/GamePage";
+import GamePageDrys from "./pages/jeux-drys/GamePageDrys";
 import ScorePage from "./pages/jeux-drys/ScorePage";
 import { ConditionalProviders } from "./ConditionalProviders";
+import SettingsPageDrys from "./pages/jeux-drys/SettingsPageDrys";
 
 // Jeu James
 import MainPageJames from "./pages/Jeu_James/Home";
@@ -70,8 +71,14 @@ const router = createBrowserRouter([
       { path: "PalierPage", element: <PalierPageDrys /> },
       { path: "GamePage", element: <GamePageDrys /> },
       { path: "ScorePage", element: <ScorePage /> },
+      { path: "settings", element: <SettingsPageDrys /> },
     ],
   },
+  {
+    path: "/jeuxDrys/SettingPage",
+    element: <SettingsPageDrys />,
+  },
+
   {
     path: "/dashboard",
     element: <DashboardLayout />,
@@ -90,7 +97,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <SoundProvider>
         {" "}
-        {/* ✅ Ajout ici */}
         <RouterProvider
           router={router}
           fallbackElement={<p>Chargement...</p>}

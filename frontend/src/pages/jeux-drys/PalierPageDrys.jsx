@@ -60,7 +60,7 @@ const PalierPage = () => {
 
     setFallingFruits((prev) => [...prev, id]);
     setTimeout(() => {
-      navigate(`/jeuxDrys/level/${id}`);
+      navigate(`/jeuxDrys/GamePage?level=${id}`);
     }, 500);
   };
 
