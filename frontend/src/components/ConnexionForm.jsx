@@ -11,7 +11,9 @@ const Connexion = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8008/api/utilisateurs/connexion", data);
+      // const response = await axios.post("http://localhost:8008/api/utilisateurs/connexion", data);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/utilisateurs/connexion`, data);
+
       const { utilisateur } = response.data;
     console.log(utilisateur); // pour voir si y'a bien _id
 

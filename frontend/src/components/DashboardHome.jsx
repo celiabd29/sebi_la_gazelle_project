@@ -27,7 +27,8 @@ const DashboardHome = () => {
   useEffect(() => {
     const fetchUtilisateurs = async () => {
       try {
-        const res = await axios.get("http://localhost:8008/api/utilisateurs/tous");
+        // const res = await axios.get("http://localhost:8008/api/utilisateurs/tous");
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/utilisateurs/tous`);
         setUtilisateurs(res.data);
 
         const aujourdHui = new Date().toISOString().split("T")[0];

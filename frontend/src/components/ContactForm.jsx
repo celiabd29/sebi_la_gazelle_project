@@ -10,10 +10,8 @@ const ContactForm = () => {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8008/api/contact", data);
-      // const apiUrl = import.meta.env.VITE_API_URL;
-      // const response = await axios.post(`${apiUrl}/contact`, data);
-
+      // const response = await axios.post("http://localhost:8008/api/contact", data);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/contact`, data);
       if (response.status === 201) {
         alert("Message envoyé avec succès !");
         reset(); // Vide le formulaire
