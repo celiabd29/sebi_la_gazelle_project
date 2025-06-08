@@ -11,7 +11,12 @@ const ContactForm = () => {
   const onSubmit = async (data) => {
     try {
       // const response = await axios.post("http://localhost:8008/api/contact", data);
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/contact`, data);
+     // Dans votre frontend (ContactForm.js)
+const response = await axios.post(
+  `${import.meta.env.VITE_API_URL}/contact`,
+  data,
+  { timeout: 15000 } // 15 secondes
+);
       if (response.status === 201) {
         alert("Message envoyé avec succès !");
         reset(); // Vide le formulaire
