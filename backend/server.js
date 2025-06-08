@@ -29,9 +29,20 @@ MongoClient.connect(process.env.MONGO_URI)
     const app = express();
 
     // ✅ Middlewares
-    app.use(cors());
+    // ✅ Configuration CORS précise (à placer avant les routes)
+    const corsOptions = {
+      origin: [
+        "http://sebilagazelle.fr", // URL de production
+        "http://localhost:3000",   // URL de développement
+      ],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true // Si vous utilisez des cookies/sessions
+    };
+
+    app.use(cors(corsOptions)); // Remplacez l'actuel app.use(cors())
     app.use(bodyParser.json());
-    app.use(express.json());
+    app.use(express.json({ limit: "10mb" })); // Augmentez la limite si nécessaire
 
     // ✅ Routes utilisant MongoClient
     const scoreRoutes = require("./routes/scoreRoutes");
