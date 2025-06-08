@@ -6,10 +6,18 @@ const {
   connexion,
   verifierCompte,
   mettreAJourProfil,
+  getMonProfil,
+  changerMotDePasse, // ✅ ajout ici
 } = require("../controllers/utilisateurController");
+
 const { verifierToken, verifierAdmin } = require("../middleware/auth");
 
-// 🔁 Liste de tous les utilisateurs (ex : pour l'admin)
+// 📩 Authentification
+router.post("/inscription", inscription);
+router.post("/connexion", connexion);
+router.get("/verification", verifierCompte);
+
+// 🔁 Liste de tous les utilisateurs (admin ou debug)
 router.get("/tous", async (req, res) => {
   try {
     const utilisateurs = await utilisateur.find().sort({ createdAt: -1 });
@@ -22,21 +30,19 @@ router.get("/tous", async (req, res) => {
   }
 });
 
-// 📩 Authentification
-router.post("/inscription", inscription);
-router.post("/connexion", connexion);
-router.get("/verification", verifierCompte);
+// 🔐 Obtenir les infos du profil connecté (version API REST standard)
+router.get("/profil", verifierToken, getMonProfil);
 
-// 🔐 Route sécurisée - profil utilisateur connecté
+// 🔐 Obtenir les infos du profil connecté (version enrichie, avec avatar complet)
 router.get("/me", verifierToken, async (req, res) => {
   try {
-    const user = await utilisateur.findById(req.utilisateurId).lean();
+    const user = await utilisateur.findById(req.utilisateur.id).lean();
 
     if (!user) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    // ✅ Reconstruire l’URL complète de l’avatar si nécessaire
+    // Si avatar est relatif, on le complète avec le domaine
     if (user.avatar && !user.avatar.startsWith("http")) {
       user.avatar = `${req.protocol}://${req.get("host")}/uploads/${
         user.avatar
@@ -50,10 +56,13 @@ router.get("/me", verifierToken, async (req, res) => {
   }
 });
 
-// 🔐 Mise à jour profil
+// 🔐 Mise à jour du profil connecté
 router.put("/me", verifierToken, mettreAJourProfil);
 
-// 👑 Admin access
+// 🔐 Changement de mot de passe
+router.put("/me/password", verifierToken, changerMotDePasse);
+
+// 👑 Espace admin
 router.get("/admin/dashboard", verifierToken, verifierAdmin, (req, res) => {
   res.json({
     message: "Bienvenue dans l'espace admin",

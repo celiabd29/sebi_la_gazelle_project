@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const errorHandler = require("./middleware/errorHandler");
 const path = require("path");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
@@ -17,6 +18,7 @@ mongoose
   });
 
 const app = express();
+app.use(errorHandler);
 app.use(cors());
 app.use(express.json());
 
@@ -44,6 +46,7 @@ MongoClient.connect(process.env.MONGO_URI)
     app.use("/api/contact", require("./routes/contactRoutes"));
     app.use("/api/verification", require("./routes/utilisateurRoutes"));
     app.use("/api/tous", require("./routes/utilisateurRoutes"));
+    app.use("/api/avatars", require("./routes/avatarRoutes"));
 
     // ✅ Production (React build)
     if (process.env.NODE_ENV === "production") {

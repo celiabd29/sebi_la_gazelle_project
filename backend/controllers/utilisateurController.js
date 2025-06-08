@@ -2,7 +2,7 @@ const Utilisateur = require("../models/Utilisateur");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const { sendVerificationEmail } = require("../config/mailer"); // assure-toi d'avoir exporté correctement
+const { sendVerificationEmail } = require("../config/mailer");
 
 const ADMIN_EMAILS = [
   "eleisawy19@gmail.com",
@@ -10,6 +10,8 @@ const ADMIN_EMAILS = [
   "n_dhaou@stu-digital-campus.fr",
   "n_hannachi@stu-digital-campus.fr",
 ];
+
+// 🟢 Inscription
 exports.inscription = async (req, res) => {
   const { nom, prenom, dateDeNaissance, email, motDePasse, avatar } = req.body;
 
@@ -39,7 +41,6 @@ exports.inscription = async (req, res) => {
     });
 
     await utilisateur.save();
-
     await sendVerificationEmail(email, verificationToken);
 
     res
@@ -51,6 +52,7 @@ exports.inscription = async (req, res) => {
   }
 };
 
+// 🔐 Connexion
 exports.connexion = async (req, res) => {
   const { email, motDePasse } = req.body;
 
@@ -69,9 +71,11 @@ exports.connexion = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: utilisateur._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { id: utilisateur._id, role: utilisateur.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
     res.json({ token, utilisateur });
   } catch (error) {
@@ -80,6 +84,7 @@ exports.connexion = async (req, res) => {
   }
 };
 
+// 📧 Vérifier le compte par email
 exports.verifierCompte = async (req, res) => {
   const { token } = req.query;
 
@@ -100,6 +105,7 @@ exports.verifierCompte = async (req, res) => {
   }
 };
 
+// 📄 GET /profil - infos sécurisées de l'utilisateur
 exports.getMonProfil = async (req, res) => {
   try {
     const utilisateur = await Utilisateur.findById(req.utilisateur.id).select(
@@ -110,22 +116,6 @@ exports.getMonProfil = async (req, res) => {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    res.json(utilisateur);
-  } catch (error) {
-    console.error("Erreur getMonProfil :", error);
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-};
-
-// 📄 GET mon profil
-exports.getMonProfil = async (req, res) => {
-  try {
-    const utilisateur = await Utilisateur.findById(req.utilisateur.id).select(
-      "-motDePasse -verificationToken"
-    );
-    if (!utilisateur) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
     res.json(utilisateur);
   } catch (error) {
     console.error("Erreur récupération profil :", error);
@@ -133,7 +123,7 @@ exports.getMonProfil = async (req, res) => {
   }
 };
 
-// ✏️ PUT mise à jour profil
+// ✏️ PUT /me - Mise à jour du profil (avatar inclus)
 exports.mettreAJourProfil = async (req, res) => {
   try {
     const champsAutorisés = [
@@ -143,23 +133,72 @@ exports.mettreAJourProfil = async (req, res) => {
       "avatar",
       "dateDeNaissance",
     ];
-    const miseAJour = {};
+    const majDonnees = {};
 
     champsAutorisés.forEach((champ) => {
-      if (req.body[champ]) {
-        miseAJour[champ] = req.body[champ];
+      if (req.body[champ] !== undefined) {
+        majDonnees[champ] = req.body[champ];
       }
     });
 
-    const utilisateur = await Utilisateur.findByIdAndUpdate(
+    // 🧼 Nettoyage de l'avatar : garder uniquement le chemin relatif
+    if (majDonnees.avatar?.startsWith("http")) {
+      const parts = majDonnees.avatar.split("/uploads/");
+      if (parts[1]) {
+        if (majDonnees.avatar?.startsWith("http")) {
+          const filename = majDonnees.avatar.split("/").pop(); // juste le nom
+          majDonnees.avatar = `/avatars/${filename}`;
+        }
+      }
+    }
+
+    const utilisateurMisAJour = await Utilisateur.findByIdAndUpdate(
       req.utilisateur.id,
-      miseAJour,
+      majDonnees,
       { new: true }
     ).select("-motDePasse -verificationToken");
 
-    res.json(utilisateur);
+    if (!utilisateurMisAJour) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    res.json(utilisateurMisAJour);
   } catch (error) {
     console.error("Erreur mise à jour profil :", error);
+    res.status(500).json({ message: "Erreur serveur lors de la mise à jour" });
+  }
+};
+
+// 🔐 PUT /me/password - Changer mot de passe
+exports.changerMotDePasse = async (req, res) => {
+  try {
+    const { ancienMotDePasse, nouveauMotDePasse } = req.body;
+
+    if (!ancienMotDePasse || !nouveauMotDePasse) {
+      return res.status(400).json({ message: "Tous les champs sont requis" });
+    }
+
+    const utilisateur = await Utilisateur.findById(req.utilisateur.id);
+    if (!utilisateur) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    const motDePasseValide = await bcrypt.compare(
+      ancienMotDePasse,
+      utilisateur.motDePasse
+    );
+
+    if (!motDePasseValide) {
+      return res.status(403).json({ message: "Ancien mot de passe incorrect" });
+    }
+
+    const hash = await bcrypt.hash(nouveauMotDePasse, 10);
+    utilisateur.motDePasse = hash;
+    await utilisateur.save();
+
+    res.json({ message: "Mot de passe mis à jour avec succès" });
+  } catch (error) {
+    console.error("Erreur mot de passe :", error);
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
