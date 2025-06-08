@@ -4,7 +4,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import "./i18n";
 
-
 import { AuthProvider } from "./contexts/AuthContexte";
 
 // Pages générales
@@ -41,8 +40,6 @@ import Utilisateur from "./pages/Admin/Utilisateur";
 import Messages from "./pages/Admin/Message";
 import Parametre from "./pages/Admin/Parametre";
 
-
-
 // Définir le routeur
 const router = createBrowserRouter([
   {
@@ -61,7 +58,6 @@ const router = createBrowserRouter([
       { path: "/profil", element: <Profil /> },
     ],
   },
-<<<<<<< Updated upstream
   {
     path: "/jeuxDrys",
     element: <ConditionalProviders />,
@@ -71,36 +67,33 @@ const router = createBrowserRouter([
       { path: "GamePage", element: <GamePageDrys /> },
       { path: "ScorePage", element: <ScorePage /> },
     ],
-=======
-    {
-      path: "/dashboard",
-      element: <DashboardLayout />,
-      children: [
-        { path: "", element: <DashboardAccueil /> },
-        { path: "analyse", element: <Analyse /> },
-        { path: "utilisateur", element: <Utilisateur /> },
-        { path: "messages", element: <Messages /> },
-        { path: "parametres", element: <Parametre /> },
-      ],
->>>>>>> Stashed changes
   },
   {
     path: "/dashboard",
     element: <DashboardLayout />,
     children: [
       { path: "", element: <DashboardAccueil /> },
+      { path: "analyse", element: <Analyse /> },
+      { path: "utilisateur", element: <Utilisateur /> },
+      { path: "messages", element: <Messages /> },
+      { path: "parametres", element: <Parametre /> },
     ],
   },
-  { path: "/jeuxJames", element: <MainPageJames /> },
-  { path: "/jeuxJames/settings", element: <SettingsPage /> },
-  { path: "/jeuxJames/tableau", element: <Tableau /> },
-  { path: "/jeuxJames/game/:level", element: <GamePage /> },
-  { path: "/jeuxJames/level/:id", element: <LevelPage /> },
+  {
+    path: "/jeuxJames",
+    children: [
+      { path: "", element: <MainPageJames /> },
+      { path: "settings", element: <SettingsPage /> },
+      { path: "tableau", element: <Tableau /> },
+      { path: "game/:level", element: <GamePage /> },
+      { path: "level/:id", element: <LevelPage /> },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider> {/* ✅ Ajout du Provider ici */}
+    <AuthProvider>
       <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
     </AuthProvider>
   </React.StrictMode>

@@ -2,18 +2,17 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
-<<<<<<< Updated upstream
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
-=======
+const bodyParser = require("body-parser");
+
 const connecterDB = require("./config/database");
 const analyticsRoutes = require("./routes/analyse");
->>>>>>> Stashed changes
 
+// Charger les variables d'environnement
 dotenv.config();
 
-<<<<<<< Updated upstream
-// ✅ Connexion Mongoose (utilisateurs, authentification)
+// ✅ Connexion Mongoose (utilisateurs)
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Mongoose connecté (utilisateurs)"))
   .catch((err) => {
@@ -21,40 +20,44 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
 // ✅ Connexion MongoClient pour les scores
 MongoClient.connect(process.env.MONGO_URI)
   .then((client) => {
     const db = client.db();
 
-    // ✅ Injecte db dans les routes scores
+    // ✅ Créer une instance d'Express
+    const app = express();
+
+    // ✅ Middlewares
+    app.use(cors());
+    app.use(bodyParser.json());
+    app.use(express.json());
+
+    // ✅ Routes utilisant MongoClient
     const scoreRoutes = require("./routes/scoreRoutes");
     app.use("/api/scores", (req, res, next) => {
       req.db = db;
       next();
     }, scoreRoutes);
 
-    // ✅ Autres routes (Mongoose)
+    // ✅ Routes utilisant Mongoose
     app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
     app.use("/api/contact", require("./routes/contactRoutes"));
     app.use("/api/verification", require("./routes/utilisateurRoutes"));
     app.use("/api/tous", require("./routes/utilisateurRoutes"));
+    app.use("/api/analytics", analyticsRoutes);
 
-    // ✅ Production (React build)
-    if (process.env.NODE_ENV === "production") {
-      app.use(express.static(path.join(__dirname, "../frontend/build")));
-      app.get("*", (req, res) => {
-        res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-      });
-    }
+    // ✅ Production (serveur React)
+    const frontendPath = path.join(__dirname, "../frontend/build");
+    app.use(express.static(frontendPath));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(frontendPath, "index.html"));
+    });
 
-    // ✅ Lancement serveur
+    // ✅ Lancement du serveur
     const PORT = process.env.PORT || 8008;
     app.listen(PORT, () => {
-      console.log(`🚀 Serveur démarré : http://localhost:${PORT}`);
+      console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
     });
 
   })
@@ -62,34 +65,3 @@ MongoClient.connect(process.env.MONGO_URI)
     console.error("❌ Erreur MongoClient (scores) :", err);
     process.exit(1);
   });
-=======
-// Connecter à la base de données
-connecterDB();
-// Créer une instance d'Express
-const app = express();
-const frontendPath = path.join(__dirname, "../frontend/build");
-app.use(express.static(frontendPath));
-
-// Middleware CORS et parsing JSON
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.json());
-
-// build le frontend
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
-
-// Serveur API
-app.use("/api/analytics", analyticsRoutes);
-app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
-app.use("/api/contact", require("./routes/contactRoutes"));
-app.use("/api/verification", require("./routes/utilisateurRoutes"));
-app.use("/api/tous", require("./routes/utilisateurRoutes"));
-
-// Démarrer le serveur
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Serveur démarré sur le port ${port}`);
-});
->>>>>>> Stashed changes
