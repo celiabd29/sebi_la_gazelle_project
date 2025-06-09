@@ -4,7 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 const bodyParser = require("body-parser");
-
+const path = require("path");
+const connecterDB = require("./config/database");
 // Charger les variables d'environnement
 dotenv.config();
 console.log("✅ Variables d'environnement chargées");
@@ -33,7 +34,7 @@ const corsOptions = {
   credentials: true  // Avant de définir les routes
 
 };
-
+connecterDB(); // Connexion à la base de données MongoDB
 // ✅ Connexion Mongoose
 mongoose.connect(process.env.MONGO_URI, {
   dbName: process.env.DB_NAME
@@ -75,7 +76,7 @@ MongoClient.connect(process.env.MONGO_URI, {
     app.use("/api/contact", require("./routes/contactRoutes"));
     app.use("/api/verification", require("./routes/utilisateurRoutes"));
     app.use("/api/tous", require("./routes/utilisateurRoutes"));
-    app.use("/api/analytics", analyticsRoutes);
+    // app.use("/api/analytics", analyticsRoutes);
 
     const PORT = process.env.PORT || 8008;
     app.listen(PORT, () => {
