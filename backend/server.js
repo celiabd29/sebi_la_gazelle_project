@@ -7,7 +7,13 @@ const bodyParser = require("body-parser");
 
 // Charger les variables d'environnement
 dotenv.config();
-
+console.log("✅ Variables d'environnement chargées");
+console.log("✅ MONGO_URI :", process.env.MONGO_URI);
+console.log("✅ DB_NAME :", process.env.DB_NAME);
+console.log("✅ FRONTEND_URL :", process.env.FRONTEND_URL);
+console.log("✅ FRONTEND_URL_ALT :", process.env.FRONTEND_URL_ALT);
+console.log("✅ FRONTEND_URL_SECURE :", process.env.FRONTEND_URL_SECURE);
+console.log("✅ FRONTEND_URL_SECURE_ALT :", process.env.FRONTEND_URL_SECURE_ALT);
 // Définir corsOptions AVANT les connexions DB
 const corsOptions = {
   origin: [
