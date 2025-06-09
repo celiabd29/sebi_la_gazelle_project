@@ -17,6 +17,12 @@ console.log("✅ FRONTEND_URL_SECURE_ALT :", process.env.FRONTEND_URL_SECURE_ALT
 // Définir corsOptions AVANT les connexions DB
 const corsOptions = {
   origin: [
+    "https://sebilagazelle.com", // Remplacez par votre domaine o2switch
+    "http://sebilagazelle.com",
+    "https://www.sebilagazelle.com",
+    "http://www.sebilagazelle.com",
+    "http://localhost:3000",
+    "http://localhost:5173",
     process.env.FRONTEND_URL,
     process.env.FRONTEND_URL_ALT,
     process.env.FRONTEND_URL_SECURE,
@@ -24,8 +30,14 @@ const corsOptions = {
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
+  credentials: true  // Avant de définir les routes
+  
 };
+app.use((req, res, next) => {
+  console.log(`Requête reçue: ${req.method} ${req.url}`);
+  console.log(`Origin: ${req.headers.origin}`);
+  next();
+});
 
 // ✅ Connexion Mongoose
 mongoose.connect(process.env.MONGO_URI, {
