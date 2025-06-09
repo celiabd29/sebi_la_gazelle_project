@@ -1,7 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const path = require("path");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 const bodyParser = require("body-parser");
@@ -11,8 +10,8 @@ const analyticsRoutes = require("./routes/analyse");
 
 // Charger les variables d'environnement
 dotenv.config();
-
 // ✅ Connexion Mongoose (utilisateurs)
+connecterDB();
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Mongoose connecté (utilisateurs)"))
   .catch((err) => {
@@ -30,27 +29,33 @@ MongoClient.connect(process.env.MONGO_URI)
 
     // ✅ Middlewares
     // Configuration CORS pour autoriser toutes les origines
+    // app.use(cors({
+    //   origin: "*", // Autorise toutes les origines
+    //   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ajoute OPTIONS
+    //   allowedHeaders: ["Content-Type", "Authorization"],
+    //   credentials: false // Désactivé car incompatible avec origin: "*"
+    // }));
+
     app.use(cors({
-      origin: "*", // Autorise toutes les origines
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ajoute OPTIONS
-      allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: false // Désactivé car incompatible avec origin: "*"
+      origin: [
+        'http://sebilagazelle.fr',
+        'https://sebilagazelle.fr',
+        'http://www.sebilagazelle.fr',
+        'https://www.sebilagazelle.fr'
+      ],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+      credentials: true
     }));
 
-    // Alternative si vous voulez garder les credentials
-    // app.use((req, res, next) => {
-    //   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-    //   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    //   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    //   res.header("Access-Control-Allow-Credentials", "true");
-    //   next();
-    // });
+    app.use(cors(corsOptions));
 
-    app.use(bodyParser.json());
+    // Pour les requêtes OPTIONS (pré-vol)
+    app.options('*', cors(corsOptions));
+
+    app.use(bodyParser.json({ limit: "10mb" }));
+    app.use(bodyParser.urlencoded({ extended: true }));
     app.use(express.json({ limit: "10mb" }));
-
-    // Gestion des requêtes OPTIONS (pré-vol)
-    app.options("*", cors()); // Enable pre-flight for all routes
 
     // ✅ Routes utilisant MongoClient
     const scoreRoutes = require("./routes/scoreRoutes");
@@ -66,12 +71,7 @@ MongoClient.connect(process.env.MONGO_URI)
     app.use("/api/tous", require("./routes/utilisateurRoutes"));
     app.use("/api/analytics", analyticsRoutes);
 
-    // ✅ Production (serveur React)
-    const frontendPath = path.join(__dirname, "../frontend/build");
-    app.use(express.static(frontendPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(frontendPath, "index.html"));
-    });
+
 
     // ✅ Lancement du serveur
     const PORT = process.env.PORT || 8008;
