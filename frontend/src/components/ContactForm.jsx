@@ -13,7 +13,7 @@ const ContactForm = () => {
       // const response = await axios.post("http://localhost:8008/api/contact", data);
       // Dans votre frontend (ContactForm.js)
       const response = await axios.post(
-        `https://sebi-la-gazelle.onrender.com/api/contact`,
+        `https://sebi-la-gazelle-backend.onrender.com/api/contact`,
         data,
         { timeout: 15000 } // 15 secondes
       );
