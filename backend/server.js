@@ -25,12 +25,12 @@ app.use(express.json());
 // ✅ Sert les fichiers statiques (ex: avatars dans /uploads)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ✅ Connexion MongoClient pour les scores
+// ✅ Routes avec MongoClient (pour scores)
 MongoClient.connect(process.env.MONGO_URI)
   .then((client) => {
     const db = client.db();
 
-    // ✅ Injecte db dans les routes scores
+    // ✅ Injection de db dans les routes scores
     const scoreRoutes = require("./routes/scoreRoutes");
     app.use(
       "/api/scores",
@@ -47,6 +47,9 @@ MongoClient.connect(process.env.MONGO_URI)
     app.use("/api/verification", require("./routes/utilisateurRoutes"));
     app.use("/api/tous", require("./routes/utilisateurRoutes"));
     app.use("/api/avatars", require("./routes/avatarRoutes"));
+
+    // ✅ ➕ Route contrôle parental
+    app.use("/api/controle", require("./routes/controleParentalRoutes"));
 
     // ✅ Production (React build)
     if (process.env.NODE_ENV === "production") {

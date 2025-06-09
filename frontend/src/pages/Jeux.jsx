@@ -55,6 +55,16 @@ const Jeux = () => {
             </Link>
           </div>
 
+          {/* 🔐 Lien vers contrôle parental */}
+          <div className="mt-4 md:mt-0 text-center">
+            <Link
+              to="/controle-parental"
+              className="text-sm text-blue-700 underline hover:text-blue-900 transition"
+            >
+              {t("parental_access") || "Accéder au contrôle parental"}
+            </Link>
+          </div>
+
           {/* Personnages sur les côtés */}
           <div className="relative w-full mt-6 md:mt-[-7rem]">
             <img

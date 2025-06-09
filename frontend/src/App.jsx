@@ -12,6 +12,7 @@ import Inscription from "./pages/Inscription";
 import MentionsLegales from "./pages/Mentions";
 import PolitiqueConfidentialite from "./pages/ConfidentialitePage";
 import Profil from "./pages/Admin/Profil";
+import ControleParental from "./components/ControleParental";
 
 // Pages jeu de James
 import HomeJames from "./pages/Jeu_James/Home";
@@ -45,6 +46,7 @@ const App = () => {
           element={<PolitiqueConfidentialite />}
         />
         <Route path="/profil" element={<Profil />} />
+        <Route path="/controle-parental" element={<ControleParental />} />
       </Route>
 
       {/* Pages connexions/inscriptions */}
