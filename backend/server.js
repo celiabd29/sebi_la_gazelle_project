@@ -29,17 +29,28 @@ MongoClient.connect(process.env.MONGO_URI)
     const app = express();
 
     // ✅ Middlewares
-    // ✅ Configuration CORS précise (à placer avant les routes)
-    const corsOptions = {
-      origin: process.env.FRONTEND_URL,
-      methods: ["GET", "POST", "PUT", "DELETE"],
+    // Configuration CORS pour autoriser toutes les origines
+    app.use(cors({
+      origin: "*", // Autorise toutes les origines
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ajoute OPTIONS
       allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: true // Si vous utilisez des cookies/sessions
-    };
+      credentials: false // Désactivé car incompatible avec origin: "*"
+    }));
 
-    app.use(cors(corsOptions)); // Remplacez l'actuel app.use(cors())
+    // Alternative si vous voulez garder les credentials
+    // app.use((req, res, next) => {
+    //   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    //   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    //   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    //   res.header("Access-Control-Allow-Credentials", "true");
+    //   next();
+    // });
+
     app.use(bodyParser.json());
-    app.use(express.json({ limit: "10mb" })); // Augmentez la limite si nécessaire
+    app.use(express.json({ limit: "10mb" }));
+
+    // Gestion des requêtes OPTIONS (pré-vol)
+    app.options("*", cors()); // Enable pre-flight for all routes
 
     // ✅ Routes utilisant MongoClient
     const scoreRoutes = require("./routes/scoreRoutes");
