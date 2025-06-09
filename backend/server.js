@@ -11,7 +11,7 @@ const analyticsRoutes = require("./routes/analyse");
 
 // Charger les variables d'environnement
 dotenv.config();
-
+connecterDB(); // Connexion à la base de données MongoDB
 // ✅ Connexion Mongoose (utilisateurs)
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Mongoose connecté (utilisateurs)"))
