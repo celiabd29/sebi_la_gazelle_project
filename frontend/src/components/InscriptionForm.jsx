@@ -21,7 +21,7 @@ const Inscription = () => {
     try {
       const finalData = { ...data, avatar: selectedAvatar };
       // await axios.post("http://localhost:8008/api/utilisateurs/inscription", finalData);
-      await axios.post(`${import.meta.env.VITE_API_URL}/utilisateurs/inscription`, finalData);
+      await axios.post(`https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/inscription`, finalData);
 
       alert("Inscription réussie !");
       localStorage.setItem("utilisateur", JSON.stringify(finalData)); // dans ton `onSubmit`

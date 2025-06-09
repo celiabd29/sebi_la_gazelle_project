@@ -28,7 +28,7 @@ const DashboardHome = () => {
     const fetchUtilisateurs = async () => {
       try {
         // const res = await axios.get("http://localhost:8008/api/utilisateurs/tous");
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/utilisateurs/tous`);
+        const res = await axios.post(`https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/tous`);
         setUtilisateurs(res.data);
 
         const aujourdHui = new Date().toISOString().split("T")[0];

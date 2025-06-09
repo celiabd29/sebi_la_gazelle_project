@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Jeu_James/Home";
 import SettingsPage from "./pages/Jeu_James/SettingsPage.jsx";

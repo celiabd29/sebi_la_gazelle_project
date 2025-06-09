@@ -9,7 +9,7 @@ export default function AnalyseDashboard() {
   const [newClients, setNewClients] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/analytics/devices')
+    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/devices')
       .then(res => res.json())
       .then(data => {
         const formatted = data.map(device => {
@@ -38,15 +38,15 @@ export default function AnalyseDashboard() {
         setDeviceData(formatted);
       });
 
-    fetch('http://localhost:3001/api/analytics/pages')
+    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/pages')
       .then(res => res.json())
       .then(setPageData);
 
-    fetch('http://localhost:3001/api/analytics/browsers')
+    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/browsers')
       .then(res => res.json())
       .then(setBrowserData);
 
-    fetch('http://localhost:3001/api/analytics/newClients')
+    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/newClients')
       .then(res => res.json())
       .then(data => setNewClients(data.total));
   }, []);
