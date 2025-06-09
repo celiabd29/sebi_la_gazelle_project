@@ -16,24 +16,22 @@ console.log("✅ FRONTEND_URL_ALT :", process.env.FRONTEND_URL_ALT);
 console.log("✅ FRONTEND_URL_SECURE :", process.env.FRONTEND_URL_SECURE);
 console.log("✅ FRONTEND_URL_SECURE_ALT :", process.env.FRONTEND_URL_SECURE_ALT);
 // Définir corsOptions AVANT les connexions DB
-const corsOptions = {
-  origin: [
-    "https://sebilagazelle.com", // Remplacez par votre domaine o2switch
-    "http://sebilagazelle.com",
-    "https://www.sebilagazelle.com",
-    "http://www.sebilagazelle.com",
-    "http://localhost:3000",
-    "http://localhost:5173",
-    process.env.FRONTEND_URL,
-    process.env.FRONTEND_URL_ALT,
-    process.env.FRONTEND_URL_SECURE,
-    process.env.FRONTEND_URL_SECURE_ALT
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true  // Avant de définir les routes
+const app = express();
 
+// Définir corsOptions AVANT les connexions DB
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Autoriser les requêtes avec ou sans origine (comme les requêtes de navigateur ou Postman)
+    callback(null, true);
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  exposedHeaders: ["Content-Length", "X-Confirm-Delete"],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };
+app.use(cors(corsOptions));
 connecterDB(); // Connexion à la base de données MongoDB
 // ✅ Connexion Mongoose
 mongoose.connect(process.env.MONGO_URI, {
@@ -52,10 +50,8 @@ MongoClient.connect(process.env.MONGO_URI, {
   .then((client) => {
     const db = client.db();
 
-    const app = express();
 
     // Middlewares
-    app.use(cors(corsOptions));
     app.use(bodyParser.json());
     app.use(express.json({ limit: "10mb" }));
 
@@ -72,6 +68,14 @@ MongoClient.connect(process.env.MONGO_URI, {
       next();
     });
     // ✅ Routes utilisant Mongoose
+    // Ajouter avant les autres routes
+
+    app.get('/api/test-cors', (req, res) => {
+      res.json({
+        message: 'CORS est correctement configuré!',
+        origin: req.headers.origin || 'Aucune origine'
+      });
+    });
     app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
     app.use("/api/contact", require("./routes/contactRoutes"));
     app.use("/api/verification", require("./routes/utilisateurRoutes"));
