@@ -31,53 +31,58 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true  // Avant de définir les routes
-  
+
 };
-app.use((req, res, next) => {
-  console.log(`Requête reçue: ${req.method} ${req.url}`);
-  console.log(`Origin: ${req.headers.origin}`);
-  next();
-});
 
 // ✅ Connexion Mongoose
 mongoose.connect(process.env.MONGO_URI, {
   dbName: process.env.DB_NAME
 })
-.then(() => console.log("✅ Mongoose connecté (utilisateurs)"))
-.catch((err) => {
-  console.error("❌ Erreur Mongoose :", err);
-  process.exit(1);
-});
+  .then(() => console.log("✅ Mongoose connecté (utilisateurs)"))
+  .catch((err) => {
+    console.error("❌ Erreur Mongoose :", err);
+    process.exit(1);
+  });
 
 // ✅ Connexion MongoClient
 MongoClient.connect(process.env.MONGO_URI, {
   dbName: process.env.DB_NAME
 })
-.then((client) => {
-  const db = client.db();
-  
-  const app = express();
+  .then((client) => {
+    const db = client.db();
 
-  // Middlewares
-  app.use(cors(corsOptions));
-  app.use(bodyParser.json());
-  app.use(express.json({ limit: "10mb" }));
+    const app = express();
 
-  // Routes
-  const scoreRoutes = require("./routes/scoreRoutes");
-  app.use("/api/scores", (req, res, next) => {
-    req.db = db;
-    next();
-  }, scoreRoutes);
+    // Middlewares
+    app.use(cors(corsOptions));
+    app.use(bodyParser.json());
+    app.use(express.json({ limit: "10mb" }));
 
-  // ... autres routes
+    // Routes
+    const scoreRoutes = require("./routes/scoreRoutes");
+    app.use("/api/scores", (req, res, next) => {
+      req.db = db;
+      next();
+    }, scoreRoutes);
 
-  const PORT = process.env.PORT || 8008;
-  app.listen(PORT, () => {
-    console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+    app.use((req, res, next) => {
+      console.log(`Requête reçue: ${req.method} ${req.url}`);
+      console.log(`Origin: ${req.headers.origin}`);
+      next();
+    });
+    // ✅ Routes utilisant Mongoose
+    app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
+    app.use("/api/contact", require("./routes/contactRoutes"));
+    app.use("/api/verification", require("./routes/utilisateurRoutes"));
+    app.use("/api/tous", require("./routes/utilisateurRoutes"));
+    app.use("/api/analytics", analyticsRoutes);
+
+    const PORT = process.env.PORT || 8008;
+    app.listen(PORT, () => {
+      console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Erreur MongoClient (scores) :", err);
+    process.exit(1);
   });
-})
-.catch((err) => {
-  console.error("❌ Erreur MongoClient (scores) :", err);
-  process.exit(1);
-});
