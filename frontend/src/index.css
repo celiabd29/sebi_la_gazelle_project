@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Police Fredoka locale */
+@font-face {
+  font-family: "Fredoka";
+  src: url("./assets/fonts/Fredoka-Regular.ttf") format("truetype");
+}
+
+/* Bubble Body par défaut */
+@font-face {
+  font-family: "Bubble Body";
+  src: url("./assets/fonts/bubbleboddy/Bobbleboddy.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-fredoka font-semibold;
+  }
+
+  body,
+  p,
+  li,
+  ul,
+  ol,
+  span,
+  input,
+  textarea,
+  link,
+  button {
+    @apply font-fredoka font-medium;
+  }
+}

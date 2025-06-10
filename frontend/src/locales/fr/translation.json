@@ -1,0 +1,253 @@
+{
+  "home": "Accueil",
+  "games": "Jeux",
+  "characters": "Personnages",
+  "contact": "Contact",
+  "login": "Connexion",
+  "register": "Inscription",
+  "play": "Jouer !",
+  "aboutTitle": "À PROPOS DE NOUS",
+  "aboutContent": "Bienvenue dans un univers où l’apprentissage rencontre l’aventure ! Avec Sebi la Gazelle et ses amis, les enfants de 4 à 8 ans explorent un monde interactif conçu pour éveiller leur curiosité et développer leurs compétences. Chaque jeu, chaque activité et chaque histoire sont créés pour offrir une expérience éducative unique, amusante et enrichissante. Ici, vos enfants peuvent grandir et s’épanouir dans un environnement sécurisé, pensé pour stimuler leur imagination tout en les divertissant. Offrez-leur une façon innovante de découvrir le plaisir d’apprendre tout en jouant !",
+  "gamesTitle": "LES JEUX",
+  "playNow": "Jouez maintenant !",
+  "game1": {
+    "title": "Les aventures de James le Hibou",
+    "description": "Sebi la gazelle t'invite à jouer avec elle pour compter ensemble ! Son copain James le hibou adore les nombres. Il va te poser des petits calculs, et tu devras trouver la réponse super vite, avant que le temps ne soit écoulé ! Plus tu gagnes des points, plus les calculs deviennent difficiles ! Tu es prêt(e) à relever le défi ?"
+  },
+  "game2": {
+    "title": "Les cachotteries de Drys l'écureuil",
+    "description": "Oh là là, Drys l’écureuil est un petit coquin, il mange en cachette ! Viens aider Sebi la gazelle à retrouver les petites gourmandises que Drys l’écureuil a cachées sous des gobelets ! Est-ce que tu pourras deviner où il les a mises ? Attention, plus tu avances dans le jeu, plus les gobelets bougeront vite ! Est-ce que tu es prêt(e) à relever le défi ?"
+  },
+  "avis": {
+    "title": "LES AVIS",
+    "daysAgo": "il y a {{count}} jour",
+    "daysAgo_plural": "il y a {{count}} jours",
+    "1": {
+      "message": "“Mon fils a vraiment adoré le jeu de James ! C'est super de voir un jeu qui stimule son esprit stratégique tout en le divertissant. Je recommande ce jeu aux parents qui cherchent une expérience amusante et éducative pour leurs enfants.”"
+    },
+    "2": {
+      "message": "“C’est super rigolo et bien pensé, mes enfants adorent !”"
+    },
+    "3": {
+      "message": "“J’étais sceptique mais finalement très surprise par l’approche éducative !”"
+    }
+  },
+  "characterSection": {
+    "title": "LES PERSONNAGES",
+    "sebi": {
+      "name": "Sebi la gazelle",
+      "description": "Sebi la gazelle est une véritable aventurière, toujours prête à partir à la découverte du monde. Un peu tête en l'air, elle fonce parfois dans les obstacles sans se rendre compte, mais elle garde toujours son énergie et son sourire ! Avec toi pour l’aider, elle peut sauter plus haut et éviter tout ce qui se trouve sur son chemin."
+    },
+    "celia": {
+      "name": "Célia le perroquet",
+      "description": "Célia le perroquet est une amie pétillante et joyeuse, connue pour son plumage aux mille couleurs et son rire contagieux. Mais aujourd’hui, quelque chose ne va pas… Son arc-en-ciel de plumes a perdu tout son éclat, et avec lui, son beau sourire. Heureusement, tu es là pour l’aider ! Attrape ta palette de couleurs et redonne vie à ses jolies plumes."
+    },
+    "charly": {
+      "name": "Charly le caméléon",
+      "description": "Charly le caméléon est un personnage discret et timide, toujours prêt à se cacher dans son environnement. Avec sa capacité à changer de couleur, il adore se fondre dans les décors et passer inaperçu. Malgré sa nature réservée, il aime jouer à cache-cache avec ses amis, et c’est à toi de le retrouver !"
+    },
+    "james": {
+      "name": "James le hibou",
+      "description": "James le hibou est un vrai petit génie au regard malicieux. Passionné par les chiffres et les énigmes, il adore faire travailler les méninges de ses amis. Toujours perché quelque part avec un livre sous l’aile, il aime partager son savoir avec humour et malice !"
+    },
+    "mel": {
+      "name": "Mel la marmotte",
+      "description": "Mel la marmotte est une exploratrice tranquille, qui adore creuser de longs tunnels sous terre. Mais avec tant de passages secrets, elle finit parfois par s’y perdre ! Un peu tête en l’air mais toujours pleine de bonne volonté, Mel a besoin de toi pour retrouver son chemin vers les jolis pâturages en toute sécurité."
+    },
+    "nour": {
+      "name": "Nour le rossignol",
+      "description": "Nour le rossignol est un oiseau joyeux et passionné par le chant, mais parfois son enthousiasme le fait chanter un peu trop fort ! Avec sa voix mélodieuse, il aime chanter à tout va, même si cela peut être un peu trop pour les oreilles sensibles de Sebi la gazelle. Toujours prêt à s’améliorer, Nour a besoin de ton aide pour chanter juste et faire résonner sa musique en harmonie !"
+    },
+    "drys": {
+      "name": "Drys l’écureuil",
+      "description": "Drys l’écureuil est un petit malin toujours en quête de nouvelles friandises. Très agile, il adore cacher ses trésors sous des gobelets et défier ses amis pour voir s’ils peuvent les retrouver. Un vrai coquin, Drys est toujours prêt à semer un peu de mystère… et il a bien besoin de toi pour l’aider à retrouver ses cachettes !"
+    },
+    "noah": {
+      "name": "Noah le renard",
+      "description": "Noah le renard est un aventurier curieux, toujours prêt à explorer de nouveaux horizons. Passionné par la géographie, il rêve de tout connaître sur le monde, et surtout des départements français ! Avec son flair et son esprit rusé, Noah a besoin de toi pour relever le défi et devenir un véritable expert."
+    }
+  },
+  "mentions": {
+    "title": "Mentions Légales",
+    "site": "Site",
+    "editeur": "Éditeur",
+    "hebergeur": "Hébergeur"
+  },
+  "footer": {
+    "home": "Accueil",
+    "games": "Jeux",
+    "characters": "Personnages",
+    "contact": "Contact",
+    "rights": "©2024, Sebi La Gazelle. Tous droits réservés.",
+    "legal": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "language": "Français"
+  },
+
+  "title_james": "Super calculs avec James le hibou",
+  "start_game": "Commencer",
+  "level": "Niveau",
+  "validate": "Valider",
+  "score": "TON SCORE",
+  "congrats": "Bravo !",
+  "fail": "Oh non ...",
+  "top3": "🏆 TOP 3",
+  "settings": "Paramètres",
+  "language": "Langue",
+  "sound": "Son",
+  "back": "Retour",
+  "welcome_level": "Bienvenue au Niveau {{number}} ! Résout cette énigme pour commencer.",
+  "level_locked": "Ce niveau est encore fermé. Reviens plus tard !",
+  "back_to_menu": "Retour au menu",
+  "next_level": "Niveau suivant",
+  "try_again": "Recommencer",
+  "change_language": "Changer la langue",
+  "volume_on": "Son activé",
+  "volume_off": "Son désactivé",
+  "on": "ON",
+  "off": "OFF",
+  "french": "🇫🇷 FR",
+  "english": "🇬🇧 EN",
+  "toggle_sound": "Activer/désactiver le son",
+  "toggle_language": "Changer de langue",
+  "start": "Commencer",
+  "level_1_text": "Bienvenue au Niveau 1 ! Résout cette énigme pour commencer.",
+  "level_2_text": "Niveau 2 : James le hibou a besoin de ton aide pour avancer.",
+  "level_3_text": "Niveau 3 : Un nouveau défi t'attend ici !",
+  "level_4_text": "Niveau 4 : Attention, ça se complique sérieusement !",
+  "level_5_text": "Niveau 5 : Dernière ligne droite, montre que tu es un champion !",
+  "level_default_text": "Ce niveau n'existe pas encore. Reviens bientôt !",
+  "loading": "Chargement...",
+  "play_level": "Jouer au niveau",
+  "game_content_placeholder": "Contenu du jeu pour ce niveau.",
+  "complete_level": "Terminer le niveau",
+  "game_james": "Les super calculs de James le hibou",
+  "game_drys": "Les cachotteries de Drys l'écureuil",
+  "contact_title": "Nous contacter",
+  "contact_magic_title": "Envoie-nous ton message ✨",
+  "form_name_label": "Nom",
+  "form_name_placeholder": "Ton nom",
+  "form_firstname_label": "Prénom",
+  "form_firstname_placeholder": "Ton prénom",
+  "form_email_label": "Email",
+  "form_email_placeholder": "exemple@mail.com",
+  "form_message_label": "Message",
+  "form_message_placeholder": "Écris ton message ici",
+  "form_submit": "Envoyer",
+  "form_success": "Message envoyé avec succès !",
+  "form_error_generic": "Une erreur est survenue.",
+  "form_error_server": "Erreur serveur. Veuillez réessayer plus tard.",
+  "login_title": "Connexion",
+  "login_button": "Se connecter",
+  "form_email_required": "L'email est requis",
+  "form_password_label": "Mot de passe",
+  "form_password_required": "Mot de passe requis",
+  "no_account": "Tu n'as pas de compte ?",
+  "create_one": "Crée-en un !",
+  "register_title": "Crée ton compte",
+  "register_button": "S'inscrire",
+  "register_success": "Inscription réussie !",
+  "register_error": "Une erreur est survenue pendant l'inscription.",
+  "form_firstname_required": "Le prénom est requis",
+  "form_name_required": "Le nom est requis",
+  "form_birthdate_label": "Date de naissance",
+  "form_birthdate_required": "La date de naissance est requise",
+  "form_password_min": "Minimum 6 caractères",
+  "form_avatar_label": "Choisis ton avatar :",
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "intro": "Chez Sebi la gazelle, nous attachons une grande importance à la confidentialité et à la sécurité des données personnelles de nos utilisateurs, en particulier lorsqu’il s’agit des enfants. Cette politique de confidentialité explique quelles informations nous collectons, comment nous les utilisons et les protégeons.",
+    "1": {
+      "title": "1. Collecte des Informations Personnelles",
+      "desc": "Nous pouvons collecter certaines informations personnelles pour améliorer l’expérience utilisateur. Cela peut inclure :",
+      "item1": "Le prénom ou pseudonyme de l’enfant",
+      "item2": "L’âge de l’enfant",
+      "item3": "Les avis des parents sur les jeux proposés",
+      "note": "Aucune information sensible, comme l’adresse ou des données de localisation précises, n’est collectée."
+    },
+    "2": {
+      "title": "2. Utilisation des Informations",
+      "desc": "Les informations collectées nous aident à :",
+      "item1": "Améliorer et personnaliser les contenus de jeu pour rendre l'expérience plus adaptée aux enfants",
+      "item2": "Recevoir des retours des parents afin de développer de nouvelles fonctionnalités"
+    },
+    "3": {
+      "title": "3. Partage des Informations",
+      "desc": "Les informations collectées sont strictement confidentielles et ne sont pas partagées avec des tiers, sauf dans les cas où cela est nécessaire pour fournir le service (comme des partenaires techniques ou des services d’hébergement sécurisés)."
+    },
+    "4": {
+      "title": "4. Sécurité des Informations",
+      "desc": "Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles pour protéger les données contre tout accès, modification, divulgation ou destruction non autorisés. Par exemple, toutes les informations sensibles sont stockées de manière sécurisée et cryptée."
+    },
+    "5": {
+      "title": "5. Droits des Utilisateurs",
+      "desc": "Les parents ont le droit de :",
+      "item1": "Accéder aux informations collectées concernant leur enfant",
+      "item2": "Demander la modification ou la suppression de ces informations",
+      "note": "Pour exercer ces droits, veuillez nous contacter à l'adresse suivante :"
+    },
+    "6": {
+      "title": "6. Modifications de cette Politique de Confidentialité",
+      "desc": "Cette politique de confidentialité peut être modifiée de temps à autre pour refléter les évolutions de nos pratiques ou pour des raisons légales. Nous vous informerons de toute modification via contact@sebilagazelle.fr."
+    },
+    "7": {
+      "title": "7. Contact",
+      "desc": "Pour toute question concernant cette politique de confidentialité ou le traitement des données personnelles, n’hésitez pas à nous contacter :",
+      "item1": "Email : contact@sebilagazelle.fr",
+      "item2": "Adresse postale : Paris"
+    }
+  },
+  "legal": {
+    "title": "Mentions légales",
+    "1": {
+      "title": "1. Éditeur du site",
+      "desc": "Le site sebilagazelle.fr est un projet scolaire développé dans le cadre d’un travail universitaire. Il est géré par un collectif de trois étudiants :",
+      "member1": "Dhaou Noussaïba",
+      "member2": "Abbad Célia",
+      "member3": "Eleisawy Mohamed",
+      "contact": "Pour toute question ou réclamation, vous pouvez nous contacter à l’adresse suivante :"
+    },
+    "2": {
+      "title": "2. Hébergement",
+      "host": "Le site est hébergé par la société suivante :"
+    },
+    "3": {
+      "title": "3. Propriété intellectuelle",
+      "desc1": "Tous les contenus (textes, images, illustrations, éléments graphiques, sons, vidéos, etc.) présents sur ce site sont la propriété exclusive des auteurs du projet ou ont été utilisés avec les autorisations nécessaires dans le cadre scolaire.",
+      "desc2": "Toute reproduction, diffusion ou utilisation sans autorisation est interdite, sauf dans le cadre d’un usage strictement personnel et non commercial."
+    },
+    "4": {
+      "title": "4. Données personnelles",
+      "desc1": "Ce site ne collecte pas de données personnelles sensibles. Certaines informations peuvent être collectées à des fins pédagogiques (pseudonyme, âge) mais ne sont en aucun cas transmises à des tiers. Pour plus de détails, consultez notre",
+      "link": "politique de confidentialité"
+    },
+    "5": {
+      "title": "5. Cookies",
+      "desc": "Le site peut utiliser des cookies pour améliorer l’expérience utilisateur. Aucune donnée n’est exploitée à des fins publicitaires ou commerciales."
+    }
+  },
+  "sectionJeux": {
+    "james": "Sebi la gazelle t'invite à jouer avec elle pour compter ensemble ! Son copain James le hibou adore les nombres. Il va te poser des petits calculs, et tu devras trouver la réponse super vite, avant que le temps ne soit écoulé ! Plus tu gagnes des points, plus les calculs deviennent difficiles ! Tu es prêt(e) à relever le défi ?",
+    "drys": "Oh là là, Drys l’écureuil est un petit coquin, il mange en cachette ! Viens aider Sebi la gazelle à retrouver les petites gourmandises que Drys l’écureuil a cachées sous des gobelets ! Est-ce que tu pourras deviner où il les a mises ? Attention, plus tu avances dans le jeu, plus les gobelets bougeront vite ! Est-ce que tu es prêt(e) à relever le défi ?"
+  },
+  "profile_tab": "Profil",
+  "reward_tab": "Récompenses",
+  "form_nom_label": "Nom",
+  "form_prenom_label": "Prénom",
+  "form_dateDeNaissance_label": "Date de naissance",
+  "reward_message": "Tu n’as pas encore de récompenses...",
+  "levelWithNumber": "Niveau {{level}}",
+  "yourScore": "TON SCORE",
+  "stars": "étoile",
+  "light": "Lumière",
+  "character": "Personnage",
+  "mainPage": {
+    "title": "Les cachotteries de Drys l'écureuil"
+  },
+  "drys_level_1_text": "Aide Drys à retrouver sa noisette dans le jardin enchanté !",
+  "drys_level_2_text": "Les arbres se sont déplacés ! Retrouve le bon chemin.",
+  "drys_level_3_text": "Attention aux ronces ! Il faut calculer pour avancer.",
+  "drys_level_4_text": "Les feuilles tombent... mais où est la cachette ?",
+  "drys_level_5_text": "C’est le défi final ! Tu es prêt pour le grand saut ?",
+  "drys_level_default_text": "Un nouveau défi t’attend avec Drys !"
+}
