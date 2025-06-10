@@ -9,6 +9,8 @@ const {
   getMonProfil,
   changerMotDePasse,
   modifierCodeParental,
+  ajouterRecompense,      // <-- ajoute ici
+  getRecompenses,         // <-- ajoute ici
 } = require("../controllers/utilisateurController");
 
 const { verifierToken, verifierAdmin } = require("../middleware/auth");
@@ -64,6 +66,12 @@ router.put("/me/password", verifierToken, changerMotDePasse);
 
 // 🔐 ✅ Modification du code parental
 router.put("/me/code-parent", verifierToken, modifierCodeParental);
+
+// 🔐 Ajout d'une récompense (protégé par token)
+router.post("/recompenses", verifierToken, ajouterRecompense);
+
+// 🔐 Récupérer les récompenses d'un utilisateur (protégé par token)
+router.get("/recompenses/:userId", verifierToken, getRecompenses);
 
 // 👑 Espace admin
 router.get("/admin/dashboard", verifierToken, verifierAdmin, (req, res) => {

@@ -85,7 +85,15 @@
   "congrats": "Well done!",
   "fail": "Oh no ...",
   "top3": "🏆 TOP 3",
-  "settings": "Settings",
+  "settings": {
+    "title": "Settings",
+    "music": "Music",
+    "voice": "Voice",
+    "language": "Language",
+    "change_language": "Change language",
+    "on": "ON",
+    "off": "OFF"
+  },
   "language": "Language",
   "sound": "Sound",
   "back": "Back",
@@ -223,12 +231,19 @@
     "james": "Sebi the gazelle invites you to play and count together! Her friend James the owl loves numbers. He will ask you little math problems, and you’ll have to find the answer super fast before time runs out! The more points you earn, the harder the calculations become! Are you ready for the challenge?",
     "drys": "Oh dear, Drys the squirrel is a little rascal—he's sneaking snacks! Come help Sebi the gazelle find the tasty treats Drys the squirrel has hidden under cups! Can you guess where he put them? Be careful— as you progress in the game, the cups move faster! Are you ready for the challenge?"
   },
-  "profile_tab": "Profile",
+  "profil_tab": "Profil",
+  "recompenses_tab": "Rewards",
+  "securite_tab": "Security",
+  "changer_mdp": "Change my password",
+  "valider": "Submit",
   "reward_tab": "Rewards",
   "form_nom_label": "Last Name",
   "form_prenom_label": "First Name",
   "form_dateDeNaissance_label": "Date of Birth",
   "reward_message": "You don’t have any rewards yet...",
+  "form_ancienMotDePasse_label": "Old Password",
+  "form_nouveauMotDePasse_label": "New Password",
+  "choisir_avatar": "Choose an avatar:",
   "levelWithNumber": "Level {{level}}",
   "yourScore": "YOUR SCORE",
   "stars": "star",
@@ -242,5 +257,19 @@
   "drys_level_3_text": "Watch out for brambles! You need to calculate to move forward.",
   "drys_level_4_text": "Leaves are falling... but where’s the hiding spot?",
   "drys_level_5_text": "It’s the final challenge! Are you ready for the leap?",
-  "drys_level_default_text": "A new challenge awaits you with Drys!"
+  "drys_level_default_text": "A new challenge awaits you with Drys!",
+  "wrong": "Mauvaise réponse ! Réessaie...",
+  "scorePage": {
+    "level": "Level {{level}}",
+    "congrats": "Well done!",
+    "fail": "Oh no ...",
+    "yourScore": "YOUR SCORE",
+    "replay": "Replay",
+    "home": "Home",
+    "next": "Next",
+    "leaderboard": "Leaderboard"
+  },
+  "parental_access": "Parental Access",
+  "form_parental_code_label": "Parental Code",
+  "form_parental_code_placeholder": "Enter the parental code"
 }

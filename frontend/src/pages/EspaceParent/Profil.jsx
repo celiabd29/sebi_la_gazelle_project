@@ -8,7 +8,7 @@ import { useAuth } from "../../contexts/AuthContexte";
 const Profil = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setUtilisateur } = useAuth();
+  const { enregistrerUtilisateur } = useAuth();
 
   const [activeTab, setActiveTab] = useState("profil");
   const [editingField, setEditingField] = useState(null);
@@ -28,9 +28,10 @@ const Profil = () => {
 
   const [avatarOptions, setAvatarOptions] = useState([]);
   const token = localStorage.getItem("token");
+  const [ancienCodeParental, setAncienCodeParental] = useState("");
+  const user = JSON.parse(localStorage.getItem("utilisateur"));
+  const isLoggedIn = !!user;
 
-  const [recompenses, setRecompenses] = useState([]);
-  const [imageActive, setImageActive] = useState(null);
 
 
   useEffect(() => {
@@ -64,21 +65,19 @@ const Profil = () => {
       .catch((err) => console.error("Erreur chargement avatars :", err));
   }, []);
 
-
   useEffect(() => {
-    if (!token) return;
     fetch("http://localhost:8008/api/recompenses", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("🎁 Récompenses reçues :", data);
-        setRecompenses(data);
+      .then(res => res.json())
+      .then(data => {
+        setFormData(prev => ({ ...prev, recompenses: data }));
       })
-      .catch((err) => console.error("Erreur recompenses :", err));
-  }, [token]);
+      .catch(console.error);
+  }, []);
 
-  
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -86,25 +85,66 @@ const Profil = () => {
 
   const handleEdit = (field) => {
     setEditingField(field);
+    if (field === "codeParental") {
+      setFormData((prev) => ({ ...prev, codeParental: "" }));
+    }
+
   };
 
   const handleSave = () => {
-    fetch("http://localhost:8008/api/utilisateurs/me", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((updated) => {
-        setFormData(updated);
-        setUtilisateur(updated);
-        setEditingField(null);
-        localStorage.setItem("utilisateur", JSON.stringify(updated));
+    if (editingField === "codeParental") {
+       if (!ancienCodeParental) {
+          alert("Merci de saisir l'ancien code parental.");
+          return;
+        }
+      fetch("http://localhost:8008/api/utilisateurs/me/code-parent", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+       body: JSON.stringify({
+          ancienCode: ancienCodeParental,
+          nouveauCode: formData.codeParental,
+        }),
+
       })
-      .catch((err) => console.error("Erreur mise à jour :", err));
+        .then((res) => res.json())
+        .then((updated) => {
+          if (updated.success) {
+            setFormData((prev) => ({
+              ...prev,
+              codeParental: formData.codeParental,
+            }));
+            setEditingField(null);
+            setAncienCodeParental("");
+
+            alert("Code parental mis à jour avec succès !");
+          } else {
+            alert(updated.message || "Erreur de mise à jour");
+          }
+        })
+        .catch((err) =>
+          console.error("Erreur mise à jour code parental :", err)
+        );
+    } else {
+      fetch("http://localhost:8008/api/utilisateurs/me", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => res.json())
+        .then((updated) => {
+          setFormData(updated);
+          enregistrerUtilisateur(updated);
+          setEditingField(null);
+          localStorage.setItem("utilisateur", JSON.stringify(updated));
+        })
+        .catch((err) => console.error("Erreur mise à jour :", err));
+    }
   };
 
   const handlePasswordChange = () => {
@@ -139,7 +179,7 @@ const Profil = () => {
       .then((res) => res.json())
       .then((updated) => {
         setFormData(updated);
-        setUtilisateur(updated);
+        enregistrerUtilisateur(updated);
         localStorage.setItem("utilisateur", JSON.stringify(updated));
       })
       .catch((err) => console.error("Erreur mise à jour avatar :", err));
@@ -152,7 +192,7 @@ const Profil = () => {
     >
       <div className="bg-[#C6FFCB] w-full max-w-5xl rounded-3xl shadow-lg ml-6 p-6 md:p-10">
         <div className="flex gap-6 border-b-4 border-[#9CF29B] text-xl font-[Fredoka] mb-6">
-          {["profil", "recompenses", "securite"].map((tab) => (
+          {["profil", "securite"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -200,33 +240,52 @@ const Profil = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     {editingField === field ? (
-                      <input
-                        type={
-                          field === "email"
-                            ? "email"
-                            : field === "dateDeNaissance"
-                            ? "date"
-                            : field === "codeParental"
-                            ? "password"
-                            : "text"
-                        }
-                        value={
-                          field === "dateDeNaissance"
-                            ? formData[field]?.split("T")[0]
-                            : formData[field] || ""
-                        }
-                        onChange={(e) => handleChange(field, e.target.value)}
-                        className="border rounded-xl px-3 py-1 text-sm"
-                      />
+                      field === "codeParental" ? (
+                      <div className="flex flex-col gap-2">
+                        <input
+                          type="password"
+                          placeholder="Ancien code parental"
+                          value={ancienCodeParental}
+                          onChange={(e) => setAncienCodeParental(e.target.value)}
+                          className="border rounded-xl px-3 py-1 text-sm"
+                        />
+                        <input
+                          type="password"
+                          placeholder="Nouveau code parental"
+                          value={formData.codeParental}
+                          onChange={(e) => handleChange("codeParental", e.target.value)}
+                          className="border rounded-xl px-3 py-1 text-sm"
+                        />
+                      </div>
                     ) : (
-                      <span className="text-gray-600 text-sm">
-                        {field === "dateDeNaissance"
-                          ? formData[field]?.split("T")[0]
-                          : field === "codeParental"
-                          ? "••••"
-                          : formData[field]}
-                      </span>
-                    )}
+                <input
+                  type={
+                    field === "email"
+                      ? "email"
+                      : field === "dateDeNaissance"
+                      ? "date"
+                      : "text"
+                  }
+                  value={
+                    field === "dateDeNaissance"
+                      ? formData[field]?.split("T")[0]
+                      : formData[field] || ""
+                  }
+                  onChange={(e) => handleChange(field, e.target.value)}
+                  className="border rounded-xl px-3 py-1 text-sm"
+                />
+              )
+            ) : (
+              <span className="text-gray-600 text-sm">
+                {field === "dateDeNaissance"
+                  ? formData[field]?.split("T")[0]
+                  : field === "codeParental"
+                  ? "••••"
+                  : formData[field]}
+              </span>
+            )}
+
+
                     <button
                       onClick={() =>
                         editingField === field
@@ -265,48 +324,7 @@ const Profil = () => {
           </div>
         )}
 
-        {activeTab === "recompenses" && (
-        <div className="p-4 mt-4 bg-white rounded-xl shadow-inner">
-          {recompenses.length === 0 ? (
-            <p className="text-center text-[#4B2A13] text-xl">
-              🎉 Tu n’as pas encore de récompenses... 🎉
-            </p>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {recompenses.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.url}
-                  alt={`Récompense ${index}`}
-                  className="rounded-xl cursor-pointer object-cover w-full h-32"
-                  onClick={() => setImageActive(image.url)}
-                />
-              ))}
-            </div>
-          )}
-
-          {/* Modal d’image */}
-          {imageActive && (
-            <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-              <div className="relative bg-white p-4 rounded-2xl max-w-[90%] max-h-[90%] overflow-auto shadow-2xl">
-                <button
-                  onClick={() => setImageActive(null)}
-                  className="absolute top-3 right-3 text-black text-2xl"
-                >
-                  ❌
-                </button>
-                <img
-                  src={imageActive}
-                  alt="Récompense agrandie"
-                  className="w-full h-auto rounded-xl"
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-
+        
         {activeTab === "securite" && (
           <div className="bg-white p-6 mt-4 rounded-xl shadow-inner space-y-4">
             <h3 className="text-xl font-semibold text-[#4B2A13]">

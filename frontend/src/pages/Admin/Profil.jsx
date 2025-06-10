@@ -8,7 +8,7 @@ import { useAuth } from "../../contexts/AuthContexte";
 const Profil = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setUtilisateur } = useAuth();
+  const { enregistrerUtilisateur } = useAuth();
 
   const [activeTab, setActiveTab] = useState("profil");
   const [editingField, setEditingField] = useState(null);
@@ -75,6 +75,10 @@ const Profil = () => {
 
   const handleSave = () => {
     if (editingField === "codeParental") {
+       if (!ancienCodeParental) {
+          alert("Merci de saisir l'ancien code parental.");
+          return;
+        }
       fetch("http://localhost:8008/api/utilisateurs/me/code-parent", {
         method: "PUT",
         headers: {
@@ -117,7 +121,7 @@ const Profil = () => {
         .then((res) => res.json())
         .then((updated) => {
           setFormData(updated);
-          setUtilisateur(updated);
+          enregistrerUtilisateur(updated);
           setEditingField(null);
           localStorage.setItem("utilisateur", JSON.stringify(updated));
         })
@@ -157,7 +161,7 @@ const Profil = () => {
       .then((res) => res.json())
       .then((updated) => {
         setFormData(updated);
-        setUtilisateur(updated);
+        enregistrerUtilisateur(updated);
         localStorage.setItem("utilisateur", JSON.stringify(updated));
       })
       .catch((err) => console.error("Erreur mise à jour avatar :", err));
@@ -218,7 +222,7 @@ const Profil = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     {editingField === field ? (
-                    field === "codeParental" ? (
+                      field === "codeParental" ? (
                       <div className="flex flex-col gap-2">
                         <input
                           type="password"
@@ -236,32 +240,32 @@ const Profil = () => {
                         />
                       </div>
                     ) : (
-                      <input
-                        type={
-                          field === "email"
-                            ? "email"
-                            : field === "dateDeNaissance"
-                            ? "date"
-                            : "text"
-                        }
-                        value={
-                          field === "dateDeNaissance"
-                            ? formData[field]?.split("T")[0]
-                            : formData[field] || ""
-                        }
-                        onChange={(e) => handleChange(field, e.target.value)}
-                        className="border rounded-xl px-3 py-1 text-sm"
-                      />
-                    )
-                  ) : (
-                    <span className="text-gray-600 text-sm">
-                      {field === "dateDeNaissance"
-                        ? formData[field]?.split("T")[0]
-                        : field === "codeParental"
-                        ? "••••"
-                        : formData[field]}
-                    </span>
-                  )}
+                <input
+                  type={
+                    field === "email"
+                      ? "email"
+                      : field === "dateDeNaissance"
+                      ? "date"
+                      : "text"
+                  }
+                  value={
+                    field === "dateDeNaissance"
+                      ? formData[field]?.split("T")[0]
+                      : formData[field] || ""
+                  }
+                  onChange={(e) => handleChange(field, e.target.value)}
+                  className="border rounded-xl px-3 py-1 text-sm"
+                />
+              )
+            ) : (
+              <span className="text-gray-600 text-sm">
+                {field === "dateDeNaissance"
+                  ? formData[field]?.split("T")[0]
+                  : field === "codeParental"
+                  ? "••••"
+                  : formData[field]}
+              </span>
+            )}
 
 
                     <button

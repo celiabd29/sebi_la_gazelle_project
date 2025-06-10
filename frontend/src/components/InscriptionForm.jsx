@@ -7,9 +7,12 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo-sebi.webp";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 
 const InscriptionForm = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const avatars = [
     "/avatars/drys_le_ecureuil.webp",
     "/avatars/james_le_hibou.webp",
@@ -27,17 +30,18 @@ const InscriptionForm = () => {
   const onSubmit = async (data) => {
     try {
       const finalData = { ...data, avatar: selectedAvatar };
-      await axios.post(
-        "http://localhost:8008/api/utilisateurs/inscription",
-        finalData
-      );
-      alert(t("register_success"));
+      console.log("✅ Données envoyées :", finalData);
+      await axios.post("http://localhost:8008/api/utilisateurs/inscription", finalData);
+
       localStorage.setItem("utilisateur", JSON.stringify(finalData));
+      navigate("/connexion");
     } catch (error) {
-      console.error("Erreur d'inscription :", error);
+      console.error("❌ Erreur d'inscription :", error.response?.data || error);
       alert(t("register_error"));
     }
   };
+
+
 
   const toggleLangue = () => {
     const nouvelleLangue = i18n.language === "fr" ? "en" : "fr";
@@ -72,6 +76,23 @@ const InscriptionForm = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-5 text-base md:text-lg"
         >
+         
+
+          <div>
+            <label className="text-[#804000] mb-1 block">
+              {t("form_name_label")}
+            </label>
+            <input
+              type="text"
+              {...register("nom", { required: t("form_name_required") })}
+              placeholder={t("form_name_placeholder")}
+              className="w-full p-3 rounded-xl border-2 border-[#FFD6A5] bg-[#FFF8F0] focus:outline-none focus:ring-2 focus:ring-[#FFC28A]"
+            />
+            {errors.nom && (
+              <p className="text-red-500 text-sm">{errors.nom.message}</p>
+            )}
+          </div>
+
           <div>
             <label className="text-[#804000] mb-1 block">
               {t("form_firstname_label")}
@@ -86,21 +107,6 @@ const InscriptionForm = () => {
             />
             {errors.prenom && (
               <p className="text-red-500 text-sm">{errors.prenom.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="text-[#804000] mb-1 block">
-              {t("form_name_label")}
-            </label>
-            <input
-              type="text"
-              {...register("nom", { required: t("form_name_required") })}
-              placeholder={t("form_name_placeholder")}
-              className="w-full p-3 rounded-xl border-2 border-[#FFD6A5] bg-[#FFF8F0] focus:outline-none focus:ring-2 focus:ring-[#FFC28A]"
-            />
-            {errors.nom && (
-              <p className="text-red-500 text-sm">{errors.nom.message}</p>
             )}
           </div>
 
@@ -154,6 +160,26 @@ const InscriptionForm = () => {
               <p className="text-red-500 text-sm">
                 {errors.motDePasse.message}
               </p>
+            )}
+          </div>
+
+           <div>
+            <label className="text-[#804000] mb-1 block">
+              {t("form_parental_code_label") || "Code parental (PIN)"}
+            </label>
+            <input
+              type="password"
+              {...register("codeParental", {
+                required: t("form_parental_code_required") || "Le code parental est requis",
+                minLength: { value: 4, message: "Le code doit faire au moins 4 chiffres" },
+                maxLength: { value: 6, message: "Le code ne peut pas dépasser 6 chiffres" },
+                pattern: { value: /^[0-9]+$/, message: "Le code doit contenir uniquement des chiffres" }
+              })}
+              placeholder={t("form_parental_code_placeholder") || "Entrez un code PIN"}
+              className="w-full p-3 rounded-xl border-2 border-[#FFD6A5] bg-[#FFF8F0] focus:outline-none focus:ring-2 focus:ring-[#FFC28A]"
+            />
+            {errors.codeParental && (
+              <p className="text-red-500 text-sm">{errors.codeParental.message}</p>
             )}
           </div>
 

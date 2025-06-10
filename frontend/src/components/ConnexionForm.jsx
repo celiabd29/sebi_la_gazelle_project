@@ -42,7 +42,9 @@ const Connexion = () => {
       );
 
       enregistrerUtilisateur(utilisateur);
-      navigate(utilisateur.role === "admin" ? "/dashboard" : "/");
+     navigate(utilisateur.role === "admin" ? "/dashboard" : "/");
+
+
     } catch (error) {
       console.error("Erreur de connexion :", error);
       alert(error.response?.data?.message || "Erreur lors de la connexion");

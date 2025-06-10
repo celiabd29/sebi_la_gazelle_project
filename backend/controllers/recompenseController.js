@@ -30,12 +30,13 @@ const ajouterRecompense = async (req, res) => {
 
 const getMesRecompenses = async (req, res) => {
   try {
-    const recompenses = await Recompense.find({ utilisateur: req.utilisateur._id });
+   const recompenses = await Recompense.find({ utilisateur: req.utilisateur._id });
     res.json(recompenses);
   } catch (err) {
     res.status(500).json({ message: "Erreur de récupération", err });
   }
 };
+
 
 module.exports = {
   ajouterRecompense,

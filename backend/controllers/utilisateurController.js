@@ -13,7 +13,8 @@ const ADMIN_EMAILS = [
 
 // 🟢 Inscription
 exports.inscription = async (req, res) => {
-  const { nom, prenom, dateDeNaissance, email, motDePasse, avatar } = req.body;
+  const { nom, prenom, dateDeNaissance, email, motDePasse, avatar, codeParental } = req.body;
+
 
   try {
     let utilisateur = await Utilisateur.findOne({ email });
@@ -35,10 +36,12 @@ exports.inscription = async (req, res) => {
       avatar,
       email,
       motDePasse: hash,
+      codeParental,        // <-- ici
       verificationToken,
       estVerifie: false,
       role,
     });
+
 
     await utilisateur.save();
     await sendVerificationEmail(email, verificationToken);
@@ -89,21 +92,59 @@ exports.verifierCompte = async (req, res) => {
   const { token } = req.query;
 
   try {
+    // 🔍 On cherche l'utilisateur avec ce token
     const utilisateur = await Utilisateur.findOne({ verificationToken: token });
+
     if (!utilisateur) {
-      return res.status(400).json({ message: "Token invalide" });
+      // ✅ Si aucun utilisateur avec ce token → on vérifie si un utilisateur est déjà vérifié
+      const dejaVerifie = await Utilisateur.findOne({
+        verificationToken: { $in: [null, undefined] },
+        estVerifie: true,
+      });
+
+      if (dejaVerifie) {
+        // On retourne un message neutre + les données
+        return res.status(200).json({
+          message: "Compte déjà vérifié.",
+          utilisateur: {
+            nom: dejaVerifie.nom,
+            prenom: dejaVerifie.prenom,
+            email: dejaVerifie.email,
+            avatar: dejaVerifie.avatar,
+            dateDeNaissance: dejaVerifie.dateDeNaissance,
+            estVerifie: dejaVerifie.estVerifie,
+            role: dejaVerifie.role,
+            _id: dejaVerifie._id,
+          },
+        });
+      }
+
+      return res.status(400).json({ message: "Token invalide ou expiré." });
     }
 
     utilisateur.estVerifie = true;
     utilisateur.verificationToken = undefined;
     await utilisateur.save();
 
-    res.status(200).json({ message: "Compte vérifié avec succès" });
+    res.status(200).json({
+      message: "Compte vérifié avec succès.",
+      utilisateur: {
+        nom: utilisateur.nom,
+        prenom: utilisateur.prenom,
+        email: utilisateur.email,
+        avatar: utilisateur.avatar,
+        dateDeNaissance: utilisateur.dateDeNaissance,
+        estVerifie: utilisateur.estVerifie,
+        role: utilisateur.role,
+        _id: utilisateur._id,
+      },
+    });
   } catch (error) {
     console.error("Erreur de vérification :", error);
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
 
 // 📄 GET /profil - infos sécurisées de l'utilisateur
 exports.getMonProfil = async (req, res) => {
@@ -294,6 +335,52 @@ exports.changerCode = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Erreur changer code parental :", error.message);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+// Ajouter une récompense à un utilisateur
+exports.ajouterRecompense = async (req, res) => {
+  const { userId, url, jeu, description } = req.body;
+
+  if (!userId || !url || !jeu) {
+    return res.status(400).json({ message: "userId, url et jeu sont requis" });
+  }
+
+  try {
+    const utilisateur = await Utilisateur.findById(userId);
+    if (!utilisateur) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    utilisateur.recompenses.push({
+      url,
+      jeu,
+      description,
+    });
+
+    await utilisateur.save();
+
+    res.status(200).json({ message: "Récompense ajoutée", recompenses: utilisateur.recompenses });
+  } catch (error) {
+    console.error("Erreur ajout recompense :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+// Récupérer les récompenses d'un utilisateur
+exports.getRecompenses = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const utilisateur = await Utilisateur.findById(userId).select("recompenses");
+    if (!utilisateur) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    res.status(200).json({ recompenses: utilisateur.recompenses });
+  } catch (error) {
+    console.error("Erreur récupération recompenses :", error);
     res.status(500).json({ message: "Erreur serveur" });
   }
 };

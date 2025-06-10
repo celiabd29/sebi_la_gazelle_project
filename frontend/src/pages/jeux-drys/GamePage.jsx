@@ -61,6 +61,10 @@ const GameBoard = () => {
   const [loadingImage, setLoadingImage] = useState(false);
   const [imageReady, setImageReady] = useState(false);
   const [generationId, setGenerationId] = useState(null);
+  const startAudioRef = useRef(null);
+  const playingAudiosRef = useRef([]);
+const { pause: pauseMusic, play: playMusic } = useSound();
+
 
 
 
@@ -170,7 +174,9 @@ const showSebi = (duration = 4300) => {
       if (soundOn) {
         const raterSound = new Audio(i18n.language === "fr" ? raterAudio : raterAudioEn);
         raterSound.play();
+        playingAudiosRef.current.push(raterSound); // ✅
       }
+
 
 
       setShowWrongMessage(true);
@@ -191,17 +197,26 @@ const showSebi = (duration = 4300) => {
 };
 
   
+// Mémorise l'audio pour pouvoir le stopper ensuite
+const audio = new Audio(i18n.language === "fr" ? commencerAudio : gameStartAudioEn);
+audio.loop = false;
+
+if (soundOn) {
+  audio.play().catch(() => {});
+}
+
+// Sauvegarde dans ref pour le couper si besoin
+startAudioRef.current = audio;
 
 
 const startGame = () => {
   if (soundOn) {
     const audio = new Audio(i18n.language === "fr" ? commencerAudio : gameStartAudioEn);
-    audio.play();
+    audio.play().catch(() => {});
+    playingAudiosRef.current.push(audio); // ✅ Mémorise le son
   }
 
-
   showSebi();
-
   setGameStarted(true);
   setGameOver(false);
   setBallPosition(Math.floor(Math.random() * 3));
@@ -224,6 +239,7 @@ const startGame = () => {
 
 
 
+
   // Réinitialise le jeu
   const resetGame = () => {
     setGameStarted(false);
@@ -232,12 +248,29 @@ const startGame = () => {
     setBallVisible(true); // La balle est visible au début
   };
 
-  
-
-
   useEffect(() => {
-    return () => clearInterval(timerRef.current);
-  }, []);
+  pauseMusic(); // Coupe la musique de fond à l'entrée
+
+  return () => {
+    playMusic(); // La remet quand on quitte la page
+  };
+}, []);
+
+useEffect(() => {
+  return () => {
+    // Nettoyage du timer
+    clearInterval(timerRef.current);
+
+    // Arrête tous les sons en cours
+    playingAudiosRef.current.forEach((audio) => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+
+    playingAudiosRef.current = [];
+  };
+}, []);
+
 
   const [cupOffset, setCupOffset] = useState(100); // Valeur mobile par défaut
 
@@ -264,7 +297,9 @@ const startGame = () => {
         warnAudio.play().catch((err) => {
           console.error("⚠️ Son ne s’est pas lancé :", err);
         });
+        playingAudiosRef.current.push(warnAudio); // ✅
       }
+
 
       showSebi();
       setTriggeredWarnings(1); // Pour ne pas le rejouer

@@ -1,7 +1,15 @@
 const mongoose = require("mongoose");
 
+const recompenseSchema = new mongoose.Schema({
+  url: { type: String, required: true },
+  date: { type: Date, default: Date.now },
+  jeu: { type: String, required: true },
+  description: { type: String, default: "" },
+});
+
 const utilisateurSchema = new mongoose.Schema(
   {
+    // ... tes champs existants
     nom: { type: String, required: true },
     prenom: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -15,10 +23,9 @@ const utilisateurSchema = new mongoose.Schema(
       enum: ["utilisateur", "admin"],
       default: "utilisateur",
     },
-    codeParental: {
-      type: String,
-      default: null,
-    },
+    codeParental: { type: String, default: null },
+
+    recompenses: [recompenseSchema], // <- ajout ici
   },
   { timestamps: true }
 );

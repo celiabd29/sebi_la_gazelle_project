@@ -14,14 +14,9 @@ export const SoundProvider = ({ children }) => {
   }, [soundOn]);
 
   useEffect(() => {
-    localStorage.setItem("musicOn", musicOn);
+  localStorage.setItem("musicOn", musicOn);
+}, [musicOn]);
 
-    if (musicOn) {
-      play();
-    } else {
-      pause();
-    }
-  }, [musicOn]);
 
   const play = () => {
     if (!audioRef.current) {
