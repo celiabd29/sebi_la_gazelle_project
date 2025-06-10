@@ -7,7 +7,8 @@ const {
   verifierCompte,
   mettreAJourProfil,
   getMonProfil,
-  changerMotDePasse, // ✅ ajout ici
+  changerMotDePasse,
+  modifierCodeParental,
 } = require("../controllers/utilisateurController");
 
 const { verifierToken, verifierAdmin } = require("../middleware/auth");
@@ -17,7 +18,7 @@ router.post("/inscription", inscription);
 router.post("/connexion", connexion);
 router.get("/verification", verifierCompte);
 
-// 🔁 Liste de tous les utilisateurs (admin ou debug)
+// 🔁 Liste de tous les utilisateurs
 router.get("/tous", async (req, res) => {
   try {
     const utilisateurs = await utilisateur.find().sort({ createdAt: -1 });
@@ -30,10 +31,10 @@ router.get("/tous", async (req, res) => {
   }
 });
 
-// 🔐 Obtenir les infos du profil connecté (version API REST standard)
+// 🔐 Obtenir les infos du profil connecté
 router.get("/profil", verifierToken, getMonProfil);
 
-// 🔐 Obtenir les infos du profil connecté (version enrichie, avec avatar complet)
+// 🔐 Obtenir les infos avec avatar complet
 router.get("/me", verifierToken, async (req, res) => {
   try {
     const user = await utilisateur.findById(req.utilisateur.id).lean();
@@ -42,7 +43,6 @@ router.get("/me", verifierToken, async (req, res) => {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    // Si avatar est relatif, on le complète avec le domaine
     if (user.avatar && !user.avatar.startsWith("http")) {
       user.avatar = `${req.protocol}://${req.get("host")}/uploads/${
         user.avatar
@@ -56,11 +56,14 @@ router.get("/me", verifierToken, async (req, res) => {
   }
 });
 
-// 🔐 Mise à jour du profil connecté
+// 🔐 Mise à jour du profil
 router.put("/me", verifierToken, mettreAJourProfil);
 
 // 🔐 Changement de mot de passe
 router.put("/me/password", verifierToken, changerMotDePasse);
+
+// 🔐 ✅ Modification du code parental
+router.put("/me/code-parent", verifierToken, modifierCodeParental);
 
 // 👑 Espace admin
 router.get("/admin/dashboard", verifierToken, verifierAdmin, (req, res) => {

@@ -141,15 +141,10 @@ exports.mettreAJourProfil = async (req, res) => {
       }
     });
 
-    // 🧼 Nettoyage de l'avatar : garder uniquement le chemin relatif
+    // 🧼 Nettoyage de l'avatar
     if (majDonnees.avatar?.startsWith("http")) {
-      const parts = majDonnees.avatar.split("/uploads/");
-      if (parts[1]) {
-        if (majDonnees.avatar?.startsWith("http")) {
-          const filename = majDonnees.avatar.split("/").pop(); // juste le nom
-          majDonnees.avatar = `/avatars/${filename}`;
-        }
-      }
+      const filename = majDonnees.avatar.split("/").pop();
+      majDonnees.avatar = `/avatars/${filename}`;
     }
 
     const utilisateurMisAJour = await Utilisateur.findByIdAndUpdate(
@@ -199,6 +194,106 @@ exports.changerMotDePasse = async (req, res) => {
     res.json({ message: "Mot de passe mis à jour avec succès" });
   } catch (error) {
     console.error("Erreur mot de passe :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+// 🔐 PUT /me/code-parent - Modifier le code parental
+exports.modifierCodeParental = async (req, res) => {
+  const { nouveauCode } = req.body;
+
+  if (!nouveauCode || typeof nouveauCode !== "string") {
+    return res.status(400).json({
+      success: false,
+      message: "Le code parental est requis et doit être une chaîne.",
+    });
+  }
+
+  try {
+    const utilisateur = await Utilisateur.findByIdAndUpdate(
+      req.utilisateur.id,
+      { codeParental: nouveauCode },
+      { new: true }
+    ).select("-motDePasse -verificationToken");
+
+    if (!utilisateur) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Utilisateur non trouvé" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Code parental mis à jour avec succès",
+      utilisateur,
+    });
+  } catch (error) {
+    console.error("❌ Erreur modification code parental :", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Erreur serveur lors de la mise à jour du code parental",
+    });
+  }
+};
+
+// 🔐 Vérifie si le code parental est correct
+exports.verifierCode = async (req, res) => {
+  const { userId, code } = req.body;
+
+  if (!userId || !code) {
+    return res.status(400).json({ message: "userId et code requis" });
+  }
+
+  try {
+    const utilisateur = await Utilisateur.findById(userId);
+
+    if (!utilisateur) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    const codeValide = utilisateur.codeParental === code;
+
+    if (codeValide) {
+      res.status(200).json({ autorisé: true, message: "Code correct" });
+    } else {
+      res.status(401).json({ autorisé: false, message: "Code incorrect" });
+    }
+  } catch (error) {
+    console.error("Erreur vérification code parental :", error.message);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+// ✅ Vérifie si l'utilisateur est autorisé (optionnel)
+exports.estAutorisé = async (req, res) => {
+  res.status(200).json({ autorisé: false });
+};
+
+// 🔄 Change le code parental (admin ou gestion externe)
+exports.changerCode = async (req, res) => {
+  const { userId, nouveauCode } = req.body;
+
+  if (!userId || !nouveauCode) {
+    return res.status(400).json({ message: "userId et nouveauCode requis" });
+  }
+
+  try {
+    const utilisateur = await Utilisateur.findByIdAndUpdate(
+      userId,
+      { codeParental: nouveauCode },
+      { new: true }
+    ).select("-motDePasse -verificationToken");
+
+    if (!utilisateur) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    res.status(200).json({
+      message: "Code parental mis à jour avec succès",
+      utilisateur,
+    });
+  } catch (error) {
+    console.error("❌ Erreur changer code parental :", error.message);
     res.status(500).json({ message: "Erreur serveur" });
   }
 };

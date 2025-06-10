@@ -1,14 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getTempsRestant,
-  ajouterTemps,
-} = require("../controllers/controleParentalController");
+const controle = require("../controllers/controleParentalController");
 
-// 🔍 Temps restant aujourd'hui pour un utilisateur
-router.get("/temps", getTempsRestant);
-
-// ➕ Ajouter du temps (ex: après un jeu ou une activité)
-router.post("/ajouter", ajouterTemps);
-
+router.post("/verifier-code", controle.verifierCode);
+router.get("/est-autorise", controle.estAutorisé);
+router.post("/changer-code", controle.changerCode);
 module.exports = router;

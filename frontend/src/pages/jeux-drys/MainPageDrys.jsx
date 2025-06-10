@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Outlet } from "react-router-dom";
 import ExitButton from "../../components/button-exit";
@@ -12,16 +12,20 @@ import sebiImg from "../../assets/img/sebi_droite.png";
 import { useSound } from "../../contexts/SoundProvider";
 import { motion } from "framer-motion";
 
+// 👉 Import du composant de contrôle parental
+import CodeParent from "../../components/CodeParent";
+
 const MainPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { startSound, soundOn, musicOn } = useSound();
 
+  // 👉 Ajout du contrôle parental
+  const [autorise, setAutorise] = useState(false);
+
   useEffect(() => {
     const handleClick = () => {
-      if (soundOn) {
-        startSound();
-      }
+      if (soundOn) startSound();
       window.removeEventListener("click", handleClick);
     };
     window.addEventListener("click", handleClick);
@@ -73,6 +77,11 @@ const MainPage = () => {
     navigate("/jeuxDrys/PalierPage");
   };
 
+  // 👉 Blocage d'accès si non autorisé
+  if (!autorise) {
+    return <CodeParent onSuccess={() => setAutorise(true)} />;
+  }
+
   return (
     <>
       <div
@@ -100,22 +109,12 @@ const MainPage = () => {
         </div>
       </div>
 
-      {/* ✅ Sebi animé */}
       <motion.img
         src={sebiImg}
         alt="Sebi"
         initial={{ x: 300, opacity: 0, scale: 0.9 }}
-        animate={{
-          x: 0,
-          opacity: 1,
-          scale: [1, 1.1, 1],
-          y: [0, -20, 0],
-        }}
-        transition={{
-          duration: 1.2,
-          delay: 0.2,
-          ease: "easeOut",
-        }}
+        animate={{ x: 0, opacity: 1, scale: [1, 1.1, 1], y: [0, -20, 0] }}
+        transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
         className="lg:w-[520px] md:w-[400px] sm:w-[300px] w-[200px] absolute xl:bottom-8 md:bottom-8 bottom-44 right-[-20px] xl:right-6 z-50 object-contain"
       />
 

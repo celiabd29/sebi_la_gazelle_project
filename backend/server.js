@@ -5,6 +5,7 @@ const errorHandler = require("./middleware/errorHandler");
 const path = require("path");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
+const controleRoutes = require("./routes/controleParentalRoutes");
 
 dotenv.config();
 
@@ -24,13 +25,14 @@ app.use(express.json());
 
 // ✅ Sert les fichiers statiques (ex: avatars dans /uploads)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/controle", controleRoutes);
 
-// ✅ Routes avec MongoClient (pour scores)
+// ✅ Routes avec MongoClient (scores uniquement)
 MongoClient.connect(process.env.MONGO_URI)
   .then((client) => {
     const db = client.db();
 
-    // ✅ Injection de db dans les routes scores
+    // Injection de la base dans les routes de scores
     const scoreRoutes = require("./routes/scoreRoutes");
     app.use(
       "/api/scores",
@@ -41,17 +43,14 @@ MongoClient.connect(process.env.MONGO_URI)
       scoreRoutes
     );
 
-    // ✅ Autres routes (Mongoose)
+    // Autres routes Mongo/Mongoose
     app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
     app.use("/api/contact", require("./routes/contactRoutes"));
     app.use("/api/verification", require("./routes/utilisateurRoutes"));
     app.use("/api/tous", require("./routes/utilisateurRoutes"));
     app.use("/api/avatars", require("./routes/avatarRoutes"));
 
-    // ✅ ➕ Route contrôle parental
-    app.use("/api/controle", require("./routes/controleParentalRoutes"));
-
-    // ✅ Production (React build)
+    // ✅ En production : servir React build
     if (process.env.NODE_ENV === "production") {
       app.use(express.static(path.join(__dirname, "../frontend/build")));
       app.get("*", (req, res) => {
@@ -59,7 +58,7 @@ MongoClient.connect(process.env.MONGO_URI)
       });
     }
 
-    // ✅ Lancement serveur
+    // ✅ Démarrage du serveur
     const PORT = process.env.PORT || 8008;
     app.listen(PORT, () => {
       console.log(`🚀 Serveur démarré : http://localhost:${PORT}`);

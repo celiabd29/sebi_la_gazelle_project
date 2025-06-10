@@ -8,7 +8,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [utilisateur, setUtilisateur] = useState(null);
 
-  // ⚡ Récupération automatique depuis le localStorage au chargement
+  // ⚡ Chargement depuis localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("utilisateur");
     if (storedUser) {
@@ -20,13 +20,13 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // 📦 Enregistrer l'utilisateur dans le contexte + localStorage
+  // 📦 Enregistrement dans le contexte + localStorage
   const enregistrerUtilisateur = (user) => {
     setUtilisateur(user);
     localStorage.setItem("utilisateur", JSON.stringify(user));
   };
 
-  // 🔓 Fonction de déconnexion (utile pour logout global)
+  // 🔓 Déconnexion
   const deconnexion = () => {
     setUtilisateur(null);
     localStorage.removeItem("utilisateur");
@@ -35,14 +35,19 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ utilisateur, enregistrerUtilisateur, deconnexion }}
+      value={{
+        utilisateur,
+        setUtilisateur, // ✅ ajouté ici
+        enregistrerUtilisateur,
+        deconnexion,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// 3. Hook personnalisé pour utiliser le contexte
+// 3. Hook personnalisé
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

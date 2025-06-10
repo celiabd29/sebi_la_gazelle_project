@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../../assets/img/accueil/fond-parc-profil.webp";
-import { useAuth } from "../../contexts/AuthContexte"; // ✅ pour mettre à jour le Header
+import { useAuth } from "../../contexts/AuthContexte";
 
 const Profil = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setUtilisateur } = useAuth(); // ✅ pour MAJ du Header
+  const { setUtilisateur } = useAuth();
 
   const [activeTab, setActiveTab] = useState("profil");
   const [editingField, setEditingField] = useState(null);
@@ -18,6 +18,7 @@ const Profil = () => {
     email: "",
     dateDeNaissance: "",
     avatar: "",
+    codeParental: "",
   });
 
   const [passwordData, setPasswordData] = useState({
@@ -28,7 +29,6 @@ const Profil = () => {
   const [avatarOptions, setAvatarOptions] = useState([]);
   const token = localStorage.getItem("token");
 
-  // 🔄 Chargement du profil
   useEffect(() => {
     if (!token) return navigate("/connexion");
 
@@ -53,7 +53,6 @@ const Profil = () => {
       .catch((err) => console.error("Erreur profil:", err));
   }, [navigate, token]);
 
-  // 🔄 Chargement des avatars disponibles
   useEffect(() => {
     fetch("http://localhost:8008/api/avatars")
       .then((res) => res.json())
@@ -70,22 +69,49 @@ const Profil = () => {
   };
 
   const handleSave = () => {
-    fetch("http://localhost:8008/api/utilisateurs/me", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((updated) => {
-        setFormData(updated);
-        setUtilisateur(updated);
-        setEditingField(null);
-        localStorage.setItem("utilisateur", JSON.stringify(updated));
+    if (editingField === "codeParental") {
+      fetch("http://localhost:8008/api/utilisateurs/me/code-parent", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ nouveauCode: formData.codeParental }),
       })
-      .catch((err) => console.error("Erreur mise à jour :", err));
+        .then((res) => res.json())
+        .then((updated) => {
+          if (updated.success) {
+            setFormData((prev) => ({
+              ...prev,
+              codeParental: formData.codeParental,
+            }));
+            setEditingField(null);
+            alert("Code parental mis à jour avec succès !");
+          } else {
+            alert(updated.message || "Erreur de mise à jour");
+          }
+        })
+        .catch((err) =>
+          console.error("Erreur mise à jour code parental :", err)
+        );
+    } else {
+      fetch("http://localhost:8008/api/utilisateurs/me", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => res.json())
+        .then((updated) => {
+          setFormData(updated);
+          setUtilisateur(updated);
+          setEditingField(null);
+          localStorage.setItem("utilisateur", JSON.stringify(updated));
+        })
+        .catch((err) => console.error("Erreur mise à jour :", err));
+    }
   };
 
   const handlePasswordChange = () => {
@@ -132,7 +158,6 @@ const Profil = () => {
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="bg-[#C6FFCB] w-full max-w-5xl rounded-3xl shadow-lg ml-6 p-6 md:p-10">
-        {/* Onglets */}
         <div className="flex gap-6 border-b-4 border-[#9CF29B] text-xl font-[Fredoka] mb-6">
           {["profil", "recompenses", "securite"].map((tab) => (
             <button
@@ -149,10 +174,8 @@ const Profil = () => {
           ))}
         </div>
 
-        {/* Onglet Profil */}
         {activeTab === "profil" && (
           <div className="flex flex-col md:flex-row items-start gap-10">
-            {/* Avatar affiché */}
             <div className="relative">
               <img
                 src={formData.avatar}
@@ -167,9 +190,14 @@ const Profil = () => {
               </button>
             </div>
 
-            {/* Infos utilisateur */}
             <div className="flex-1 bg-white p-6 rounded-2xl shadow-inner w-full space-y-4">
-              {["nom", "prenom", "email", "dateDeNaissance"].map((field) => (
+              {[
+                "nom",
+                "prenom",
+                "email",
+                "dateDeNaissance",
+                "codeParental",
+              ].map((field) => (
                 <div
                   key={field}
                   className="flex items-center justify-between border-b pb-3"
@@ -185,6 +213,8 @@ const Profil = () => {
                             ? "email"
                             : field === "dateDeNaissance"
                             ? "date"
+                            : field === "codeParental"
+                            ? "password"
                             : "text"
                         }
                         value={
@@ -199,6 +229,8 @@ const Profil = () => {
                       <span className="text-gray-600 text-sm">
                         {field === "dateDeNaissance"
                           ? formData[field]?.split("T")[0]
+                          : field === "codeParental"
+                          ? "••••"
                           : formData[field]}
                       </span>
                     )}
@@ -216,7 +248,6 @@ const Profil = () => {
                 </div>
               ))}
 
-              {/* Choix avatar */}
               <div className="mt-6">
                 <p className="text-[#4B2A13] font-medium mb-2">
                   {t("choisir_avatar", "Choisir un avatar :")}
@@ -241,7 +272,6 @@ const Profil = () => {
           </div>
         )}
 
-        {/* Onglet Récompenses */}
         {activeTab === "recompenses" && (
           <div className="p-4 mt-4 bg-white rounded-xl shadow-inner">
             <p className="text-center text-[#4B2A13] text-xl">
@@ -251,7 +281,6 @@ const Profil = () => {
           </div>
         )}
 
-        {/* Onglet Sécurité */}
         {activeTab === "securite" && (
           <div className="bg-white p-6 mt-4 rounded-xl shadow-inner space-y-4">
             <h3 className="text-xl font-semibold text-[#4B2A13]">

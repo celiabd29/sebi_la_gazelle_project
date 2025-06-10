@@ -1,50 +1,83 @@
 const fs = require("fs");
 const path = require("path");
+const Utilisateur = require("../models/Utilisateur"); // ✅ AJOUT
 
-const TEMPS_PATH = path.join(__dirname, "../data/temps_utilisation.json");
+// 🔐 Vérifie si le code saisi est correct
+exports.verifierCode = async (req, res) => {
+  const { userId, code } = req.body;
 
-// Crée le fichier s’il n’existe pas
-if (!fs.existsSync(TEMPS_PATH)) {
-  fs.writeFileSync(TEMPS_PATH, JSON.stringify({}));
-}
+  console.log("🔐 Vérification reçue :", { userId, code });
 
-const chargerTemps = () => {
-  const data = fs.readFileSync(TEMPS_PATH, "utf-8");
-  return JSON.parse(data);
+  if (!userId || !code) {
+    return res
+      .status(400)
+      .json({ success: false, message: "userId et code requis" });
+  }
+
+  try {
+    const utilisateur = await Utilisateur.findById(userId);
+
+    if (!utilisateur) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Utilisateur non trouvé" });
+    }
+
+    const codeValide = String(utilisateur.codeParental) === String(code);
+
+    if (codeValide) {
+      return res.status(200).json({
+        success: true,
+        autorisé: true,
+        message: "Code correct",
+      });
+    } else {
+      return res.status(200).json({
+        success: false,
+        autorisé: false,
+        message: "Code incorrect",
+      });
+    }
+  } catch (error) {
+    console.error("❌ Erreur serveur :", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Erreur serveur",
+    });
+  }
 };
 
-const sauvegarderTemps = (data) => {
-  fs.writeFileSync(TEMPS_PATH, JSON.stringify(data));
+// 🔁 Vérifie si l'accès est encore valide
+exports.estAutorisé = (req, res) => {
+  const now = new Date();
+  if (global.accèsAutoriséJusqu && now < global.accèsAutoriséJusqu) {
+    return res.status(200).json({ autorisé: true });
+  }
+  return res.status(200).json({ autorisé: false });
 };
 
-// 🔐 GET /api/controle/temps?id=123
-exports.getTempsRestant = (req, res) => {
-  const { id } = req.query;
-  if (!id) return res.status(400).json({ message: "ID requis" });
+// ✏️ Permet de changer dynamiquement le code parental
+exports.changerCode = (req, res) => {
+  const { nouveauCode } = req.body;
 
-  const temps = chargerTemps();
-  const aujourdHui = new Date().toISOString().slice(0, 10);
-  const tempsUtilise = temps[id]?.[aujourdHui] || 0;
-  const TEMPS_LIMITE = 30; // minutes
+  if (!nouveauCode || typeof nouveauCode !== "string") {
+    return res.status(400).json({
+      success: false,
+      message: "Code invalide. Il doit être une chaîne de caractères.",
+    });
+  }
 
-  const restant = TEMPS_LIMITE - tempsUtilise;
-  res.json({ restant: restant > 0 ? restant : 0 });
-};
+  const dataPath = path.join(__dirname, "../data/code_parent.json");
 
-// 🔐 POST /api/controle/ajouter { id: "123", minutes: 5 }
-exports.ajouterTemps = (req, res) => {
-  const { id, minutes } = req.body;
-  if (!id || !minutes)
-    return res.status(400).json({ message: "ID et minutes requis" });
-
-  const temps = chargerTemps();
-  const aujourdHui = new Date().toISOString().slice(0, 10);
-
-  if (!temps[id]) temps[id] = {};
-  if (!temps[id][aujourdHui]) temps[id][aujourdHui] = 0;
-
-  temps[id][aujourdHui] += minutes;
-  sauvegarderTemps(temps);
-
-  res.json({ message: "Temps ajouté", total: temps[id][aujourdHui] });
+  try {
+    fs.writeFileSync(dataPath, JSON.stringify({ code: nouveauCode }, null, 2));
+    console.log("✅ Nouveau code parent enregistré :", nouveauCode);
+    return res.status(200).json({ success: true, message: "Code mis à jour" });
+  } catch (err) {
+    console.error("❌ Erreur écriture code_parent.json :", err.message);
+    return res.status(500).json({
+      success: false,
+      message: "Erreur serveur lors de l'enregistrement",
+    });
+  }
 };
