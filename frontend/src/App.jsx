@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import React from "react";
 import LayoutPrincipal from "./components/Layout/LayoutPrincipal";
 import LayoutMinimal from "./components/Layout/LayoutMinimal";
 

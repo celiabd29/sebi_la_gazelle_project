@@ -43,6 +43,12 @@ import DashboardAccueil from "./pages/Admin/DashboardHome";
 import Profil from "./pages/EspaceParent/Profil";
 import DashboardLayout from "./components/Layout/DashboardLayout";
 
+// Import new admin pages
+import AdminProfil from "./pages/Admin/Profil";
+import Message from "./pages/Admin/Message";
+import Parametre from "./pages/Admin/Parametre";
+import Utilisateur from "./pages/Admin/Utilisateur";
+
 // Définir le routeur
 const router = createBrowserRouter([
   {
@@ -78,25 +84,30 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardLayout />,
-    children: [{ path: "", element: <DashboardAccueil /> }],
+    children: [
+      { path: "", element: <DashboardAccueil /> },
+      { path: "profil", element: <AdminProfil /> },
+      { path: "message", element: <Message /> },
+      { path: "parametre", element: <Parametre /> },
+      { path: "utilisateur", element: <Utilisateur /> },
+    ],
   },
- {
-  path: "/jeuxJames",
-  element: (
-    <ConditionalProviders>
-      <LayoutJames />
-    </ConditionalProviders>
-  ),
-  children: [
-    { path: "", element: <MainPageJames /> },
-    { path: "settings", element: <SettingsPage /> },
-    { path: "tableau", element: <Tableau /> },
-    { path: "game/:level", element: <GamePage /> },
-    { path: "level/:id", element: <LevelPage /> },
-    { path: "fin/:level", element: <FinLevelPage /> },
-  ],
-},
-
+  {
+    path: "/jeuxJames",
+    element: (
+      <ConditionalProviders>
+        <LayoutJames />
+      </ConditionalProviders>
+    ),
+    children: [
+      { path: "", element: <MainPageJames /> },
+      { path: "settings", element: <SettingsPage /> },
+      { path: "tableau", element: <Tableau /> },
+      { path: "game/:level", element: <GamePage /> },
+      { path: "level/:id", element: <LevelPage /> },
+      { path: "fin/:level", element: <FinLevelPage /> },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

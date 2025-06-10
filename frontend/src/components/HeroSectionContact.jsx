@@ -30,11 +30,23 @@ const HeroSectionContact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // ✅ Validation côté client
+    if (!formData.nom || !formData.prenom || !formData.email || !formData.message) {
+      alert("Tous les champs sont requis");
+      return;
+    }
+
     try {
+      console.log("📤 Envoi des données :", formData);
+      
       const response = await axios.post(
         "http://localhost:8008/api/contact",
         formData
       );
+      
+      console.log("✅ Réponse serveur :", response.data);
+      
       if (response.status === 201) {
         launchConfetti();
         alert(t("form_success"));
@@ -43,8 +55,21 @@ const HeroSectionContact = () => {
         alert(response.data.message || t("form_error_generic"));
       }
     } catch (error) {
-      console.error("Erreur lors de l'envoi :", error);
-      alert(t("form_error_server"));
+      console.error("❌ Erreur lors de l'envoi :", error);
+      
+      if (error.response) {
+        // Erreur de réponse du serveur
+        console.error("Détails de l'erreur :", error.response.data);
+        alert(error.response.data.message || t("form_error_server"));
+      } else if (error.request) {
+        // Problème de réseau
+        console.error("Erreur réseau :", error.request);
+        alert("Erreur de connexion au serveur");
+      } else {
+        // Autre erreur
+        console.error("Erreur :", error.message);
+        alert(t("form_error_server"));
+      }
     }
   };
 

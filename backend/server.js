@@ -38,6 +38,10 @@ app.use("/api/avatars", avatarRoutes);
 
 app.use("/api/controle", controleRoutes);
 
+// ✅ Ajouter les routes de contact
+const contactRoutes = require("./routes/contactRoutes");
+app.use("/api/contact", contactRoutes);
+
 
 
 // ✅ Sert les fichiers statiques (ex: avatars dans /uploads)
