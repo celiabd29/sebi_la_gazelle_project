@@ -3,8 +3,11 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import "./i18n";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import ErrorBoundary from './utils/ErrorBoundary';
 
 import { AuthProvider } from "./contexts/AuthContexte";
+import { ApiProvider } from "./contexts/ApiContext"; // Importer le nouveau provider
 
 // Pages générales
 import App from "./App";
@@ -91,10 +94,30 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+// Composant racine avec SEO
+const Root = () => (
   <React.StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
-    </AuthProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <Helmet>
+          <title>Sebi La Gazelle - Jeux éducatifs pour enfants</title>
+          <meta name="description" content="Jeux éducatifs et amusants pour les enfants avec des personnages attachants comme James ou Drys. Développez la motricité et la réflexion de votre enfant." />
+          <meta name="keywords" content="jeux enfants, jeux éducatifs, sebi la gazelle, james, drys, apprentissage, motricité" />
+          <meta property="og:title" content="Sebi La Gazelle - Jeux éducatifs pour enfants" />
+          <meta property="og:description" content="Jeux éducatifs et amusants pour les enfants avec des personnages attachants comme James ou Drys." />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://sebilagazelle.fr" />
+          <meta name="robots" content="index, follow" />
+          <link rel="canonical" href="https://sebilagazelle.fr" />
+        </Helmet>
+        <ApiProvider>
+          <AuthProvider>
+            <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
+          </AuthProvider>
+        </ApiProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Root />);

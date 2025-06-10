@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContexte";
+import { useAuth } from "../contexts/AuthContexte";
 import axios from "axios";
 
 const DashboardHome = () => {
@@ -27,8 +27,8 @@ const DashboardHome = () => {
   useEffect(() => {
     const fetchUtilisateurs = async () => {
       try {
-        // const res = await axios.get("http://localhost:8008/api/utilisateurs/tous");
-        const res = await axios.post(`https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/tous`);
+        const res = await axios.get("http://localhost:8008/api/utilisateurs/tous");
+        // const res = await axios.post(`https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/tous`);
         setUtilisateurs(res.data);
 
         const aujourdHui = new Date().toISOString().split("T")[0];

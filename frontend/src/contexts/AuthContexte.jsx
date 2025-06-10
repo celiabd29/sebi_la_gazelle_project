@@ -1,29 +1,23 @@
-// src/contexts/AuthContexte.jsx
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-// 1. Création du contexte
-const AuthContext = createContext(null);
+const AuthContexte = createContext();
 
-// 2. Provider qui englobe toute l'application
 export const AuthProvider = ({ children }) => {
   const [utilisateur, setUtilisateur] = useState(null);
 
-  const enregistrerUtilisateur = (user) => {
-    setUtilisateur(user);
+  const enregistrerUtilisateur = (userData) => {
+    setUtilisateur(userData);
+  };
+
+  const deconnexion = () => {
+    setUtilisateur(null);
   };
 
   return (
-    <AuthContext.Provider value={{ utilisateur, enregistrerUtilisateur }}>
+    <AuthContexte.Provider value={{ utilisateur, enregistrerUtilisateur, deconnexion }}>
       {children}
-    </AuthContext.Provider>
+    </AuthContexte.Provider>
   );
 };
 
-// 3. Hook personnalisé pour utiliser le contexte
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth doit être utilisé dans un AuthProvider");
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContexte);

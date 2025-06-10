@@ -1,11 +1,37 @@
 const mongoose = require("mongoose");
 
 const contactSchema = new mongoose.Schema({
-  prenom: { type: String, required: true },
-  nom: { type: String, required: true },
-  email: { type: String, required: true },
-  message: { type: String, required: true },
-  sentAt: { type: Date, default: Date.now }
+  nom: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  prenom: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+  },
+  message: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  sentAt: {
+    type: Date,
+    default: Date.now,
+  },
+  // Champ alternatif pour la compatibilité
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Contact", contactSchema);
+module.exports =
+  mongoose.models.Contact || mongoose.model("Contact", contactSchema);

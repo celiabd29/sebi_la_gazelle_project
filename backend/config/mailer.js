@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-export async function sendVerificationEmail(email, token) {
+exports.sendVerificationEmail = async function(email, token) {
     try {
       const mailOptions = {
         from: process.env.EMAIL_USER,
@@ -17,11 +17,14 @@ export async function sendVerificationEmail(email, token) {
         html: `
           <h2>Bienvenue !</h2>
           <p>Cliquez sur le lien ci-dessous pour vérifier votre compte :</p>
-          <a href="${process.env.FRONTEND_URL}verification?token=${token}">
+          <a href="http://localhost:3000/verification?token=${token}">
             Vérifier mon compte
           </a>
-        `
+          `
       };
+          // <a href="${process.env.FRONTEND_URL}/verification?token=${token}">
+          //   Vérifier mon compte
+          // </a>
   
       const info = await transporter.sendMail(mailOptions);
       console.log('Email envoyé :', info.response);
@@ -31,4 +34,3 @@ export async function sendVerificationEmail(email, token) {
       return false;
     }
   }
-  

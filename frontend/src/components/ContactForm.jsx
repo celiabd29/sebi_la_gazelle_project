@@ -10,13 +10,13 @@ const ContactForm = () => {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      // const response = await axios.post("http://localhost:8008/api/contact", data);
+      const response = await axios.post("http://localhost:8008/api/contact", data);
       // Dans votre frontend (ContactForm.js)
-      const response = await axios.post(
-        `https://sebi-la-gazelle-backend.onrender.com/api/contact`,
-        data,
-        { timeout: 15000 } // 15 secondes
-      );
+      // const response = await axios.post(
+        // `https://sebi-la-gazelle-backend.onrender.com/api/contact`,
+        // data,
+        // { timeout: 15000 } // 15 secondes
+      // );
       if (response.status === 201) {
         alert("Message envoyé avec succès !");
         reset(); // Vide le formulaire

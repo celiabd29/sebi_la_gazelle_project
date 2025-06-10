@@ -9,7 +9,8 @@ export default function AnalyseDashboard() {
   const [newClients, setNewClients] = useState(0);
 
   useEffect(() => {
-    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/devices')
+    // fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/devices')
+    fetch('http://localhost:8008/api/analytics/devices')
       .then(res => res.json())
       .then(data => {
         const formatted = data.map(device => {
@@ -38,15 +39,18 @@ export default function AnalyseDashboard() {
         setDeviceData(formatted);
       });
 
-    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/pages')
+    // fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/pages')
+    fetch('http://localhost:8008/api/analytics/pages')
       .then(res => res.json())
       .then(setPageData);
 
-    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/browsers')
+    // fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/browsers')
+    fetch('http://localhost:8008/api/analytics/browsers')
       .then(res => res.json())
       .then(setBrowserData);
 
-    fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/newClients')
+    // fetch('https://sebi-la-gazelle-backend.onrender.com/api/analytics/newClients')
+    fetch('http://localhost:8008/api/analytics/newClients')
       .then(res => res.json())
       .then(data => setNewClients(data.total));
   }, []);

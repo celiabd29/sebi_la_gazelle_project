@@ -5,3 +5,4 @@ const { getDeviceStats } = require("../controllers/analyseController");
 router.get("/devices", getDeviceStats);
 
 module.exports = router;
+
