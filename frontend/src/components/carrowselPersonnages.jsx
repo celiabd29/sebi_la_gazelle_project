@@ -23,7 +23,7 @@ const CarrouselPersonnages = () => {
   ];
 
   return (
-    <section className="md:mt-24 py-20 px-4 bg-fondRose rounded-t-[7rem]">
+    <section className="md:mt-24 py-20 px-4 md:rounded-[7rem] mt-24 bg-fondRose rounded-[4rem]">
       <h2 className="text-center text-3xl md:text-4xl font-semibold font-fredoka text-black mb-10">
         {t("characterSection.title")}
       </h2>
@@ -32,18 +32,18 @@ const CarrouselPersonnages = () => {
         {characterSection.map((perso) => (
           <div
             key={perso.id}
-            className="snap-center flex-shrink-0 w-[90%] sm:w-[45%] lg:w-[30%] bg-white rounded-3xl shadow-lg overflow-hidden"
+            className="snap-center flex-shrink-0 w-[90%] sm:w-[45%] lg:w-[30%] flex flex-col items-center"
           >
             <img
               src={perso.img}
               alt={perso.name}
-              className="w-full h-[25rem] object-cover rounded-t-3xl"
+              className="rounded-3xl object-cover w-full h-auto max-h-[25rem] shadow-md"
             />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-center font-fredoka text-black mb-2">
+            <div className="rounded-3xl mt-4 p-4 w-full">
+              <h3 className="text-2xl text-center text-black mb-2">
                 {t(`characterSection.${perso.key}.name`)}
               </h3>
-              <p className="text-sm font-comic text-center text-black">
+              <p className="text-xl text-center text-black">
                 {t(`characterSection.${perso.key}.description`)}
               </p>
             </div>

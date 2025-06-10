@@ -4,32 +4,17 @@ import LogoSite from "../../assets/img/logo-sebi.webp";
 import { UserCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../LanguageSwitcher";
+import { useAuth } from "../../contexts/AuthContexte"; // 💡 import du contexte
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { utilisateur, deconnexion } = useAuth(); // ✅ accès au contexte
 
   const noBannerRoutes = ["/connexion", "/inscription"];
   const isNoBannerPage = noBannerRoutes.includes(location.pathname);
   const { t, i18n } = useTranslation();
-  const [utilisateur, setUtilisateur] = useState(null);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("utilisateur");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setUtilisateur(parsed);
-      } catch (err) {
-        console.error("Erreur parsing localStorage:", err);
-      }
-    }
-  }, []);
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,7 +78,7 @@ const Header = () => {
               <img
                 src={utilisateur.avatar}
                 alt="Avatar"
-                className="w-10 h-10 rounded-full border-2 border-fondOrange"
+                className="w-10 h-10 rounded-full border-2 border-fondOrange object-cover"
               />
             </Link>
           ) : (
@@ -107,10 +92,7 @@ const Header = () => {
 
           {utilisateur && (
             <button
-              onClick={() => {
-                localStorage.removeItem("utilisateur");
-                setUtilisateur(null);
-              }}
+              onClick={deconnexion} // ✅ propre via AuthContext
               className="text-sm text-red-500 hover:underline ml-4"
             >
               Déconnexion
@@ -133,8 +115,9 @@ const Header = () => {
 
       {/* Menu mobile */}
       <div
-        className={`lg:hidden fixed top-0 right-0 h-full w-2/3 z-[999] 
-          bg-white shadow-xl transition-all duration-300 ease-in-out transform
+        className={`lg:hidden fixed top-0 right-0 h-full w-2/3 z-[999]
+          bg-white/20 backdrop-blur-xl shadow-xl
+          transition-all duration-300 ease-in-out transform
           ${
             isMenuOpen
               ? "translate-x-0"
@@ -150,7 +133,7 @@ const Header = () => {
           ✕
         </button>
 
-        <div className="flex flex-col items-center justify-center gap-6 mt-20">
+        <div className="flex flex-col items-center justify-center gap-6 mt-20 font-fredoka">
           {[...links, { name: "Connexion", path: "/connexion" }].map(
             (link, index) => (
               <NavLink

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import backgroundImage from "../assets/img/accueil/fond-parc-profil.webp";
 
 const ProfilUtilisateur = () => {
   const [utilisateur, setUtilisateur] = useState(null);
@@ -31,7 +32,12 @@ const ProfilUtilisateur = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4 py-12">
+    <div
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+      }}
+    >
       <div className="bg-white shadow-lg rounded-xl p-8 max-w-md w-full text-center">
         <img
           src={utilisateur.avatar}

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom"; // Pour récupérer les niveaux et naviguer
+import { useTranslation } from "react-i18next";
 import characterImage from "../../assets/img/drys_lecureuil.webp";
 import gobletImage from "../../assets/img/goblet.png";
 import ballImage from "../../assets/img/balle.webp";
@@ -15,6 +16,9 @@ import sebiImg from "../../assets/img/sebi_droite.png";
 import sebiTete from "../../assets/img/tete-seb.png"; // Image de Sebi pour le jeu
 import { useSound } from "../../contexts/SoundProvider"; // Contexte pour gérer le son
 import timeAudio from "../../assets/sounds/drys_sounds/time_play.m4a"; // Son de fin de temps
+import gameStartAudioEn from "../../assets/sounds/drys_sounds/anglais/The_ball_will_disapp.m4a";
+import raterAudioEn from "../../assets/sounds/drys_sounds/anglais/Oops No ball here.m4a"; // Son d
+import timeAudioEn from "../../assets/sounds/drys_sounds/anglais/Come_on_you_can.m4a"; // Son de mauvaise réponse en anglais
 
 
 
@@ -49,6 +53,16 @@ const GameBoard = () => {
   const [sebiVisible, setSebiVisible] = useState(false);
 
   const [triggeredWarnings, setTriggeredWarnings] = useState(0);
+
+  const { i18n } = useTranslation();
+
+  const [imageUrl, setImageUrl] = useState(null);
+  const [showReward, setShowReward] = useState(false);
+  const [loadingImage, setLoadingImage] = useState(false);
+  const [imageReady, setImageReady] = useState(false);
+  const [generationId, setGenerationId] = useState(null);
+
+
 
 
 
@@ -142,14 +156,19 @@ const showSebi = (duration = 4300) => {
       localStorage.setItem("guestScores", JSON.stringify(guestScores));
     }
 
-    navigate(`/jeuxDrys/ScorePage?level=${level}&stars=${stars}&score=${score}`);
+   if (stars >= 2) {
+    generateRewardImage(); // 👉 Génère l’image IA
+    } else {
+      navigate(`/jeuxDrys/ScorePage?level=${level}&stars=${stars}&score=${score}`);
+    }
+
   } else {
     // Cas : mauvaise réponse
     if (triesLeft > 1) {
       setTriesLeft((prev) => prev - 1);
 
       if (soundOn) {
-        const raterSound = new Audio(raterAudio);
+        const raterSound = new Audio(i18n.language === "fr" ? raterAudio : raterAudioEn);
         raterSound.play();
       }
 
@@ -176,9 +195,10 @@ const showSebi = (duration = 4300) => {
 
 const startGame = () => {
   if (soundOn) {
-    const audio = new Audio(commencerAudio);
+    const audio = new Audio(i18n.language === "fr" ? commencerAudio : gameStartAudioEn);
     audio.play();
   }
+
 
   showSebi();
 
@@ -240,7 +260,7 @@ const startGame = () => {
 
     if (timeLeft === 30 && triggeredWarnings === 0) {
       if (soundOn) {
-        const warnAudio = new Audio(timeAudio);
+        const warnAudio = new Audio(i18n.language === "fr" ? timeAudio : timeAudioEn);
         warnAudio.play().catch((err) => {
           console.error("⚠️ Son ne s’est pas lancé :", err);
         });
@@ -252,7 +272,44 @@ const startGame = () => {
   }, [timeLeft, soundOn, triggeredWarnings, gameStarted]);
 
 
- return (
+  const generateRewardImage = async () => {
+  setLoadingImage(true);
+  setShowReward(true);
+
+  const res = await fetch("http://localhost:8008/api/images/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      character: "Drys",
+      game: "jeu de gobelets", // Tu peux adapter ici
+    }),
+  });
+
+  const data = await res.json();
+  const id = data.generationId;
+  setGenerationId(id);
+
+  // 🔁 Check périodiquement si l’image est prête
+  const intervalId = setInterval(async () => {
+    try {
+      const res = await fetch(`http://localhost:8008/api/images/${id}`);
+      const data = await res.json();
+
+      if (data.imageUrl) {
+        clearInterval(intervalId);
+        setImageUrl(data.imageUrl);
+        setImageReady(true);
+        setLoadingImage(false);
+      }
+    } catch (err) {
+      console.log("⏳ Image IA pas encore prête...");
+    }
+  }, 3000);
+};
+
+
+
+return (
   <div
     className="min-h-screen flex flex-col justify-between bg-cover bg-center bg-no-repeat relative font-[Fredoka]"
     style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -273,16 +330,16 @@ const startGame = () => {
         exit={{ x: 200, opacity: 0 }}
         transition={{ duration: 0.8 }}
         className="xl:w-[450px] absolute xl:top-44 xl:left-[-130px] z-50 w-[200px] top-32 left-[-70px] md:w-[300px] md:top-40 md:left-[-100px] sm:w-[250px] sm:top-36 sm:left-[-90px] mobile:w-[150px] mobile:top-32 mobile:left-[-50px]"
-        style={{ transform: "rotate(-45deg)" }} // ✅ flip horizontal
+        style={{ transform: "rotate(-45deg)" }}
       />
     )}
 
-    {/* Niveau + Timer */}
+    {/* Level + Timer */}
     <div className="absolute top-14 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
-      <div className="text-white xl:text-4xl md:text-3xl text-2xl font-extrabold mb-2">Niveau {level}</div>
-      
+      <div className="text-white xl:text-4xl md:text-3xl text-2xl font-extrabold mb-2">
+        {i18n.language === "fr" ? `Niveau ${level}` : `Level ${level}`}
+      </div>
 
-      {/* Timer visible uniquement si le jeu est lancé */}
       {gameStarted && (
         <svg className="w-24 h-24 rotate-[-90deg]" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="45" stroke="#ddd" strokeWidth="10" fill="none" />
@@ -309,17 +366,11 @@ const startGame = () => {
             {`${Math.floor(timeLeft / 60).toString().padStart(2, "0")}:${(timeLeft % 60).toString().padStart(2, "0")}`}
           </text>
         </svg>
-
       )}
     </div>
 
-    
-    {/* <div className="absolute xl:bottom-64 left-1/2 transform -translate-x-1/2 xl:w-96 md:w-72 md:bottom-56 sm:w-60 sm:bottom-56 bottom-20 mobile:w-48 ">
-      <img src={characterImage} alt="Character" className="w-full h-full object-contain" />
-    </div> */}
-
-    {/* Gobelets (remontés aussi) */}
-    <div className="absolute  xl:w-[500px] xl:h-[266px] md:w-[350px]  sm:w-[250px] left-1/2 transform -translate-x-1/2 bottom-32 w-[200px] h-[133px] flex justify-between">
+    {/* Cups */}
+    <div className="absolute xl:w-[500px] xl:h-[266px] md:w-[350px] sm:w-[250px] left-1/2 transform -translate-x-1/2 bottom-32 w-[200px] h-[133px] flex justify-between">
       {[0, 1, 2].map((index) => (
         <motion.div
           key={index}
@@ -353,28 +404,56 @@ const startGame = () => {
       ))}
     </div>
 
-    {/* Bouton "Commencer" toujours visible avant que le jeu démarre */}
+    {/* Start Button */}
     {!gameStarted && !gameOver && (
       <div className="absolute top-28 left-1/2 transform -translate-x-1/2">
         <button
-          className=" text-white xl:text-3xl xl:w-52 xl:h-20 md:text-2xl md:w-40 md:h-16 sm:text-xl sm:w-32 sm:h-12 w-32 text-xl h-16 bg-green-600 rounded-lg flex items-center justify-center shadow-lg hover:bg-green-700 transition duration-300"
+          className="text-white xl:text-3xl xl:w-52 xl:h-20 md:text-2xl md:w-40 md:h-16 sm:text-xl sm:w-32 sm:h-12 w-32 text-xl h-16 bg-green-600 rounded-lg flex items-center justify-center shadow-lg hover:bg-green-700 transition duration-300"
           onClick={startGame}
         >
-          Commencer
+          {i18n.language === "fr" ? "Commencer" : "Start"}
         </button>
       </div>
     )}
 
-
-    
+    {/* Wrong answer message */}
     {showWrongMessage && (
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white xl:text-3xl md:text-2xl text-xl px-8 py-4 rounded-xl shadow-lg z-50">
-        Mauvaise réponse ! Réessaie...
+        {i18n.language === "fr" ? "Mauvaise réponse ! Réessaie..." : "Wrong answer! Try again..."}
       </div>
     )}
 
-  </div>
+    {/* IA Reward */}
+    {showReward && (
+      <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center z-50">
+        {loadingImage && (
+          <div className="text-white text-xl text-center animate-pulse">
+            {i18n.language === "fr"
+              ? "Ta récompense magique arrive..."
+              : "Your magical reward is on its way..."}
+          </div>
+        )}
 
+        {imageReady && imageUrl && (
+          <>
+            <img
+              src={imageUrl}
+              alt="AI Reward"
+              className="w-72 h-72 object-contain mb-4 rounded-lg shadow-lg"
+            />
+            <button
+              onClick={() =>
+                navigate(`/jeuxDrys/ScorePage?level=${level}&stars=3&score=${3 * 15}`)
+              }
+              className="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition"
+            >
+              {i18n.language === "fr" ? "Continuer" : "Continue"}
+            </button>
+          </>
+        )}
+      </div>
+    )}
+  </div>
 );
 };
 

@@ -12,6 +12,9 @@ import mainVoice from "../../assets/sounds/james_sounds/main_song.m4a";
 import { useSound } from "../../contexts/SoundProvider";
 import { useEffect } from "react";
 import secondAudioFile from "../../assets/sounds/james_sounds/bouton_vert.m4a";
+import mainVoiceEn from "../../assets/sounds/james_sounds/anglais/main_song.m4a";
+import secondAudioFileEn from "../../assets/sounds/james_sounds/anglais/green_button.m4a";
+import i18n from "../../i18n";
 
 
 
@@ -32,8 +35,8 @@ const Home = () => {
   useEffect(() => {
     if (!soundOn) return;
 
-    const main = new Audio(mainVoice);
-    const second = new Audio(secondAudioFile);
+    const main = new Audio(i18n.language === "fr" ? mainVoice : mainVoiceEn);
+    const second = new Audio(i18n.language === "fr" ? secondAudioFile : secondAudioFileEn);
     main.volume = 0.3;
     second.volume = 0.4;
 
@@ -48,8 +51,8 @@ const Home = () => {
       intervalId = setInterval(() => {
         second.currentTime = 0;
         second.play().catch(() => console.log("❌ Relecture bouton_vert bloquée"));
-      }, 20000); // ✅ toutes les 20 secondes
-    }, 7000); // ⏱️ commence 7 secondes après la page
+      }, 20000);
+    }, 7000);
 
     return () => {
       clearTimeout(timeoutId);
@@ -59,7 +62,8 @@ const Home = () => {
       second.pause();
       second.currentTime = 0;
     };
-  }, [soundOn]);
+  }, [soundOn, i18n.language]); // 🔁 on écoute aussi les changements de langue
+
 
 
 

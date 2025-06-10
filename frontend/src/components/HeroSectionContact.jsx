@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import axios from "axios";
 import confetti from "canvas-confetti";
-import Background from "/src/assets/img/page-contact.png";
+import Background from "/src/assets/img/accueil/contact.webp";
 
 const HeroSectionContact = () => {
   const { t } = useTranslation();
@@ -50,20 +50,20 @@ const HeroSectionContact = () => {
 
   return (
     <section
-      className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-start pt-24 px-6"
+      className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center pt-24 px-4 sm:px-6 md:justify-start md:px-10"
       style={{ backgroundImage: `url(${Background})` }}
     >
-      <div className="w-full max-w-2xl bg-white/90 rounded-[3rem] shadow-2xl border-[6px] border-[#FFE6C7] px-10 py-10 backdrop-blur-md mx-12">
-        <h2 className="text-4xl text-center font-[Fredoka] text-[#4B2A13] mb-8">
+      <div className="w-full max-w-[90%] md:max-w-2xl bg-white/90 rounded-[2rem] md:rounded-[3rem] shadow-2xl border-[5px] border-[#FFE6C7] px-6 py-8 md:px-10 md:py-10 backdrop-blur-md">
+        <h2 className="text-3xl md:text-4xl text-center font-[Fredoka] text-[#4B2A13] mb-6 md:mb-8">
           {t("contact_magic_title")}
         </h2>
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-6 font-[Fredoka]"
+          className="flex flex-col gap-5 md:gap-6 font-[Fredoka] text-base md:text-lg"
         >
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_name_label")}
             </label>
             <input
@@ -78,7 +78,7 @@ const HeroSectionContact = () => {
           </div>
 
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_firstname_label")}
             </label>
             <input
@@ -93,7 +93,7 @@ const HeroSectionContact = () => {
           </div>
 
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_email_label")}
             </label>
             <input
@@ -108,7 +108,7 @@ const HeroSectionContact = () => {
           </div>
 
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_message_label")}
             </label>
             <textarea
@@ -124,7 +124,7 @@ const HeroSectionContact = () => {
 
           <button
             type="submit"
-            className="mt-4 bg-[#FFB570] hover:bg-[#FF994D] text-white text-lg font-medium py-3 rounded-full shadow-md transition"
+            className="w-full bg-[#FFB570] hover:bg-[#FF994D] text-white text-lg font-medium py-3 rounded-full shadow-md transition"
           >
             {t("form_submit")}
           </button>

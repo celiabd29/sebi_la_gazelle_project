@@ -8,9 +8,12 @@ import backgroundImage from "../../assets/img/backgroundJames.png";
 
 import sebiImage from "../../assets/img/sebi_gauche.png";
 import palierVoice from "../../assets/sounds/james_sounds/palier_song.m4a";
+import PalierVoiceEn from "../../assets/sounds/james_sounds/anglais/palier.m4a";
 
 import { motion } from "framer-motion";
 import { useSound } from "../../contexts/SoundProvider";
+import i18n from "../../i18n";
+
 
 const rowColors = ["#94E7FC", "#F9C474", "#FF6D83"];
 
@@ -21,11 +24,12 @@ function Tableau() {
 
   useEffect(() => {
     if (soundOn) {
-      const voice = new Audio(palierVoice);
+      const voice = new Audio(i18n.language === "fr" ? palierVoice : PalierVoiceEn);
       voice.volume = 0.5;
       voice.play().catch(() => console.log("🔇 Lecture palier_song bloquée"));
     }
-  }, [soundOn]);
+  }, [soundOn, i18n.language]);
+
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("utilisateur"));
@@ -49,7 +53,8 @@ function Tableau() {
         for (let i = 1; i <= 5; i++) {
           const score = data.find((d) => d.level === i);
           const stars = score?.stars || 0;
-          const unlocked = i === 1 || (data.find((d) => d.level === i - 1)?.stars >= 1);
+          const unlocked =
+            i === 1 || data.find((d) => d.level === i - 1)?.stars >= 1;
           newLevels.push({
             number: i,
             stars,
@@ -109,7 +114,11 @@ function Tableau() {
             <div
               key={level.number}
               onClick={() => handleClick(level)}
-              className={`flex flex-col items-center ${level.unlocked ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+              className={`flex flex-col items-center ${
+                level.unlocked
+                  ? "cursor-pointer"
+                  : "cursor-not-allowed opacity-50"
+              }`}
             >
               <div className="flex mb-2">
                 {Array.from({ length: 3 }).map((_, i) => (
@@ -117,7 +126,9 @@ function Tableau() {
                     key={i}
                     src={StarIcon}
                     alt="star"
-                    className={`w-6 h-6 mx-0.5 ${i < level.stars ? "opacity-100" : "opacity-20"}`}
+                    className={`w-6 h-6 mx-0.5 ${
+                      i < level.stars ? "opacity-100" : "opacity-20"
+                    }`}
                   />
                 ))}
               </div>

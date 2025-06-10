@@ -5,6 +5,7 @@ import "./index.css";
 import "./i18n";
 
 import { AuthProvider } from "./contexts/AuthContexte";
+import { SoundProvider } from "./contexts/SoundProvider"; // ✅ Import du SoundProvider
 
 // Pages générales
 import App from "./App";
@@ -15,6 +16,9 @@ import Contact from "./pages/Contact";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import Mentions from "./pages/Mentions";
+import Page404 from "./pages/Page404";
+import Page501 from "./pages/Page501.jsx";
+import ConfidentialitePage from "./pages/ConfidentialitePage.jsx";
 
 // Jeu Drys
 import MainPageDrys from "./pages/jeux-drys/MainPageDrys";
@@ -53,8 +57,11 @@ const router = createBrowserRouter([
       { path: "/inscription", element: <Inscription /> },
       { path: "/connexion", element: <Connexion /> },
       { path: "/mentions", element: <Mentions /> },
+      { path: "/confidentialite", element: <ConfidentialitePage /> },
       { path: "/verification", element: <VerificationEmail /> },
       { path: "/profil", element: <Profil /> },
+      { path: "*", element: <Page404 /> },
+      { path: "/501", element: <Page501 /> },
     ],
   },
   {
@@ -95,9 +102,14 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      {" "}
-      {/* ✅ Ajout du Provider ici */}
-      <RouterProvider router={router} fallbackElement={<p>Chargement...</p>} />
+      <SoundProvider>
+        {" "}
+        {/* ✅ Ajout ici */}
+        <RouterProvider
+          router={router}
+          fallbackElement={<p>Chargement...</p>}
+        />
+      </SoundProvider>
     </AuthProvider>
   </React.StrictMode>
 );

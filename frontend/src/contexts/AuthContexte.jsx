@@ -1,5 +1,5 @@
 // src/contexts/AuthContexte.jsx
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 // 1. Création du contexte
 const AuthContext = createContext(null);
@@ -8,12 +8,35 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [utilisateur, setUtilisateur] = useState(null);
 
+  // ⚡ Récupération automatique depuis le localStorage au chargement
+  useEffect(() => {
+    const storedUser = localStorage.getItem("utilisateur");
+    if (storedUser) {
+      try {
+        setUtilisateur(JSON.parse(storedUser));
+      } catch (error) {
+        console.error("Erreur parsing utilisateur localStorage :", error);
+      }
+    }
+  }, []);
+
+  // 📦 Enregistrer l'utilisateur dans le contexte + localStorage
   const enregistrerUtilisateur = (user) => {
     setUtilisateur(user);
+    localStorage.setItem("utilisateur", JSON.stringify(user));
+  };
+
+  // 🔓 Fonction de déconnexion (utile pour logout global)
+  const deconnexion = () => {
+    setUtilisateur(null);
+    localStorage.removeItem("utilisateur");
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ utilisateur, enregistrerUtilisateur }}>
+    <AuthContext.Provider
+      value={{ utilisateur, enregistrerUtilisateur, deconnexion }}
+    >
       {children}
     </AuthContext.Provider>
   );

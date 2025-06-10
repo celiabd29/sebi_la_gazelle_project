@@ -14,6 +14,8 @@ import { useRef } from "react";
 import { useSound } from "../../contexts/SoundProvider";
 import Rain from "react-rain-animation";
 import "react-rain-animation/lib/style.css";
+import { useTranslation } from "react-i18next";
+
 
 
 
@@ -39,6 +41,8 @@ const ScorePage = () => {
   const [userRank, setUserRank] = useState(null);
   const trompetteRef = useRef(null);
   const audioRef = useRef(null);
+
+  const { t, i18n } = useTranslation();
 
 
 
@@ -189,13 +193,17 @@ const ScorePage = () => {
       </div>
 
 
-      <p className="xl:text-2xl text-xl text-white mt-1">Niveau {level}</p>
+     <p className="xl:text-2xl text-xl text-white mt-1">
+      {i18n.language === "fr" ? `Niveau ${level}` : `Level ${level}`}
+    </p>
 
-      {/* Titre */}
-      <h1 className="text-[60px] xl:text-[96px] font-extrabold text-white leading-none tracking-wide">
-        {isSuccess ? "Bravo !" : "Oh non ..."}
-      </h1>
+    <h1 className="text-[60px] xl:text-[96px] font-extrabold text-white leading-none tracking-wide">
+  {isSuccess
+    ? i18n.language === "fr" ? "Bravo !" : "Well done!"
+    : i18n.language === "fr" ? "Oh non ..." : "Oh no..."}
+</h1>
 
+    
       
       {/* Image personnage avec lumière derrière */}
       <div className="relative xl:w-[550px] xl:h-[250px] w-[350px] h-[150px] my-6">
@@ -217,9 +225,10 @@ const ScorePage = () => {
     
 
       {/* Total étoiles */}
-      <div className="px-6 py-2 rounded-[20px] w-fit flex items-center gap-2 ">
-        <span className="text-white font-bold text-[25px]">TON SCORE</span>
-      </div>
+     <span className="text-white font-bold text-[25px]">
+      {i18n.language === "fr" ? "TON SCORE" : "YOUR SCORE"}
+    </span>
+
 
       <div className="bg-black/30 px-8 py-3 rounded-[30px] mt-2 flex items-center gap-3 text-white font-extrabold text-3xl px-24 shadow-lg">
         <img src={StarIcon} alt="étoile" className="w-10 h-10 " />

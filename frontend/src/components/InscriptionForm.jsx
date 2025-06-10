@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
-import Background from "/src/assets/img/accueil/contact.png";
+import Background from "/src/assets/img/fonds/page-ins_co.webp";
+import Sebi from "../assets/img/sebi_droite.png";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import logo from "../assets/img/logo-sebi.webp";
+import { motion } from "framer-motion";
 
-const Inscription = () => {
+const InscriptionForm = () => {
   const { t, i18n } = useTranslation();
   const avatars = [
     "/avatars/drys_le_ecureuil.webp",
@@ -42,26 +46,34 @@ const Inscription = () => {
 
   return (
     <section
-      className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-start pt-10 px-6"
+      className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center pt-20 px-4 sm:px-6 md:justify-start md:px-10"
       style={{ backgroundImage: `url(${Background})` }}
     >
-      <div className="relative w-full max-w-xl bg-white/90 rounded-[2.5rem] shadow-xl border-[5px] border-[#FFE6C7] px-8 py-8 backdrop-blur-md font-[Fredoka] scale-[0.93] mr-auto ml-16">
-        {/* Bouton de langue */}
+      <Link
+        to="/"
+        className="absolute top-6 left-1/2 transform -translate-x-1/2 z-50"
+      >
+        <img src={logo} alt="Logo Sebi la gazelle" className="w-20 h-20" />
+      </Link>
+
+      <div className="relative w-full max-w-[90%] md:max-w-xl bg-white/90 rounded-[2rem] md:rounded-[2.5rem] shadow-xl border-[5px] border-[#FFE6C7] px-6 py-8 md:px-8 md:py-10 backdrop-blur-md font-[Fredoka] mx-auto md:ml-16 z-10">
         <button
           onClick={toggleLangue}
-          className="absolute top-4 right-6 text-sm text-[#4B2A13] bg-[#FFD6A5] px-4 py-1 rounded-full shadow hover:bg-[#FFC28A] transition"
+          className="absolute top-4 right-4 text-sm text-[#4B2A13] bg-[#FFD6A5] px-4 py-1 rounded-full shadow hover:bg-[#FFC28A] transition"
         >
           {i18n.language === "fr" ? "EN" : "FR"}
         </button>
 
-        <h2 className="text-4xl text-center font-[Fredoka] text-[#4B2A13] mb-4">
+        <h2 className="text-3xl md:text-4xl text-center text-[#4B2A13] mb-6">
           {t("register_title")}
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          {/* Prénom */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 text-base md:text-lg"
+        >
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_firstname_label")}
             </label>
             <input
@@ -77,9 +89,8 @@ const Inscription = () => {
             )}
           </div>
 
-          {/* Nom */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_name_label")}
             </label>
             <input
@@ -93,9 +104,8 @@ const Inscription = () => {
             )}
           </div>
 
-          {/* Date de naissance */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_birthdate_label")}
             </label>
             <input
@@ -112,9 +122,8 @@ const Inscription = () => {
             )}
           </div>
 
-          {/* Email */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_email_label")}
             </label>
             <input
@@ -128,9 +137,8 @@ const Inscription = () => {
             )}
           </div>
 
-          {/* Mot de passe */}
           <div>
-            <label className="text-[#804000] mb-1 block text-lg">
+            <label className="text-[#804000] mb-1 block">
               {t("form_password_label")}
             </label>
             <input
@@ -149,9 +157,8 @@ const Inscription = () => {
             )}
           </div>
 
-          {/* Avatar */}
           <div>
-            <label className="text-[#804000] mb-2 block text-lg">
+            <label className="text-[#804000] mb-2 block">
               {t("form_avatar_label")}
             </label>
             <div className="flex justify-center gap-4">
@@ -171,17 +178,25 @@ const Inscription = () => {
             </div>
           </div>
 
-          {/* Bouton d’inscription */}
           <button
             type="submit"
-            className="mt-4 bg-[#FFB570] hover:bg-[#FF994D] text-white text-lg font-medium py-3 rounded-full shadow-md transition"
+            className="mt-4 bg-[#FFB570] hover:bg-[#FF994D] text-white text-lg font-medium py-3 rounded-full shadow-md transition w-full"
           >
             {t("register_button")}
           </button>
         </form>
       </div>
+
+      <motion.img
+        src={Sebi}
+        alt="Sebi"
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="hidden md:block absolute bottom-0 right-10 w-[35rem] z-0"
+      />
     </section>
   );
 };
 
-export default Inscription;
+export default InscriptionForm;

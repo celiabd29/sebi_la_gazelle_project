@@ -1,14 +1,10 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import foretDrys from "../assets/sounds/drys_sounds/foret.wav";
-import foretJames from "../assets/sounds/james_sounds/forest.mp3"; // 👈 ajoute ça
+import { createContext, useContext, useRef, useState, useEffect } from "react";
+import foretSound from "../assets/sounds/drys_sounds/foret.wav";
 
 const SoundContext = createContext();
 
 export const SoundProvider = ({ children }) => {
-  const location = useLocation();
-  const audioDrysRef = useRef(null);
-  const audioJamesRef = useRef(null); // 👈 ajoute ça
+  const audioRef = useRef(null);
 
   const [soundOn, setSoundOn] = useState(() => localStorage.getItem("soundOn") !== "false");
   const [musicOn, setMusicOn] = useState(() => localStorage.getItem("musicOn") !== "false");
@@ -19,50 +15,34 @@ export const SoundProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("musicOn", musicOn);
+
+    if (musicOn) {
+      play();
+    } else {
+      pause();
+    }
   }, [musicOn]);
 
-  useEffect(() => {
-    const isDrys = location.pathname.startsWith("/jeuxDrys");
-    const isJames = location.pathname.startsWith("/jeuxJames");
-
-    // Préparer les sons si pas déjà créés
-    if (!audioDrysRef.current) {
-      const drys = new Audio(foretDrys);
-      drys.loop = true;
-      drys.volume = 0.4;
-      audioDrysRef.current = drys;
-    }
-
-    if (!audioJamesRef.current) {
-      const james = new Audio(foretJames);
-      james.loop = true;
-      james.volume = 0.2;
-      audioJamesRef.current = james;
-    }
-
-    const audioDrys = audioDrysRef.current;
-    const audioJames = audioJamesRef.current;
-
-    // DRYS
-    if (isDrys && musicOn) {
-      audioDrys.play().catch(() => {});
+  const play = () => {
+    if (!audioRef.current) {
+      const audio = new Audio(foretSound);
+      audio.loop = true;
+      audio.volume = 0.4;
+      audioRef.current = audio;
+      audio.play().catch(() => console.log("Autoplay bloqué"));
     } else {
-      audioDrys.pause();
-      audioDrys.currentTime = 0;
+      audioRef.current.play().catch(() => {});
     }
+  };
 
-    // JAMES
-    if (isJames && musicOn) {
-      audioJames.play().catch(() => {});
-    } else {
-      audioJames.pause();
-      audioJames.currentTime = 0;
+  const pause = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
-
-  }, [location.pathname, musicOn]);
+  };
 
   return (
-    <SoundContext.Provider value={{ soundOn, setSoundOn, musicOn, setMusicOn }}>
+    <SoundContext.Provider value={{ play, pause, soundOn, setSoundOn, musicOn, setMusicOn }}>
       {children}
     </SoundContext.Provider>
   );
