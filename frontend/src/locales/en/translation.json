@@ -1,0 +1,275 @@
+{
+  "home": "Home",
+  "games": "Games",
+  "characters": "Characters",
+  "contact": "Contact",
+  "login": "Login",
+  "register": "Register",
+  "play": "Play !",
+  "aboutTitle": "ABOUT US",
+  "aboutContent": "Welcome to a world where learning meets adventure! With Sebi the Gazelle and friends, children aged 4 to 8 explore an interactive universe designed to spark curiosity and develop skills. Each game, activity, and story is crafted to offer a unique, fun, and enriching educational experience. Here, your children can grow and flourish in a safe environment, designed to fuel their imagination while entertaining them. Give them a new way to discover the joy of learning through play!",
+  "gamesTitle": "GAMES",
+  "playNow": "Play now !",
+  "game1": {
+    "title": "The Adventures of James the Owl",
+    "description": "Sebi the gazelle invites you to play and count together! Her friend James the owl loves numbers. He will give you little math challenges, and you have to find the answer quickly before time runs out! The more points you get, the harder the questions become. Are you ready for the challenge?"
+  },
+  "game2": {
+    "title": "The Tricks of Drys the Squirrel",
+    "description": "Oh dear, Drys the squirrel is a little rascal who snacks in secret! Help Sebi the gazelle find the treats Drys has hidden under the cups! Can you guess where he put them? The more you progress, the faster the cups move. Are you up for the challenge?"
+  },
+  "avis": {
+    "title": "REVIEWS",
+    "daysAgo": "{{count}} day ago",
+    "daysAgo_plural": "{{count}} days ago",
+    "1": {
+      "message": "“My son really loved James' game! It’s amazing to see a game that stimulates his strategic mind while entertaining him. I highly recommend this to parents looking for a fun and educational experience.”"
+    },
+    "2": {
+      "message": "“Super fun and well-designed, my kids love it!”"
+    },
+    "3": {
+      "message": "“I was skeptical, but very impressed by the educational aspect!”"
+    }
+  },
+  "characterSection": {
+    "title": "CHARACTERS",
+    "sebi": {
+      "name": "Sebi the gazelle",
+      "description": "Sebi the gazelle is a true adventurer, always ready to explore the world. A bit absent-minded, she sometimes runs into obstacles without realizing it, but she always keeps her energy and smile! With your help, she can jump higher and avoid everything in her path."
+    },
+    "celia": {
+      "name": "Célia the parrot",
+      "description": "Célia the parrot is a sparkling and joyful friend, known for her rainbow-colored feathers and contagious laughter. But today, something’s wrong... Her feathers have lost their color and her smile has faded. Luckily, you're here to help! Grab your color palette and bring her vibrant feathers back to life."
+    },
+    "charly": {
+      "name": "Charly the chameleon",
+      "description": "Charly the chameleon is a shy and quiet character, always ready to blend into his surroundings. With his ability to change colors, he loves to hide and go unnoticed. Despite his reserved nature, he enjoys playing hide and seek with friends — and it's up to you to find him!"
+    },
+    "james": {
+      "name": "James the owl",
+      "description": "James the owl is a clever little genius with a mischievous look. Passionate about numbers and riddles, he loves making his friends think. Always perched somewhere with a book under his wing, he shares his knowledge with humor and wit!"
+    },
+    "mel": {
+      "name": "Mel the marmot",
+      "description": "Mel the marmot is a calm explorer who loves digging long underground tunnels. But with so many secret paths, she sometimes gets lost! A bit scatterbrained but always well-meaning, Mel needs your help to find her way safely to the sunny meadows."
+    },
+    "nour": {
+      "name": "Nour the nightingale",
+      "description": "Nour the nightingale is a cheerful bird passionate about singing — sometimes a bit too loudly! With his melodic voice, he sings everywhere, even if it's a little too much for Sebi the gazelle's sensitive ears. Always eager to improve, Nour needs your help to sing in tune and create beautiful harmonies!"
+    },
+    "drys": {
+      "name": "Drys the squirrel",
+      "description": "Drys the squirrel is a clever little fellow always looking for new treats. Super agile, he loves hiding his goodies under cups and challenging his friends to find them. A real trickster, Drys is always up for a little mystery… and he needs your help to remember where he hid everything!"
+    },
+    "noah": {
+      "name": "Noah the fox",
+      "description": "Noah the fox is a curious adventurer, always ready to explore new horizons. Passionate about geography, he dreams of learning everything about the world — especially the regions of France! With his sharp mind and cleverness, Noah needs your help to meet the challenge and become a true expert."
+    }
+  },
+  "footer": {
+    "home": "Home",
+    "games": "Games",
+    "characters": "Characters",
+    "contact": "Contact",
+    "rights": "©2024, Sebi La Gazelle. All rights reserved.",
+    "legal": "Legal notice",
+    "language": "English",
+    "privacy": "Privacy Policy"
+  },
+  "title_james": "Super calculations with James the owl",
+  "start_game": "Start",
+  "level": "Level",
+  "validate": "Submit",
+  "score": "YOUR SCORE",
+  "congrats": "Well done!",
+  "fail": "Oh no ...",
+  "top3": "🏆 TOP 3",
+  "settings": {
+    "title": "Settings",
+    "music": "Music",
+    "voice": "Voice",
+    "language": "Language",
+    "change_language": "Change language",
+    "on": "ON",
+    "off": "OFF"
+  },
+  "language": "Language",
+  "sound": "Sound",
+  "back": "Back",
+  "welcome_level": "Welcome to Level {{number}}! Solve this puzzle to get started.",
+  "level_locked": "This level is still locked. Come back later!",
+  "back_to_menu": "Back to menu",
+  "next_level": "Next level",
+  "try_again": "Try again",
+  "change_language": "Switch language",
+  "volume_on": "Sound on",
+  "volume_off": "Sound off",
+  "on": "ON",
+  "off": "OFF",
+  "french": "🇫🇷 FR",
+  "english": "🇬🇧 EN",
+  "toggle_sound": "Toggle sound",
+  "toggle_language": "Switch language",
+  "start": "Start",
+  "level_1_text": "Welcome to Level 1 ! Solve this puzzle to begin.",
+  "level_2_text": "Level 2: James the owl needs your help to go further.",
+  "level_3_text": "Level 3: A new challenge awaits you!",
+  "level_4_text": "Level 4: Careful, it's getting harder!",
+  "level_5_text": "Level 5: Final stretch! Show you're a champion!",
+  "level_default_text": "This level doesn't exist yet. Come back soon!",
+  "loading": "Loading...",
+  "play_level": "Play level",
+  "game_content_placeholder": "Game content for this level.",
+  "complete_level": "Complete level",
+  "game_james": "Super calculations with James the owl",
+  "game_drys": "The secrets of Drys the squirrel",
+  "contact_title": "Contact us",
+  "contact_magic_title": "Send us your message ✨",
+  "form_name_label": "Name",
+  "form_name_placeholder": "Your name",
+  "form_firstname_label": "First name",
+  "form_firstname_placeholder": "Your first name",
+  "form_email_label": "Email",
+  "form_email_placeholder": "example@mail.com",
+  "form_message_label": "Message",
+  "form_message_placeholder": "Write your message here",
+  "form_submit": "Send",
+  "form_success": "Message sent successfully!",
+  "form_error_generic": "An error occurred.",
+  "form_error_server": "Server error. Please try again later.",
+  "login_title": "Login",
+  "login_button": "Sign in",
+  "form_email_required": "Email is required",
+  "form_password_label": "Password",
+  "form_password_required": "Password is required",
+  "no_account": "Don't have an account?",
+  "create_one": "Create one!",
+  "register_title": "Create your account",
+  "register_button": "Register",
+  "register_success": "Registration successful!",
+  "register_error": "An error occurred during registration.",
+  "form_firstname_required": "First name is required",
+  "form_name_required": "Last name is required",
+  "form_birthdate_label": "Date of birth",
+  "form_birthdate_required": "Birthdate is required",
+  "form_password_min": "Minimum 6 characters",
+  "form_avatar_label": "Choose your avatar:",
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "At Sebi la gazelle, we value the privacy and security of our users' personal data, especially when it comes to children. This privacy policy explains what information we collect, how we use it, and how we protect it.",
+    "1": {
+      "title": "1. Collection of Personal Information",
+      "desc": "We may collect certain personal information to enhance the user experience. This may include:",
+      "item1": "The child's first name or nickname",
+      "item2": "The child's age",
+      "item3": "Feedback from parents on the games offered",
+      "note": "No sensitive information such as address or precise location data is collected."
+    },
+    "2": {
+      "title": "2. Use of Information",
+      "desc": "The collected information helps us to:",
+      "item1": "Improve and personalize game content to make the experience more suitable for children",
+      "item2": "Receive feedback from parents to develop new features"
+    },
+    "3": {
+      "title": "3. Information Sharing",
+      "desc": "The information collected is strictly confidential and not shared with third parties, except when necessary to provide the service (such as technical partners or secure hosting services)."
+    },
+    "4": {
+      "title": "4. Information Security",
+      "desc": "We implement technical and organizational security measures to protect data from unauthorized access, modification, disclosure, or destruction. For example, all sensitive information is stored securely and encrypted."
+    },
+    "5": {
+      "title": "5. User Rights",
+      "desc": "Parents have the right to:",
+      "item1": "Access information collected about their child",
+      "item2": "Request modification or deletion of such information",
+      "note": "To exercise these rights, please contact us at the following address:"
+    },
+    "6": {
+      "title": "6. Changes to this Privacy Policy",
+      "desc": "This privacy policy may be modified from time to time to reflect changes in our practices or for legal reasons. We will inform you of any changes via contact@sebilagazelle.fr."
+    },
+    "7": {
+      "title": "7. Contact",
+      "desc": "If you have any questions regarding this privacy policy or how we handle personal data, feel free to contact us:",
+      "item1": "Email: contact@sebilagazelle.fr",
+      "item2": "Postal address: Paris"
+    }
+  },
+  "legal": {
+    "title": "Legal Notice",
+    "1": {
+      "title": "1. Site Publisher",
+      "desc": "The sebilagazelle.fr website is a school project developed as part of a university assignment. It is managed by a group of three students:",
+      "member1": "Abbad Célia",
+      "member2": "Dhaou Noussaïba",
+      "member3": "Eleisawy Mohamed",
+      "contact": "For any questions or complaints, please contact us at:"
+    },
+    "2": {
+      "title": "2. Hosting",
+      "host": "The site is hosted by the following company:"
+    },
+    "3": {
+      "title": "3. Intellectual Property",
+      "desc1": "All content (texts, images, illustrations, graphics, audio, video, etc.) on this site is the exclusive property of the project authors or has been used with proper permissions in an educational context.",
+      "desc2": "Any reproduction, distribution, or use without permission is prohibited, except for strictly personal and non-commercial use."
+    },
+    "4": {
+      "title": "4. Personal Data",
+      "desc1": "This site does not collect sensitive personal data. Some information may be collected for educational purposes (nickname, age), but it is never shared with third parties. For more details, please consult our",
+      "link": "privacy policy"
+    },
+    "5": {
+      "title": "5. Cookies",
+      "desc": "This site may use cookies to improve the user experience. No data is used for advertising or commercial purposes."
+    }
+  },
+  "sectionJeux": {
+    "james": "Sebi the gazelle invites you to play and count together! Her friend James the owl loves numbers. He will ask you little math problems, and you’ll have to find the answer super fast before time runs out! The more points you earn, the harder the calculations become! Are you ready for the challenge?",
+    "drys": "Oh dear, Drys the squirrel is a little rascal—he's sneaking snacks! Come help Sebi the gazelle find the tasty treats Drys the squirrel has hidden under cups! Can you guess where he put them? Be careful— as you progress in the game, the cups move faster! Are you ready for the challenge?"
+  },
+  "profil_tab": "Profil",
+  "recompenses_tab": "Rewards",
+  "securite_tab": "Security",
+  "changer_mdp": "Change my password",
+  "valider": "Submit",
+  "reward_tab": "Rewards",
+  "form_nom_label": "Last Name",
+  "form_prenom_label": "First Name",
+  "form_dateDeNaissance_label": "Date of Birth",
+  "reward_message": "You don’t have any rewards yet...",
+  "form_ancienMotDePasse_label": "Old Password",
+  "form_nouveauMotDePasse_label": "New Password",
+  "choisir_avatar": "Choose an avatar:",
+  "levelWithNumber": "Level {{level}}",
+  "yourScore": "YOUR SCORE",
+  "stars": "star",
+  "light": "Light",
+  "character": "Character",
+  "mainPage": {
+    "title": "The Secrets of Drys the Squirrel"
+  },
+  "drys_level_1_text": "Help Drys find his hazelnut in the enchanted garden!",
+  "drys_level_2_text": "The trees have moved! Find the right path.",
+  "drys_level_3_text": "Watch out for brambles! You need to calculate to move forward.",
+  "drys_level_4_text": "Leaves are falling... but where’s the hiding spot?",
+  "drys_level_5_text": "It’s the final challenge! Are you ready for the leap?",
+  "drys_level_default_text": "A new challenge awaits you with Drys!",
+  "wrong": "Mauvaise réponse ! Réessaie...",
+  "scorePage": {
+    "level": "Level {{level}}",
+    "congrats": "Well done!",
+    "fail": "Oh no ...",
+    "yourScore": "YOUR SCORE",
+    "replay": "Replay",
+    "home": "Home",
+    "next": "Next",
+    "leaderboard": "Leaderboard"
+  },
+  "parental_access": "Parental Access",
+  "form_parental_code_label": "Parental Code",
+  "form_parental_code_placeholder": "Enter the parental code"
+}
