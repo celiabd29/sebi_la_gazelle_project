@@ -46,7 +46,7 @@ const Message = () => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) {
       try {
         // Ici vous pouvez ajouter l'appel API pour supprimer le message
-        // await axios.delete(`http://localhost:8008/api/contact/${messageId}`);
+        await axios.delete(`https://sebi-la-gazelle-backend.onrender.com/api/contact/${messageId}`);
         setMessages(messages.filter(msg => msg._id !== messageId));
         alert("Message supprimé avec succès");
       } catch (error) {
