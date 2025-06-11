@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+<<<<<<< HEAD
+=======
+
+echo "backend/config/analytics-credentials.json" >> .gitignore
+>>>>>>> fcd9ad27eab6cf68f5d82d083d075ccc2666c9a8
