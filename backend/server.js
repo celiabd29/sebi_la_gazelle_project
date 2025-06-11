@@ -1,90 +1,88 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
-const bodyParser = require("body-parser");
-const path = require("path");
-const connecterDB = require("./config/database");
-// Charger les variables d'environnement
-dotenv.config();
-console.log("✅ Variables d'environnement chargées");
-console.log("✅ MONGO_URI :", process.env.MONGO_URI);
-console.log("✅ DB_NAME :", process.env.DB_NAME);
-console.log("✅ FRONTEND_URL :", process.env.FRONTEND_URL);
-console.log("✅ FRONTEND_URL_ALT :", process.env.FRONTEND_URL_ALT);
-console.log("✅ FRONTEND_URL_SECURE :", process.env.FRONTEND_URL_SECURE);
-console.log("✅ FRONTEND_URL_SECURE_ALT :", process.env.FRONTEND_URL_SECURE_ALT);
-// Définir corsOptions AVANT les connexions DB
-const app = express();
+const imageRoutes = require("./routes/imageRoutes");
+const controleRoutes = require("./routes/controleParentalRoutes");
 
-// Définir corsOptions AVANT les connexions DB
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Autoriser les requêtes avec ou sans origine (comme les requêtes de navigateur ou Postman)
-    callback(null, true);
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
-  exposedHeaders: ["Content-Length", "X-Confirm-Delete"],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
-app.use(cors(corsOptions));
-connecterDB(); // Connexion à la base de données MongoDB
-// ✅ Connexion Mongoose
-mongoose.connect(process.env.MONGO_URI, {
-  dbName: process.env.DB_NAME
-})
+
+
+
+dotenv.config();
+
+// ✅ Connexion Mongoose (utilisateurs, authentification)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Mongoose connecté (utilisateurs)"))
   .catch((err) => {
     console.error("❌ Erreur Mongoose :", err);
     process.exit(1);
   });
 
-// ✅ Connexion MongoClient
-MongoClient.connect(process.env.MONGO_URI, {
-  dbName: process.env.DB_NAME
-})
+const app = express();
+app.use(cors());
+
+
+
+app.use(express.json());
+app.use("/api/images", imageRoutes);
+
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+const avatarRoutes = require("./routes/avatarRoutes");
+app.use("/api/avatars", avatarRoutes);
+
+app.use("/api/controle", controleRoutes);
+
+// ✅ Ajouter les routes de contact
+const contactRoutes = require("./routes/contactRoutes");
+app.use("/api/contact", contactRoutes);
+
+
+
+// ✅ Sert les fichiers statiques (ex: avatars dans /uploads)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// ✅ Connexion MongoClient pour les scores
+MongoClient.connect(process.env.MONGO_URI)
   .then((client) => {
     const db = client.db();
 
-
-    // Middlewares
-    app.use(bodyParser.json());
-    app.use(express.json({ limit: "10mb" }));
-
-    // Routes
+    // ✅ Injecte db dans les routes scores
     const scoreRoutes = require("./routes/scoreRoutes");
-    app.use("/api/scores", (req, res, next) => {
-      req.db = db;
-      next();
-    }, scoreRoutes);
+    app.use(
+      "/api/scores",
+      (req, res, next) => {
+        req.db = db;
+        next();
+      },
+      scoreRoutes
+    );
 
-    app.use((req, res, next) => {
-      console.log(`Requête reçue: ${req.method} ${req.url}`);
-      console.log(`Origin: ${req.headers.origin}`);
-      next();
-    });
-    // ✅ Routes utilisant Mongoose
-    // Ajouter avant les autres routes
+    
 
-    app.get('/api/test-cors', (req, res) => {
-      res.json({
-        message: 'CORS est correctement configuré!',
-        origin: req.headers.origin || 'Aucune origine'
-      });
-    });
+    // ✅ Autres routes (Mongoose)
     app.use("/api/utilisateurs", require("./routes/utilisateurRoutes"));
     app.use("/api/contact", require("./routes/contactRoutes"));
     app.use("/api/verification", require("./routes/utilisateurRoutes"));
     app.use("/api/tous", require("./routes/utilisateurRoutes"));
-    // app.use("/api/analytics", analyticsRoutes);
+    app.use("/api/avatars", require("./routes/avatarRoutes"));
 
+
+    // ✅ Production (React build)
+    if (process.env.NODE_ENV === "production") {
+      app.use(express.static(path.join(__dirname, "../frontend/build")));
+      app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+      });
+    }
+
+    // ✅ Lancement serveur
     const PORT = process.env.PORT || 8008;
     app.listen(PORT, () => {
-      console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+      console.log(`🚀 Serveur démarré : http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
