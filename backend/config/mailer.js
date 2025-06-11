@@ -17,7 +17,7 @@ async function sendVerificationEmail(email, token) {
       html: `
         <h2>Bienvenue !</h2>
         <p>Cliquez sur le lien ci-dessous pour vérifier votre compte :</p>
-        <a href="${process.env.FRONTEND_URL}/verification?token=${token}">
+        <a href="${process.env.FRONTEND_URL}verification?token=${token}">
           Vérifier mon compte
         </a>
       `,

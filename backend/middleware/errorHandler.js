@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-const errorHandler = (err, req, res, next) => {
-    console.error(`[❌ ERREUR] ${err.message}`); // Log de l'erreur côté console
-
-    const statusCode = err.statusCode || 500;
-    res.status(statusCode).json({
-        success: false,
-        message: err.message || "Une erreur interne est survenue",
-    });
-};
-
-module.exports = errorHandler;
-=======
 const logger = require('../config/winston');
 
 class AppError extends Error {
@@ -82,4 +69,3 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = { errorHandler, AppError };
->>>>>>> dbd6d096b4d0e9dab38dfc7b43359458530505a1
