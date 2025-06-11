@@ -27,7 +27,7 @@ const DashboardHome = () => {
     // Récupérer tous les utilisateurs
     const fetchUtilisateurs = async () => {
       try {
-        const res = await axios.get("http://localhost:8008/api/utilisateurs/tous");
+        const res = await axios.get("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/tous");
         setUtilisateurs(res.data);
 
         // Calcul des nouveaux clients d’aujourd’hui

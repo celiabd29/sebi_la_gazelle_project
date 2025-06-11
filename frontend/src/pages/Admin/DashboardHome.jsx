@@ -32,7 +32,7 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       try {
         // Récupérer tous les utilisateurs
-        const resUsers = await axios.get("http://localhost:8008/api/utilisateurs/tous");
+        const resUsers = await axios.get("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/tous");
         setUtilisateurs(resUsers.data);
 
         // Calcul des nouveaux clients d'aujourd'hui
@@ -43,7 +43,7 @@ const Dashboard = () => {
         setNouveauxClients(count);
 
         // Récupérer les statistiques de jeux (si API disponible)
-        // const resStats = await axios.get("http://localhost:8008/api/scores/stats");
+        // const resStats = await axios.get("https://sebi-la-gazelle-backend.onrender.com/api/scores/stats");
         // setStatsJeux(resStats.data);
 
       } catch (error) {

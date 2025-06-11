@@ -34,7 +34,7 @@ const Profil = () => {
   useEffect(() => {
     if (!token) return navigate("/connexion");
 
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -56,7 +56,7 @@ const Profil = () => {
   }, [navigate, token]);
 
   useEffect(() => {
-    fetch("http://localhost:8008/api/avatars")
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/avatars")
       .then((res) => res.json())
       .then((data) => setAvatarOptions(data))
       .catch((err) => console.error("Erreur chargement avatars :", err));
@@ -66,7 +66,7 @@ const Profil = () => {
     const updatedData = { ...formData, avatar: url };
     setFormData(updatedData);
 
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/me", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

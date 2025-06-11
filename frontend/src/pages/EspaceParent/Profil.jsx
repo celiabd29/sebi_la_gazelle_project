@@ -37,7 +37,7 @@ const Profil = () => {
   useEffect(() => {
     if (!token) return navigate("/connexion");
 
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -59,14 +59,14 @@ const Profil = () => {
   }, [navigate, token]);
 
   useEffect(() => {
-    fetch("http://localhost:8008/api/avatars")
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/avatars")
       .then((res) => res.json())
       .then((data) => setAvatarOptions(data))
       .catch((err) => console.error("Erreur chargement avatars :", err));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8008/api/recompenses", {
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/recompenses", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -97,7 +97,7 @@ const Profil = () => {
           alert("Merci de saisir l'ancien code parental.");
           return;
         }
-      fetch("http://localhost:8008/api/utilisateurs/me/code-parent", {
+      fetch("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/me/code-parent", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ const Profil = () => {
           console.error("Erreur mise à jour code parental :", err)
         );
     } else {
-      fetch("http://localhost:8008/api/utilisateurs/me", {
+      fetch("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/me", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +148,7 @@ const Profil = () => {
   };
 
   const handlePasswordChange = () => {
-    fetch("http://localhost:8008/api/utilisateurs/me/password", {
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/me/password", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -168,7 +168,7 @@ const Profil = () => {
     const updatedData = { ...formData, avatar: url };
     setFormData(updatedData);
 
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/me", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

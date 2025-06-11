@@ -139,7 +139,7 @@ const showSebi = (duration = 4300) => {
     const score = stars * 15;
 
     if (isLoggedIn && stars > 0) {
-      fetch("http://localhost:8008/api/scores", {
+      fetch("https://sebi-la-gazelle-backend.onrender.com/api/scores", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -310,7 +310,7 @@ useEffect(() => {
   setLoadingImage(true);
   setShowReward(true);
 
-  const res = await fetch("http://localhost:8008/api/images/generate", {
+  const res = await fetch("https://sebi-la-gazelle-backend.onrender.com/api/images/generate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -326,7 +326,7 @@ useEffect(() => {
   // 🔁 Check périodiquement si l’image est prête
   const intervalId = setInterval(async () => {
     try {
-      const res = await fetch(`http://localhost:8008/api/images/${id}`);
+      const res = await fetch(`https://sebi-la-gazelle-backend.onrender.com/api/images/${id}`);
       const data = await res.json();
 
       if (data.imageUrl) {

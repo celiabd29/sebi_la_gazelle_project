@@ -31,7 +31,7 @@ const InscriptionForm = () => {
     try {
       const finalData = { ...data, avatar: selectedAvatar };
       console.log("✅ Données envoyées :", finalData);
-      await axios.post("http://localhost:8008/api/utilisateurs/inscription", finalData);
+      await axios.post("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/inscription", finalData);
 
       localStorage.setItem("utilisateur", JSON.stringify(finalData));
       navigate("/connexion");

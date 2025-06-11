@@ -29,7 +29,7 @@ const Utilisateur = () => {
 
   const fetchUtilisateurs = async () => {
     try {
-      const res = await axios.get("http://localhost:8008/api/utilisateurs/tous");
+      const res = await axios.get("https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/tous");
       setUtilisateurs(res.data);
       setLoading(false);
     } catch (error) {

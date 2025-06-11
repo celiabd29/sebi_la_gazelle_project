@@ -22,7 +22,7 @@ const Connexion = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8008/api/utilisateurs/connexion",
+        "https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/connexion",
         data
       );
 

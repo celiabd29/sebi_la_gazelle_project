@@ -17,7 +17,7 @@ const CodeParent = ({ onSuccess }) => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8008/api/controle/verifier-code",
+        "https://sebi-la-gazelle-backend.onrender.com/api/controle/verifier-code",
         {
           code,
           userId: utilisateur?._id,

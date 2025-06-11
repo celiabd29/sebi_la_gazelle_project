@@ -19,7 +19,7 @@ const EmailVerification = () => {
   const verifyEmail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8008/api/utilisateurs/verification?token=${token}`
+        `https://sebi-la-gazelle-backend.onrender.com/api/utilisateurs/verification?token=${token}`
       );
 
       setMessage(res.data.message);

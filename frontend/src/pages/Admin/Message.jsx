@@ -32,7 +32,7 @@ const Message = () => {
   const fetchMessages = async () => {
     try {
       // ✅ Récupération des vrais messages depuis l'API
-      const res = await axios.get("http://localhost:8008/api/contact/tous");
+      const res = await axios.get("https://sebi-la-gazelle-backend.onrender.com/api/contact/tous");
       setMessages(res.data);
       setLoading(false);
     } catch (error) {
