@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
+const url = import.meta.env.VITE_API_URL;
 
 const ContactForm = () => {
   const {
@@ -10,8 +11,9 @@ const ContactForm = () => {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8008/api/contact", data);
-  
+
+      const response = await axios.post(url, data);
+
       if (response.status === 201) {
         alert("Message envoyé avec succès !");
         reset(); // Vide le formulaire
