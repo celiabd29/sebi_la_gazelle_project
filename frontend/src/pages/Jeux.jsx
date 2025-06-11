@@ -7,6 +7,7 @@ import Background from "../assets/img/accueil/jeux.webp";
 import sebi from "../assets/img/fonds/sebi.png";
 import drys from "../assets/img/fonds/drys_debout.png";
 import james from "../assets/img/fonds/james-debout.png";
+import SEOHead from "../components/SEO/SEOHead";
 
 const Jeux = () => {
   const location = useLocation();
@@ -14,6 +15,12 @@ const Jeux = () => {
 
   return (
     <div>
+      <SEOHead
+        title={t("games") || "Jeux"}
+        description="Choisissez votre aventure ! Jeux de calcul avec James le hibou ou jeux de mémoire avec Drys l'écureuil. Des jeux éducatifs adaptés aux enfants de 4 à 8 ans."
+        keywords="jeux enfants, calcul mental, mémoire, James hibou, Drys écureuil, jeux éducatifs"
+        image="/og-jeux.png"
+      />
       <Header />
       <section
         className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat pt-28 px-4 md:px-10"

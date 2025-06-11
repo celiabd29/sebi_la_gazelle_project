@@ -2,7 +2,65 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/img/logo-sebi.webp"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/img/logo-sebi.webp"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/logo-sebi.webp" />
+
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sebi la Gazelle - Jeux éducatifs pour enfants de 4 à 8 ans. Apprendre en s'amusant avec James le hibou et Drys l'écureuil. Calculs, mémoire et concentration."
+    />
+    <meta
+      name="keywords"
+      content="jeux éducatifs enfants, apprentissage ludique, calcul mental, mémoire, concentration, 4-8 ans, Sebi la gazelle"
+    />
+    <meta name="author" content="Sebi la Gazelle" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph Meta Tags (Facebook) -->
+    <meta
+      property="og:title"
+      content="Sebi la Gazelle - Jeux Éducatifs pour Enfants"
+    />
+    <meta
+      property="og:description"
+      content="Découvrez un univers éducatif et amusant avec Sebi la Gazelle et ses amis. Jeux de calcul, mémoire et concentration pour enfants de 4 à 8 ans."
+    />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://sebilagazelle.fr" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Sebi la Gazelle" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Sebi la Gazelle - Jeux Éducatifs pour Enfants"
+    />
+    <meta
+      name="twitter:description"
+      content="Jeux éducatifs et amusants pour enfants de 4 à 8 ans. Calcul, mémoire et concentration avec Sebi et ses amis."
+    />
+    <meta name="twitter:image" content="/twitter-image.png" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -10,6 +68,7 @@
       rel="stylesheet"
     />
 
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -18,9 +77,43 @@
       referrerpolicy="no-referrer"
     />
 
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=BubbleBody&display=swap" rel="stylesheet"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <!-- Title -->
+    <title>Sebi la Gazelle - Jeux Éducatifs pour Enfants de 4 à 8 ans</title>
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-DDCL0V598Y"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-DDCL0V598Y");
+    </script>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Sebi la Gazelle",
+        "description": "Jeux éducatifs pour enfants de 4 à 8 ans",
+        "url": "https://sebilagazelle.fr",
+        "image": "/logo-sebi.webp",
+        "author": {
+          "@type": "Organization",
+          "name": "Sebi la Gazelle"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://sebilagazelle.fr/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import "./index.css";
 import "./i18n";
 
@@ -112,15 +113,15 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <SoundProvider>
-        {" "}
-        {/* ✅ Ajout ici */}
-        <RouterProvider
-          router={router}
-          fallbackElement={<p>Chargement...</p>}
-        />
-      </SoundProvider>
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <SoundProvider>
+          <RouterProvider
+            router={router}
+            fallbackElement={<p>Chargement...</p>}
+          />
+        </SoundProvider>
+      </AuthProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );
