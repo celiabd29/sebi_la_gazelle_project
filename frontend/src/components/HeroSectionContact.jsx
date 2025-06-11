@@ -41,7 +41,7 @@ const HeroSectionContact = () => {
       console.log("📤 Envoi des données :", formData);
       
       const response = await axios.post(
-        "http://localhost:8008/api/contact",
+        "https://sebi-la-gazelle-backend.onrender.com/api/contact",
         formData
       );
       
