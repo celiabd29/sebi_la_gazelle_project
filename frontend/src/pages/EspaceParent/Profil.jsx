@@ -8,7 +8,7 @@ import { useAuth } from "../../contexts/AuthContexte";
 const Profil = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setUtilisateur } = useAuth();
+  const { enregistrerUtilisateur } = useAuth();
 
   const [activeTab, setActiveTab] = useState("profil");
   const [editingField, setEditingField] = useState(null);
@@ -65,16 +65,38 @@ const Profil = () => {
       .catch((err) => console.error("Erreur chargement avatars :", err));
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:8008/api/recompenses", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setFormData(prev => ({ ...prev, recompenses: data }));
+      })
+      .catch(console.error);
+  }, []);
+
+
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleEdit = (field) => {
     setEditingField(field);
+    if (field === "codeParental") {
+      setFormData((prev) => ({ ...prev, codeParental: "" }));
+    }
+
   };
 
   const handleSave = () => {
     if (editingField === "codeParental") {
+       if (!ancienCodeParental) {
+          alert("Merci de saisir l'ancien code parental.");
+          return;
+        }
       fetch("http://localhost:8008/api/utilisateurs/me/code-parent", {
         method: "PUT",
         headers: {
@@ -117,7 +139,7 @@ const Profil = () => {
         .then((res) => res.json())
         .then((updated) => {
           setFormData(updated);
-          setUtilisateur(updated);
+          enregistrerUtilisateur(updated);
           setEditingField(null);
           localStorage.setItem("utilisateur", JSON.stringify(updated));
         })
@@ -157,7 +179,7 @@ const Profil = () => {
       .then((res) => res.json())
       .then((updated) => {
         setFormData(updated);
-        setUtilisateur(updated);
+        enregistrerUtilisateur(updated);
         localStorage.setItem("utilisateur", JSON.stringify(updated));
       })
       .catch((err) => console.error("Erreur mise à jour avatar :", err));
@@ -170,7 +192,7 @@ const Profil = () => {
     >
       <div className="bg-[#C6FFCB] w-full max-w-5xl rounded-3xl shadow-lg ml-6 p-6 md:p-10">
         <div className="flex gap-6 border-b-4 border-[#9CF29B] text-xl font-[Fredoka] mb-6">
-          {["profil", "recompenses", "securite"].map((tab) => (
+          {["profil", "securite"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -218,7 +240,7 @@ const Profil = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     {editingField === field ? (
-                    field === "codeParental" ? (
+                      field === "codeParental" ? (
                       <div className="flex flex-col gap-2">
                         <input
                           type="password"
@@ -236,32 +258,32 @@ const Profil = () => {
                         />
                       </div>
                     ) : (
-                      <input
-                        type={
-                          field === "email"
-                            ? "email"
-                            : field === "dateDeNaissance"
-                            ? "date"
-                            : "text"
-                        }
-                        value={
-                          field === "dateDeNaissance"
-                            ? formData[field]?.split("T")[0]
-                            : formData[field] || ""
-                        }
-                        onChange={(e) => handleChange(field, e.target.value)}
-                        className="border rounded-xl px-3 py-1 text-sm"
-                      />
-                    )
-                  ) : (
-                    <span className="text-gray-600 text-sm">
-                      {field === "dateDeNaissance"
-                        ? formData[field]?.split("T")[0]
-                        : field === "codeParental"
-                        ? "••••"
-                        : formData[field]}
-                    </span>
-                  )}
+                <input
+                  type={
+                    field === "email"
+                      ? "email"
+                      : field === "dateDeNaissance"
+                      ? "date"
+                      : "text"
+                  }
+                  value={
+                    field === "dateDeNaissance"
+                      ? formData[field]?.split("T")[0]
+                      : formData[field] || ""
+                  }
+                  onChange={(e) => handleChange(field, e.target.value)}
+                  className="border rounded-xl px-3 py-1 text-sm"
+                />
+              )
+            ) : (
+              <span className="text-gray-600 text-sm">
+                {field === "dateDeNaissance"
+                  ? formData[field]?.split("T")[0]
+                  : field === "codeParental"
+                  ? "••••"
+                  : formData[field]}
+              </span>
+            )}
 
 
                     <button
@@ -302,15 +324,7 @@ const Profil = () => {
           </div>
         )}
 
-        {activeTab === "recompenses" && (
-          <div className="p-4 mt-4 bg-white rounded-xl shadow-inner">
-            <p className="text-center text-[#4B2A13] text-xl">
-              🎉 {t("reward_message", "Tu n’as pas encore de récompenses...")}{" "}
-              🎉
-            </p>
-          </div>
-        )}
-
+        
         {activeTab === "securite" && (
           <div className="bg-white p-6 mt-4 rounded-xl shadow-inner space-y-4">
             <h3 className="text-xl font-semibold text-[#4B2A13]">

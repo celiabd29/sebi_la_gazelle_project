@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/img/logo-sebi.webp"; // adapte le chemin si besoin
 
 const CodeParent = ({ onSuccess }) => {
   const [code, setCode] = useState("");
   const [erreur, setErreur] = useState("");
   const [autorise, setAutorise] = useState(false);
 
-  const utilisateur = JSON.parse(localStorage.getItem("utilisateur")); // ✅ Récupère l'ID utilisateur
+  const utilisateur = JSON.parse(localStorage.getItem("utilisateur"));
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErreur(""); // Reset erreur avant chaque tentative
+    setErreur("");
 
     try {
       const res = await axios.post(
@@ -21,9 +24,10 @@ const CodeParent = ({ onSuccess }) => {
         }
       );
 
-      console.log("🎯 Résultat backend:", res.data); // 🪵 Log de debug
+      console.log("🎯 Résultat backend:", res.data);
 
       if (res.data.success && res.data.autorisé) {
+        localStorage.setItem(`autorise-${utilisateur._id}`, "true");
         setAutorise(true);
         onSuccess();
       } else {
@@ -39,10 +43,23 @@ const CodeParent = ({ onSuccess }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-md text-center">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+      <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-md text-center relative">
+
+        {/* ✅ Logo en haut */}
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-16 h-16 absolute top-4 left-4 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
+
+        <h2 className="text-2xl font-bold mb-4 text-gray-800 mt-12">
           Contrôle Parental 🔐
         </h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Une fois déverrouillé, l'accès est autorisé pendant 30 minutes.
+        </p>
+
         <form onSubmit={handleSubmit}>
           <input
             type="password"

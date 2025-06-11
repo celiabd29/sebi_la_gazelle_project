@@ -98,7 +98,7 @@ const GamePage = () => {
   const [timeLeft, setTimeLeft] = useState(60);
   const timerRef = useRef(null);
   const warningTimeoutRef = useRef(null);
-  const audioRef = useRef(null);
+  const playingAudiosRef = useRef([]);
   const [showSebi, setShowSebi] = useState(false);
 
   const { soundOn } = useSound();
@@ -110,6 +110,10 @@ const GamePage = () => {
   const [generationId, setGenerationId] = useState(null);
 
 
+
+
+
+
   useEffect(() => {
     setOperations(generateOperations(levelNumber));
     setAnswers(Array(3).fill(""));
@@ -117,11 +121,14 @@ const GamePage = () => {
     setScore(null);
     setTimeLeft(60);
 
-    if (soundOn) {
+   if (soundOn) {
       const gameAudio = new Audio(i18n.language === "fr" ? gameStartAudio : gameStartAudioEn);
-      audioRef.current = gameAudio;
+      gameAudio.loop = true;
+      gameAudio.volume = 0.4;
       gameAudio.play().catch(() => console.log("❌ autoplay bloqué"));
+      playingAudiosRef.current.push(gameAudio);
     }
+
 
 
     setShowSebi(true);
@@ -150,12 +157,14 @@ const GamePage = () => {
     }, 1000);
 
     return () => {
+        console.log("💥 Cleanup GamePage (James)");
       clearInterval(timerRef.current);
       clearTimeout(warningTimeoutRef.current);
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      playingAudiosRef.current.forEach((audio) => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+      playingAudiosRef.current = [];
     };
   }, [levelNumber]);
 

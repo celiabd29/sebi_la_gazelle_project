@@ -29,6 +29,15 @@ const MainPage = () => {
   const [autorise, setAutorise] = useState(false);
   const utilisateur = JSON.parse(localStorage.getItem("utilisateur"));
   const isLoggedIn = !!utilisateur;
+<<<<<<< HEAD
+=======
+  const forestAudioRef = useRef(null);
+
+  useEffect(() => {
+    const dejaAutorise = localStorage.getItem(`autorise-${utilisateur?._id}`) === "true";
+    if (dejaAutorise) setAutorise(true);
+  }, []);
+>>>>>>> dbd6d096b4d0e9dab38dfc7b43359458530505a1
 
 
   useEffect(() => {
@@ -96,13 +105,38 @@ const MainPage = () => {
     navigate("/jeuxDrys/PalierPage");
   };
 
+<<<<<<< HEAD
 if (isLoggedIn && !autorise) {
   return <CodeParent onSuccess={() => setAutorise(true)} />;
+=======
+// ⏱ Redemander le code après 30 minutes
+useEffect(() => {
+  if (isLoggedIn && autorise) {
+    const timer = setTimeout(() => {
+      localStorage.removeItem("autorise");
+      setAutorise(false);
+    }, 30 * 60 * 1000); // 30 minutes
+
+    return () => clearTimeout(timer);
+  }
+}, [isLoggedIn, autorise]);
+
+
+if (isLoggedIn && !autorise) {
+  return <CodeParent onSuccess={() => {
+    setAutorise(true);
+    localStorage.setItem("autorise", "true");
+  }} />;
+>>>>>>> dbd6d096b4d0e9dab38dfc7b43359458530505a1
 }
 
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dbd6d096b4d0e9dab38dfc7b43359458530505a1
   return (
     <>
       <div

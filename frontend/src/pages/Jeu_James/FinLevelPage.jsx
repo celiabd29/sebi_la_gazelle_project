@@ -127,7 +127,7 @@ const ScorePage = () => {
 
   const handleReplay = () => navigate(`/jeuxJames/game/${levelNumber}`);
   const handleNext = () => navigate(`/jeuxJames/game/${levelNumber + 1}`);
-  const handleHome = () => navigate("/jeuxJames/tableau");
+  const handleHome = () => navigate("/jeuxJames");
 
   return (
     <div

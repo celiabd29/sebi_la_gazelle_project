@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const EmailVerification = () => {
   const [message, setMessage] = useState("Vérification en cours...");
   const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
-useEffect(() => {
+  useEffect(() => {
   const token = new URLSearchParams(window.location.search).get("token");
 
   if (!token) {
-    setMessage("Token manquant dans l'URL");
+    setMessage("Lien invalide.");
     setSuccess(false);
     return;
   }
@@ -19,18 +21,29 @@ useEffect(() => {
       const res = await axios.get(
         `http://localhost:8008/api/utilisateurs/verification?token=${token}`
       );
+
       setMessage(res.data.message);
       setSuccess(true);
+
+      // 🔐 Enregistre l'utilisateur s'il est renvoyé
+      if (res.data.utilisateur) {
+        localStorage.setItem("utilisateur", JSON.stringify(res.data.utilisateur));
+      }
+
+      // Redirige vers la page d’accueil après 1.5s
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1500);
     } catch (err) {
-      setMessage(
-        err.response?.data?.message || "Erreur lors de la vérification"
-      );
+      setMessage("Erreur lors de la vérification.");
       setSuccess(false);
     }
   };
 
   verifyEmail();
 }, []);
+
+
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div
@@ -50,7 +63,7 @@ useEffect(() => {
         {success !== null && (
           <p className="text-sm text-gray-500">
             {success
-              ? "Vous pouvez maintenant vous connecter à votre compte."
+              ? "Vous allez être redirigé vers la connexion..."
               : "Si vous avez des questions, contactez notre support."}
           </p>
         )}

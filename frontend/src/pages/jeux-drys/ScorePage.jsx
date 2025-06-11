@@ -154,7 +154,11 @@ const ScorePage = () => {
   };
 
   const handleHome = () => {
+<<<<<<< HEAD
     navigate("/jeuxDrys/PalierPage");
+=======
+    navigate("/jeuxDrys");
+>>>>>>> dbd6d096b4d0e9dab38dfc7b43359458530505a1
   };
 
   

@@ -35,8 +35,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
+<<<<<<< HEAD
       value={{ utilisateur, enregistrerUtilisateur, deconnexion }}
     >
+=======
+      value={{ utilisateur, enregistrerUtilisateur, deconnexion, setUtilisateur }}
+    >
+
+>>>>>>> dbd6d096b4d0e9dab38dfc7b43359458530505a1
       {children}
     </AuthContext.Provider>
   );

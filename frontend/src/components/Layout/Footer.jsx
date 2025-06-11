@@ -28,8 +28,8 @@ const Footer = (props) => {
     "/jeux": footerMarron,
     "/personnages": footerRose,
     "/contact": footerJaune,
-    "/mentions": footerJaune,
-    "/confidentialite": footerVert,
+    "/mentions-legales": footerJaune,
+    "/politique-confidentialite": footerVert,
   };
 
   // 👇 Priorité au backgroundImage passé en prop
@@ -112,9 +112,9 @@ const Footer = (props) => {
           </motion.div>
         </div>
 
-        {/* Mentions légales */}
+        {/* mentions-legales légales */}
         <div className="text-center mb-2 text-black">
-          <Link to="/mentions" className="font-fredoka hover:text-fondOrange">
+          <Link to="/mentions-legales" className="font-fredoka hover:text-fondOrange">
             {t("footer.legal")}
           </Link>
         </div>
@@ -122,7 +122,7 @@ const Footer = (props) => {
         {/* Politique de confidentialité */}
         <div className="text-center mb-4 text-black">
           <Link
-            to="/confidentialite"
+            to="/politique-confidentialite"
             className="font-fredoka hover:text-fondOrange"
           >
             {t("footer.privacy")}
