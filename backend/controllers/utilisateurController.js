@@ -13,7 +13,8 @@ const ADMIN_EMAILS = [
 
 // 🟢 Inscription
 exports.inscription = async (req, res) => {
-  const { nom, prenom, dateDeNaissance, email, motDePasse, avatar } = req.body;
+  const { nom, prenom, dateDeNaissance, email, motDePasse, avatar, codeParental } = req.body;
+
 
   try {
     let utilisateur = await Utilisateur.findOne({ email });
@@ -35,6 +36,7 @@ exports.inscription = async (req, res) => {
       avatar,
       email,
       motDePasse: hash,
+      codeParental,        // <-- ici
       verificationToken,
       estVerifie: false,
       role,
