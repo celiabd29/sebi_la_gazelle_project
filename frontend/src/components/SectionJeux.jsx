@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import videoJames from "../assets/img/fonds/james-fond.png";
-import videoDrys from "../assets/img/fonds/drys-fond.webp";
+import imageDrys from "../assets/img/background.png";
+import imageJames from "../assets/img/fonds/accueil-james.webp"; // Assuming this is the correct image for James
+
 
 const SectionJeux = () => {
   const { t } = useTranslation();
@@ -18,8 +19,8 @@ const SectionJeux = () => {
         <div className="grid md:grid-cols-2 gap-24 mb-16">
           {/* Vidéo James */}
           <div>
-            <video
-              src={videoJames}
+            <img
+              src={imageJames}
               controls
               className="w-full rounded-3xl shadow-md max-w-xl mx-auto"
             />
@@ -30,8 +31,8 @@ const SectionJeux = () => {
 
           {/* Vidéo Drys */}
           <div>
-            <video
-              src={videoDrys}
+             <img
+              src={imageDrys}
               controls
               className="w-full rounded-3xl shadow-md max-w-xl mx-auto"
             />

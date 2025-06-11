@@ -53,7 +53,7 @@ function BlocSonLang() {
 
       {/* Bloc Langue */}
       <div className="flex justify-between items-center">
-        <h2 className="ml-4 text-black text-2xl font-[Fredoka]">{t("language")}</h2>
+        
         <button
           className="w-28 h-12 rounded-lg bg-[#F9C474] flex items-center justify-center shadow-lg hover:bg-blue-300"
           onClick={toggleLanguage}

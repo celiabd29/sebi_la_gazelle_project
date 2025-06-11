@@ -67,7 +67,9 @@ const SettingsButton = () => {
 
           {/* Bloc Langue */}
           <div className="flex justify-between items-center">
-            <span className="text-lg">{t("language")}</span>
+             <h2 className="text-2xl font-bold text-center mb-6">
+              {t("settings.title")}
+            </h2>
             <button
               onClick={toggleLanguage}
               className="w-28 h-12 bg-[#F9C474] hover:bg-blue-300 rounded-md shadow text-xl font-bold flex items-center justify-center gap-2 transition"

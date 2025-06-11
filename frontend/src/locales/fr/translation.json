@@ -279,5 +279,6 @@
   },
   "parental_access": "Contrôle parental",
   "form_parental_code_label": "Code parental",
-  "form_parental_code_placeholder": "Entrez le code parental"
+  "form_parental_code_placeholder": "Entrez le code parental",
+  "iaRewardLoading": "Chargement des récompenses IA..."
 }

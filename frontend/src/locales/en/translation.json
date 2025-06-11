@@ -271,5 +271,6 @@
   },
   "parental_access": "Parental Access",
   "form_parental_code_label": "Parental Code",
-  "form_parental_code_placeholder": "Enter the parental code"
+  "form_parental_code_placeholder": "Enter the parental code",
+  "iaRewardLoading": "Loading rewards..."
 }

@@ -197,17 +197,6 @@ const showSebi = (duration = 4300) => {
 };
 
   
-// Mémorise l'audio pour pouvoir le stopper ensuite
-const audio = new Audio(i18n.language === "fr" ? commencerAudio : gameStartAudioEn);
-audio.loop = false;
-
-if (soundOn) {
-  audio.play().catch(() => {});
-}
-
-// Sauvegarde dans ref pour le couper si besoin
-startAudioRef.current = audio;
-
 
 const startGame = () => {
   if (soundOn) {

@@ -9,7 +9,7 @@ import gameStartAudio from "../../assets/sounds/james_sounds/game_song.m4a";
 import warningAudio from "../../assets/sounds/drys_sounds/time_play.m4a";
 import sebiImage from "../../assets/img/tete-seb.png";
 import { useSound } from "../../contexts/SoundProvider";
-import gameStartAudioEn from "../../assets/sounds/james_sounds/anglais/game_sound.m4a";
+// import gameStartAudioEn from "../../assets/sounds/james_sounds/anglais/game_sound.m4a";
 import warningAudioEn from "../../assets/sounds/james_sounds/anglais/time_play.m4a";
 import i18n from "../../i18n";
 
@@ -115,58 +115,79 @@ const GamePage = () => {
 
 
   useEffect(() => {
-    setOperations(generateOperations(levelNumber));
-    setAnswers(Array(3).fill(""));
-    setValidated(false);
-    setScore(null);
-    setTimeLeft(60);
+  setOperations(generateOperations(levelNumber));
+  setAnswers(Array(3).fill(""));
+  setValidated(false);
+  setScore(null);
+  setTimeLeft(60);
 
-   if (soundOn) {
-      const gameAudio = new Audio(i18n.language === "fr" ? gameStartAudio : gameStartAudioEn);
-      gameAudio.loop = true;
-      gameAudio.volume = 0.4;
-      gameAudio.play().catch(() => console.log("❌ autoplay bloqué"));
-      playingAudiosRef.current.push(gameAudio);
+  // ✅ Joue le son principal UNE seule fois (si rien n’est encore dans la liste)
+//  if (
+//   soundOn &&
+//   !playingAudiosRef.current.some((audio) => audio.dataset?.role === "music")
+// ) {
+//   const gameAudio = new Audio(
+//     i18n.language === "fr" ? gameStartAudio : gameStartAudioEn
+//   );
+//   gameAudio.loop = true;
+//   gameAudio.volume = 0.4;
+//   gameAudio.dataset.role = "music"; // ✅ important
+//   gameAudio.play().catch(() => console.log("❌ autoplay bloqué"));
+//   playingAudiosRef.current.push(gameAudio);
+// }
+
+
+
+  // ✅ Affiche Sebi au début
+  setShowSebi(true);
+  setTimeout(() => setShowSebi(false), 4000);
+
+  // 🔔 Rappel 30s
+  warningTimeoutRef.current = setTimeout(() => {
+    if (soundOn) {
+      const warn = new Audio(
+        i18n.language === "fr" ? warningAudio : warningAudioEn
+      );
+      warn.play();
+      playingAudiosRef.current.push(warn);
     }
-
-
-
     setShowSebi(true);
     setTimeout(() => setShowSebi(false), 4000);
+  }, 30000);
 
-    warningTimeoutRef.current = setTimeout(() => {
-      if (soundOn) {
-        const warn = new Audio(i18n.language === "fr" ? warningAudio : warningAudioEn);
-        warn.play();
-      }
-      setShowSebi(true);
-      setTimeout(() => setShowSebi(false), 4000);
-    }, 30000);
+  // ⏱ Timer
+  timerRef.current = setInterval(() => {
+    setTimeLeft((prevTime) => {
+      if (prevTime <= 1) {
+  clearInterval(timerRef.current);
+  clearTimeout(warningTimeoutRef.current);
+  setValidated(true);
+  
+  // ✅ Exécuter après le render
+  setTimeout(() => {
+    navigate(`/jeuxJames/fin/${levelNumber}?score=0&stars=0&fail=true`);
+  }, 0);
 
-    timerRef.current = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timerRef.current);
-          clearTimeout(warningTimeoutRef.current);
-          setValidated(true);
-          navigate(`/jeuxJames/fin/${levelNumber}?score=0&stars=0&fail=true`);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+  return 0;
+}
 
-    return () => {
-        console.log("💥 Cleanup GamePage (James)");
-      clearInterval(timerRef.current);
-      clearTimeout(warningTimeoutRef.current);
-      playingAudiosRef.current.forEach((audio) => {
-        audio.pause();
-        audio.currentTime = 0;
-      });
-      playingAudiosRef.current = [];
-    };
-  }, [levelNumber]);
+      return prevTime - 1;
+    });
+  }, 1000);
+
+  // 🧹 Nettoyage
+  return () => {
+    console.log("💥 Cleanup GamePage (James)");
+    clearInterval(timerRef.current);
+    clearTimeout(warningTimeoutRef.current);
+    playingAudiosRef.current.forEach((audio) => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+    playingAudiosRef.current = [];
+  };
+}, [levelNumber]);
+
 
   const handleChange = (e, i) => {
     const updated = [...answers];
