@@ -11,16 +11,15 @@ import sebiImg from "../../assets/img/sebi_droite.png";
 import mainVoice from "../../assets/sounds/james_sounds/main_song.m4a";
 import secondAudioFile from "../../assets/sounds/james_sounds/bouton_vert.m4a";
 import { useSound } from "../../contexts/SoundProvider";
-
-// 👉 Nouveau import
 import CodeParent from "../../components/CodeParent";
+import { useAuth } from "../../contexts/AuthContexte"; // ✅ utilisation du hook personnalisé
 
 const Home = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { soundOn } = useSound();
+  const { utilisateur } = useAuth(); // 👈 récupération du user connecté ou null
 
-  // 👉 Ajout du contrôle parental
   const [autorise, setAutorise] = useState(false);
 
   const handleGameClick = () => {
@@ -64,8 +63,8 @@ const Home = () => {
     };
   }, [soundOn]);
 
-  // 👉 Blocage si pas encore autorisé
-  if (!autorise) {
+  // 👉 Blocage uniquement pour les utilisateurs connectés
+  if (utilisateur && !autorise) {
     return <CodeParent onSuccess={() => setAutorise(true)} />;
   }
 

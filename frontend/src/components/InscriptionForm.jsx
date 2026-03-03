@@ -27,10 +27,7 @@ const InscriptionForm = () => {
   const onSubmit = async (data) => {
     try {
       const finalData = { ...data, avatar: selectedAvatar };
-      await axios.post(
-        "http://localhost:8008/api/utilisateurs/inscription",
-        finalData
-      );
+      await axios.post("/api/utilisateurs/inscription", finalData);
       alert(t("register_success"));
       localStorage.setItem("utilisateur", JSON.stringify(finalData));
     } catch (error) {

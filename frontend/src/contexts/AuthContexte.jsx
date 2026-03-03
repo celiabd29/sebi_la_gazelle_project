@@ -8,7 +8,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [utilisateur, setUtilisateur] = useState(null);
 
-  // ⚡ Chargement depuis localStorage
+  // Chargement depuis localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("utilisateur");
     if (storedUser) {
@@ -20,13 +20,13 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // 📦 Enregistrement dans le contexte + localStorage
+  // Enregistrement dans le contexte + localStorage
   const enregistrerUtilisateur = (user) => {
     setUtilisateur(user);
     localStorage.setItem("utilisateur", JSON.stringify(user));
   };
 
-  // 🔓 Déconnexion
+  // Déconnexion
   const deconnexion = () => {
     setUtilisateur(null);
     localStorage.removeItem("utilisateur");
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         utilisateur,
-        setUtilisateur, // ✅ ajouté ici
+        setUtilisateur,
         enregistrerUtilisateur,
         deconnexion,
       }}

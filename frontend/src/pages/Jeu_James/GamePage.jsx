@@ -171,7 +171,7 @@ const GamePage = () => {
     const fail = stars <= 1;
 
     if (isLoggedIn && stars > 0) {
-      fetch("http://localhost:8008/api/scores", {
+      fetch("/api/scores", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

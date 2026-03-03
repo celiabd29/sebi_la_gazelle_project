@@ -23,7 +23,7 @@ const Profil = () => {
     if (!userToken) return navigate("/connexion");
     setToken(userToken);
 
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("/api/utilisateurs/me", {
       headers: {
         Authorization: userToken,
       },
@@ -50,7 +50,7 @@ const Profil = () => {
   };
 
   const handleSave = () => {
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("/api/utilisateurs/me", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

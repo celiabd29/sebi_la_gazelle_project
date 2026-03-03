@@ -13,13 +13,10 @@ const CodeParent = ({ onSuccess }) => {
     setErreur(""); // Reset erreur avant chaque tentative
 
     try {
-      const res = await axios.post(
-        "http://localhost:8008/api/controle/verifier-code",
-        {
-          code,
-          userId: utilisateur?._id,
-        }
-      );
+      const res = await axios.post("/api/controle/verifier-code", {
+        code,
+        userId: utilisateur?._id,
+      });
 
       console.log("🎯 Résultat backend:", res.data); // 🪵 Log de debug
 

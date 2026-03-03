@@ -32,7 +32,7 @@ const HeroSectionContact = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8008/api/contact",
+        "/api/contact",
         formData
       );
       if (response.status === 201) {

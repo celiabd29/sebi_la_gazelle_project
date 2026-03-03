@@ -38,7 +38,7 @@ const PalierPage = () => {
       return;
     }
 
-    fetch(`http://localhost:8008/api/scores/${user._id}?gameName=Drys`)
+    fetch(`/api/scores/${user._id}?gameName=Drys`)
       .then((res) => res.json())
       .then((data) => {
         const newLevels = [];

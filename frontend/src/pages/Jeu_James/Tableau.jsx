@@ -42,7 +42,7 @@ function Tableau() {
       return;
     }
 
-    fetch(`http://localhost:8008/api/scores/${user._id}?gameName=James`)
+    fetch(`/api/scores/${user._id}?gameName=James`)
       .then((res) => res.json())
       .then((data) => {
         const newLevels = [];

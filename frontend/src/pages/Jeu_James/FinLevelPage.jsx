@@ -64,7 +64,7 @@ const ScorePage = () => {
 
     const saveScore = async () => {
       if (!storedUser || !storedUser._id) return;
-      await fetch("http://localhost:8008/api/scores", {
+      await fetch("/api/scores", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -78,9 +78,7 @@ const ScorePage = () => {
 
     const fetchTotalStars = async () => {
       if (!storedUser || !storedUser._id) return;
-      const res = await fetch(
-        `http://localhost:8008/api/scores/${storedUser._id}?gameName=James`
-      );
+      const res = await fetch(`/api/scores/${storedUser._id}?gameName=James`);
       const data = await res.json();
       if (Array.isArray(data)) {
         const maxStarsByLevel = {};
@@ -99,9 +97,7 @@ const ScorePage = () => {
     };
 
     const fetchLeaderboard = async () => {
-      const res = await fetch(
-        "http://localhost:8008/api/scores/leaderboard?gameName=James"
-      );
+      const res = await fetch("/api/scores/leaderboard?gameName=James");
       const data = await res.json();
       if (Array.isArray(data)) {
         setLeaderboard(data);

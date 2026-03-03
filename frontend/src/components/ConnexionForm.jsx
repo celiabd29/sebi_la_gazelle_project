@@ -21,10 +21,7 @@ const Connexion = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8008/api/utilisateurs/connexion",
-        data
-      );
+      const response = await axios.post("/api/utilisateurs/connexion", data);
 
       const { utilisateur, token } = response.data;
 

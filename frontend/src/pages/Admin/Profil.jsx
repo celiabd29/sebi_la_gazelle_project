@@ -32,7 +32,7 @@ const Profil = () => {
   useEffect(() => {
     if (!token) return navigate("/connexion");
 
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("/api/utilisateurs/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -54,7 +54,7 @@ const Profil = () => {
   }, [navigate, token]);
 
   useEffect(() => {
-    fetch("http://localhost:8008/api/avatars")
+    fetch("/api/avatars")
       .then((res) => res.json())
       .then((data) => setAvatarOptions(data))
       .catch((err) => console.error("Erreur chargement avatars :", err));
@@ -70,7 +70,7 @@ const Profil = () => {
 
   const handleSave = () => {
     if (editingField === "codeParental") {
-      fetch("http://localhost:8008/api/utilisateurs/me/code-parent", {
+      fetch("/api/utilisateurs/me/code-parent", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +95,7 @@ const Profil = () => {
           console.error("Erreur mise à jour code parental :", err)
         );
     } else {
-      fetch("http://localhost:8008/api/utilisateurs/me", {
+      fetch("/api/utilisateurs/me", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +115,7 @@ const Profil = () => {
   };
 
   const handlePasswordChange = () => {
-    fetch("http://localhost:8008/api/utilisateurs/me/password", {
+    fetch("/api/utilisateurs/me/password", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const Profil = () => {
     const updatedData = { ...formData, avatar: url };
     setFormData(updatedData);
 
-    fetch("http://localhost:8008/api/utilisateurs/me", {
+    fetch("/api/utilisateurs/me", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
