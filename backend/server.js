@@ -12,6 +12,8 @@ const controleRoutes = require("./routes/controleParentalRoutes");
 
 dotenv.config();
 
+console.log("MONGO_URI =", process.env.MONGO_URI);
+
 // ✅ Connexion Mongoose (utilisateurs, authentification)
 mongoose
   .connect(process.env.MONGO_URI)
