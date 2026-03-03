@@ -1,6 +1,6 @@
 import ContactForm from "../components/ContactForm";
 import Header from "../components/Layout/Header";
-import Footer from "../components/Layout/footer";
+import Footer from "../components/Layout/Footer";
 import HeroSectionContact from "../components/HeroSectionContact";
 
 const Contact = () => {
