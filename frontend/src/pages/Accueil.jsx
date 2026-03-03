@@ -2,7 +2,7 @@ import Header from "../components/Layout/Header";
 import HeroSection from "../components/HeroSection";
 import Avis from "../components/Avis";
 import SectionJeux from "../components/SectionJeux";
-import APropos from "../components/APropos";
+import APropos from "../components/Apropos";
 import Footer from "../components/Layout/Footer";
 import { useLocation } from "react-router-dom";
 
